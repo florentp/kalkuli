@@ -1,0 +1,12 @@
+<?php
+
+	define('DATABASE_PATH',						'd:/sqlite/money.db');
+	define('PROPEL_DEBUG_LEVEL',				'0');
+
+	define('CURRENCY',							'$');
+	define('IS_CURRENCY_SYMBOLE_BEFORE_VALUE',	true);
+	define('N_DECIMALS',						2);
+	
+	// Must match date() function format
+	// http://ca3.php.net/manual/en/function.date.php
+	define('DATE_FORMAT',		'Y-m-d');
