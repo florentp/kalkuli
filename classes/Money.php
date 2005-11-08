@@ -10,7 +10,7 @@
 			if (IS_CURRENCY_SYMBOLE_BEFORE_VALUE)
 				$formatedMoney .= CURRENCY;
 			if (is_numeric($value))
-				$formatedMoney .= number_format(round($value, N_DECIMALS),N_DECIMALS);
+				$formatedMoney .= ($value >= 0 ? '+' : '') . number_format(round($value, N_DECIMALS),N_DECIMALS);
 			else
 				$formatedMoney .= $value;
 			if (!IS_CURRENCY_SYMBOLE_BEFORE_VALUE)
