@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<config>
+	<log>
+		<ident>money</ident>
+		<level>7</level>
+	</log>
+	<propel>
+		<datasources default="money">
+			<datasource id="money">
+				<adapter>sqlite</adapter>
+				<connection>
+					<phptype>sqlite</phptype>
+					<hostspec>localhost</hostspec>
+					<database>money.db</database>
+					<username></username>
+					<password></password>
+				</connection>
+			</datasource>
+		</datasources>
+	</propel>
+</config>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE database SYSTEM "../dtd/database.dtd">
+
+<database name="money" defaultIdMethod="native">
+
+	<table name="person" description="List of person in the community">
+		<!-- Primary keys -->
+		<column name="personId" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" description="Person ID" />
+		
+		<!-- Data fields -->
+		<column name="personName" required="true" type="VARCHAR" size="255" description="Person name" />
+		
+	</table>
+	
+	<table name="outgoing" description="What is consumed by the community">
+		<!-- Primary keys -->
+		<column name="outId" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" description="Outgoing ID" />
+		
+		<!-- Data fields -->
+		<column name="outWeight" required="false" type="FLOAT" description="Weight applied to the person" />
+		
+		<!-- Foreign keys -->
+		<column name="operationIdFK" required="true" type="INTEGER" description="Operation foreign key" />
+		<foreign-key foreignTable="operation" onDelete="CASCADE">
+			<reference local="operationIdFK" foreign="operationId" />
+		</foreign-key>
+		
+		<column name="personIdFK" required="true" type="INTEGER" description="Person foreign key" />
+		<foreign-key foreignTable="person" onDelete="CASCADE">
+			<reference local="personIdFK" foreign="personId" />
+		</foreign-key>
+	</table>
+	
+	<table name="incoming" description="What is shared by the community">
+		<!-- Primary keys -->
+		<column name="inId" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" description="Incoming ID" />
+		
+		<!-- Data fields -->
+		<column name="inAmount" required="false" type="FLOAT" description="Amount of the incoming" />
+		
+		<!-- Foreign keys -->
+		<column name="operationIdFK" required="true" type="INTEGER" description="Operation foreign key" />
+		<foreign-key foreignTable="operation" onDelete="CASCADE">
+			<reference local="operationIdFK" foreign="operationId" />
+		</foreign-key>
+		
+		<column name="personIdFK" required="true" type="INTEGER" description="Person foreign key" />
+		<foreign-key foreignTable="person" onDelete="CASCADE">
+			<reference local="personIdFK" foreign="personId" />
+		</foreign-key>
+	</table>
+	
+	<table name="operation" description="List of operations (made of incomings and outgoings)">
+		<!-- Primary keys -->
+		<column name="operationId" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" description="Operation ID" />
+		
+		<!-- Data fields -->
+		<column name="operationTS" required="true" type="TIMESTAMP" description="Operation date" />
+		<column name="operationDescription" required="true" type="LONGVARCHAR" description="Operation description" />
+	</table>
+	
+</database>
