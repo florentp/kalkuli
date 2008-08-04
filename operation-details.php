@@ -83,7 +83,13 @@
 
 	$addOutForm->addRule('weight'	, 'Vous devez saisir une part'	, 'required'	, null	, 'client');
 	$addOutForm->addRule('weight'	, 'La part doit être un nombre'	, 'numeric'		, null	, 'client');
-	
+
+	$addOutFormDefaultValues = array (
+			'weight' => 1
+		);
+
+	$addOutForm->setDefaults($addOutFormDefaultValues);
+
 	if ($addOutForm->validate()) {
 		$incoming = new Outgoing();
 		$incoming->setOutWeight($_REQUEST['weight']);
