@@ -39,7 +39,11 @@
 			'dateMonth' => date('m'),
 			'dateDay' => date('d')
 		);
-		
+
+	foreach ($peopleList as $person) {
+		$formDefaultValues['consumersWeightsList[' . $person->getPersonId() . ']'] = 1;
+	}
+	
 	$form->setDefaults($formDefaultValues);
 	
 	if ($form->validate()) {
