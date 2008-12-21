@@ -1,5 +1,19 @@
 {$form.javascript}
 
+{literal}
+<script type="text/javascript">
+  var allSelected = false;
+  function selectDeselectAll() {
+{/literal}
+    {foreach from=$form.consumersList key="consumerId" item="consumer"}
+      document.getElementsByName('{$consumer.name}')[0].checked = !allSelected;
+    {/foreach}
+    allSelected = !allSelected;
+{literal}
+  }
+</script>
+{/literal}
+
 <h1>Saisir une nouvelle opération</h1>
   
 <div class="main">
@@ -24,11 +38,12 @@
       </tr>
       <tr>
         <td>Ceux qui ont consommé</td>
-        <td>
+        <td style="padding:0.7em;">
+	  <div><a href="javascript:;" onclick="javascript:selectDeselectAll();">Sélectionner / Désélectionner tous</a></div>
           <table>
             {foreach from=$form.consumersList key="consumerId" item="consumer"}
               <tr>
-                <td>{$consumer.html}</td>
+                <td style="text-align:left;">{$consumer.html}</td>
                 <td>Part&nbsp;: {$form.consumersWeightsList[$consumerId].html}</td>
               </tr>
             {/foreach}

@@ -1,6 +1,6 @@
 {$form.javascript}
 
-<h1>Saisir une nouvelle opération</h1>
+<h1>Saisir une nouvelle personne</h1>
 
 <div class="main">
   <form {$form.attributes}>
