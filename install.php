@@ -8,7 +8,7 @@
 	$installationOk = true;
 	
 	list($phpMajor, $phpMinor, $phpEdit) = split('[/.-]', phpversion());
-	if ($phpMajor > 5 || ($phpMajor == 5 && $phpEdit >= 3))
+	if ($phpMajor > 5 || $phpMajor == 5 && ($phpMinor > 0 || $phpEdit >=3))
 		$phpVersion = true;
 	else {
 		$phpVersion = false;

@@ -36,8 +36,8 @@
 	
 	$formDefaultValues = array (
 			'dateYear' => date('Y'),
-			'dateMonth' => date('m'),
-			'dateDay' => date('d')
+			'dateMonth' => date('n'),
+			'dateDay' => date('j')
 		);
 
 	foreach ($peopleList as $person) {
