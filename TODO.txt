@@ -1,0 +1,3 @@
+	Pb d'échapement des apostrophe dans les commentaires (et peut-être ailleurs aussi, à voir)
+	Script d'install : vérifier les droits d'accès en écriture aux dossiers sqlite et templates_c
+	Forcer l'encodage dans l'appli pour supporter les symboles type €

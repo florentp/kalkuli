@@ -13,6 +13,6 @@
  *
  * @package    propel.generator.classes
  */
-class OperationPeer extends BaseOperationPeer {
+class OperationQuery extends BaseOperationQuery {
 
-} // OperationPeer
+} // OperationQuery

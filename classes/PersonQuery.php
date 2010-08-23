@@ -13,16 +13,6 @@
  *
  * @package    propel.generator.classes
  */
-class PersonPeer extends BasePersonPeer {
+class PersonQuery extends BasePersonQuery {
 
-	public static function formOptionsArray () {
-		
-		$peopleList = self::doSelect(new Criteria());
-		$peopleOptions = array();
-		foreach($peopleList as $person)
-			$peopleOptions[$person->getPersonId()] = $person->getPersonName();
-		
-		return $peopleOptions;
-	}
-
-} // PersonPeer
+} // PersonQuery

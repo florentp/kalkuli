@@ -3,8 +3,8 @@
 	define('DATABASE_PATH',						'd:/sqlite/money.db');
 	define('PROPEL_DEBUG_LEVEL',				'0');
 
-	define('CURRENCY',							'$');
-	define('IS_CURRENCY_SYMBOLE_BEFORE_VALUE',	true);
+	define('CURRENCY',							'€');
+	define('IS_CURRENCY_SYMBOLE_BEFORE_VALUE',	false);
 	define('N_DECIMALS',						2);
 	
 	// Must match date() function format

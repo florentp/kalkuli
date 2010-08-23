@@ -9,11 +9,7 @@
 			<datasource id="money">
 				<adapter>sqlite</adapter>
 				<connection>
-					<phptype>sqlite</phptype>
-					<hostspec>localhost</hostspec>
-					<database>money.db</database>
-					<username></username>
-					<password></password>
+					<dsn>sqlite:/money.db</dsn>
 				</connection>
 			</datasource>
 		</datasources>

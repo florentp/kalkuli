@@ -1,16 +1,16 @@
 <?php
 
+	//set_include_path("d:/www/money/classes" . PATH_SEPARATOR . get_include_path());
+
 	require_once('include/config.inc.php');
+
+	date_default_timezone_set('Europe/Paris');
 	
 	if (!file_exists(DATABASE_PATH)) {
 		header('Location: install.php');
 		die();
 	}
 	require_once('propel/Propel.php');
-	require_once('classes/Incoming.php');
-	require_once('classes/Outgoing.php');
-	require_once('classes/Person.php');
-	require_once('classes/Operation.php');
 	require_once('classes/Money.php');
 	
 	Propel::init('include/propel-db-config.inc.php');

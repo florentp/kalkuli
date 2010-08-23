@@ -13,21 +13,6 @@
  *
  * @package    propel.generator.classes
  */
-class OutgoingPeer extends BaseOutgoingPeer {
+class OutgoingQuery extends BaseOutgoingQuery {
 
-	public static function computeTotal($person){
-		
-		$c = new Criteria();
-		$c->add(OutgoingPeer::PERSONIDFK, $person);
-		
-		$outgoingsList = OutgoingPeer::doSelect($c);
-		
-		$total = 0;
-		foreach ($outgoingsList as $outgoing)
-			$total += $outgoing->computeWeightedPart();
-		
-		return $total;
-		
-	}
-
-} // OutgoingPeer
+} // OutgoingQuery

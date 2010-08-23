@@ -5,9 +5,6 @@
     <title>Money</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <meta http-equiv="Content-Type" content="text/html;charset=iso-8859-15" />
-    <meta name="author" content="Paillard Florent" />
-    <meta name="email" content="florent.p@free.fr" />
-    <meta name="MSSmartTagsPreventParsing" content="true" />
   </head>
 
   <body>
