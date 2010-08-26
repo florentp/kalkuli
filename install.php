@@ -7,7 +7,7 @@
 		
 	$installationOk = true;
 	
-	list($phpMajor, $phpMinor, $phpEdit) = preg_split('[/.-]', phpversion());
+	list($phpMajor, $phpMinor, $phpEdit) = explode('.', phpversion());
 	if ($phpMajor > 5 || $phpMajor == 5 && ($phpMinor > 0 || $phpEdit >=3))
 		$phpVersion = true;
 	else {
@@ -82,8 +82,8 @@
 		<p>Vérification de SQLite ... <?php echo $sqliteLoaded ? $okConstant : '<font color="red">You must install <a href="http://www.sqlite.org/">SQLite</a></font>' ?></p>
 		<p>Vérification de PEAR ... <?php echo $pearInstalled ? $okConstant : '<font color="red">You must install <a href="http://pear.php.net/">PEAR</a> library</font>' ?></p>
 		<p>Vérification de HTML_QuickForm ... <?php echo $pearQuickFormInstalled ? $okConstant : '<font color="red">You must install PEAR library <a href="http://pear.php.net/package/HTML_QuickForm">HTML_QuickForm</a></font>' ?></p>
-		<p>Vérification de Smarty ... <?php echo $smartyInstalled ? $okConstant : '<font color="red">You must install <a href="http://smarty.php.net/">Smarty</a></font>' ?></p>
-		<p>Vérification de Propel ... <?php echo $propelInstalled ? $okConstant : '<font color="red">You must install <a href="http://propel.phpdb.org/trac/">Propel</a></font>' ?></p>
+		<p>Vérification de Smarty ... <?php echo $smartyInstalled ? $okConstant : '<font color="red">You must install <a href="http://www.smarty.net/">Smarty</a></font>' ?></p>
+		<p>Vérification de Propel ... <?php echo $propelInstalled ? $okConstant : '<font color="red">You must install <a href="http://www.propelorm.org/">Propel</a></font>' ?></p>
 
 		<?php
 			if ($installationOk) {
