@@ -1,9 +1,9 @@
 <?php
 
-	define('DATABASE_PATH',						'd:/sqlite/money.db');
+	define('DATABASE_PATH',						'/usr/local/sqlite/{user}/{name}.db');
 	define('PROPEL_DEBUG_LEVEL',				'0');
 
-	define('CURRENCY',							'€');
+	define('CURRENCY',							'&euro;');
 	define('IS_CURRENCY_SYMBOLE_BEFORE_VALUE',	false);
 	define('N_DECIMALS',						2);
 	

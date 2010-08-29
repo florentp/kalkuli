@@ -1,7 +1,5 @@
 <?php
 
-	//set_include_path("d:/www/money/classes" . PATH_SEPARATOR . get_include_path());
-
 	require_once('include/config.inc.php');
 
 	date_default_timezone_set('Europe/Paris');
@@ -21,6 +19,7 @@
 	
 	$smarty->register_modifier('formatMoney', array('Money', 'formatMoney'));
 	$smarty->unregister_modifier('money');
+	$smarty->register_modifier('formatDate', array('Money', 'formatDate'));
 	
 	$smarty->assign('CURRENCY', CURRENCY);
 	$smarty->assign('PHP_SELF', $_SERVER['PHP_SELF']);

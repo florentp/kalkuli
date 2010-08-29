@@ -5,7 +5,7 @@
 	require_once('HTML/QuickForm/Renderer/ArraySmarty.php');
 	
 	$form = new HTML_QuickForm('form', 'POST');
-	$form->addElement('text'		, 'name'	, 'Nom&nbsp;:'	, array('size' => 50, 'maxlength' => 255));	
+	$form->addElement('text'		, 'name'	, 'Nom&nbsp;:'	, array('class' => 'participantName', 'maxlength' => 255));	
 	$form->addElement('submit'		, 'submit'			, 'Ajouter');
 	
 	$form->addRule('name', 'Vous devez saisir un nom', 'required', null, 'client');
@@ -40,5 +40,9 @@
 	
 	$smarty->assign('templateName',	'person-add');
 	$smarty->assign_by_ref('form', $renderer->toArray());
-	$smarty->display('layout.tpl');
+
+	if (Money::isMobileBrowser())
+		$smarty->display('mobile/layout.tpl');
+	else
+		$smarty->display('layout.tpl');
 	

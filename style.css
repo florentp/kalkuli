@@ -1,24 +1,20 @@
-body
-{
+body {
 	color:				black;
 	font:				normal 80% Verdana, "Lucida Sans", Arial, Geneva, Helvetica, Helv, "Myriad Web", Syntax, sans-serif;
 	background-color:	#ffffff;
 	text-align:			center;
 }
 
-p
-{
+p {
 	padding:			5px 0px 5px 0px;
 }
 
-h1
-{
+h1 {
 	font:				bold 200% Verdana, "Lucida Sans", Arial, Geneva, Helvetica, Helv, "Myriad Web", Syntax, sans-serif;
 	text-align:			center;
 }
 
-h2
-{
+h2 {
 	font:				bold 150% Verdana, "Lucida Sans", Arial, Geneva, Helvetica, Helv, "Myriad Web", Syntax, sans-serif;
 }
 
@@ -29,30 +25,26 @@ table {
 }
 
 
-a, a:visited
-{
+a, a:visited {
 	font-weight:		bold;
 	color:				black;
 	background-color:	transparent;
 }
 
-a:hover, a:active
-{
+a:hover, a:active {
 	color:				grey;
 	background-color:	transparent;
 	text-decoration:	none;
 }
 
-.summarytd
-{
+.summarytd {
 	padding-left:		10px;
 	padding-right:		10px;
 	padding-top:		2px;
 	padding-bottom:		2px;
 }
 
-.headertd
-{
+.headertd {
 	padding-left:		10px;
 	padding-right:		10px;
 	padding-top:		2px;
@@ -63,4 +55,20 @@ a:hover, a:active
 
 .main {
 	text-align:			center;
+}
+
+input.amount {
+	width: 4em;
+}
+
+input.weight {
+	width: 4em;
+}
+
+input.description {
+	width: 25em;
+}
+
+input.participantName {
+	width: 25em;
 }

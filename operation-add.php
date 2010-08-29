@@ -12,19 +12,19 @@
 		$months[$i] = $i;
 	for ($i = 1; $i <= 31;$i++)
 		$days[$i] = $i;
-	$form->addElement('select'		, 'dateYear'		, null											, $years);
-	$form->addElement('select'		, 'dateMonth'		, null											, $months);
-	$form->addElement('select'		, 'dateDay'			, null											, $days);
-	$form->addElement('text'		, 'description'	, 'Description&nbsp;:'								, array('size' => 50, 'maxlength' => 255));
-	$form->addElement('text'		, 'amount'		, 'Montant&nbsp;:'									, array('size' => 10, 'maxlength' => 10));
-	$form->addElement('select'		, 'contributor'	, 'Celui qui a contribuer à cette opération&nbsp;:'	, PersonPeer::formOptionsArray());
+	$form->addElement('select'		, 'dateYear'	, null		, $years);
+	$form->addElement('select'		, 'dateMonth'	, null		, $months);
+	$form->addElement('select'		, 'dateDay'		, null		, $days);
+	$form->addElement('text'		, 'description'	, 'Description&nbsp;:'		, array('class' => 'description', 'maxlength' => 255));
+	$form->addElement('text'		, 'amount'		, "Montant&nbsp;:"		, array('class' => 'amount', 'maxlength' => 10));
+	$form->addElement('select'		, 'contributor'	, 'Celui qui a contribué à cette opération&nbsp;:'		, PersonPeer::formOptionsArray(), array('class' => 'contributor'));
 	
 	$peopleList = PersonPeer::doSelect(new Criteria());
 	if (count($peopleList) == 0)
 		header('Location: index.php');
 	foreach ($peopleList as $person) {
 		$form->addElement('checkbox'	, 'consumersList[' . $person->getPersonId() . ']' , null, $person->getPersonName());
-		$form->addElement('text'		, 'consumersWeightsList[' . $person->getPersonId() . ']'	, null	, array('size' => 10, 'maxlength' => 10));
+		$form->addElement('text'		, 'consumersWeightsList[' . $person->getPersonId() . ']'	, null	, array('class' => 'weight', 'maxlength' => 10));
 		$form->addRule('consumersWeightsList[' . $person->getPersonId() . ']', 'Le coefficient saisi pour ' . $person->getPersonName() . ' doit être un nombre', 'numeric', null, 'client');
 	}
 	
@@ -92,5 +92,8 @@
 	$smarty->assign('templateName',	'operation-add');
 	$smarty->assign('nPeople', count($peopleList));
 	$smarty->assign_by_ref('form', $renderer->toArray());
-	$smarty->display('layout.tpl');
-	
+
+	if (Money::isMobileBrowser())
+		$smarty->display('mobile/layout.tpl');
+	else
+		$smarty->display('layout.tpl');

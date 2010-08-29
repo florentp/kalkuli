@@ -18,5 +18,9 @@
 	$smarty->assign('nIncomings', count($incomingsList));
 	$smarty->assign_by_ref('outgoingsList',	$outgoingsList);
 	$smarty->assign('nOutgoings', count($outgoingsList));
-	$smarty->display('layout.tpl');
+
+	if (Money::isMobileBrowser())
+		$smarty->display('mobile/layout.tpl');
+	else
+		$smarty->display('layout.tpl');
 	
