@@ -51,6 +51,14 @@
 		$smartyInstalled = false;
 		$installationOk = false;
 	}
+
+	$templatesCacheDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'templates_c';
+	if (is_writable($templatesCacheDirectory))
+		$isTemplatesCacheWritable = true;
+	else {
+		$isTemplatesCacheWritable = false;
+		$installationOk = false;
+	}
 	
 	if (file_exists_incpath('propel/Propel.php'))
 		$propelInstalled = true;
@@ -58,7 +66,14 @@
 		$propelInstalled = false;
 		$installationOk = false;
 	}
-		
+
+	$databaseDirectory = dirname(DATABASE_PATH);
+	if (is_writable($databaseDirectory))
+		$isDatabaseDirectoryWritable = true;
+	else {
+		$isDatabaseDirectoryWritable = false;
+		$installationOk = false;
+	}
 ?>
 
 <?php
@@ -83,7 +98,9 @@
 		<p>Vérification de PEAR ... <?php echo $pearInstalled ? $okConstant : '<font color="red">You must install <a href="http://pear.php.net/">PEAR</a> library</font>' ?></p>
 		<p>Vérification de HTML_QuickForm ... <?php echo $pearQuickFormInstalled ? $okConstant : '<font color="red">You must install PEAR library <a href="http://pear.php.net/package/HTML_QuickForm">HTML_QuickForm</a></font>' ?></p>
 		<p>Vérification de Smarty ... <?php echo $smartyInstalled ? $okConstant : '<font color="red">You must install <a href="http://www.smarty.net/">Smarty</a></font>' ?></p>
+		<p>Vérification de templates_c ... <?php echo $isTemplatesCacheWritable ? $okConstant : '<font color="red">&quot;' . $templatesCacheDirectory . '&quot; directory must be writable</font>' ?></p>
 		<p>Vérification de Propel ... <?php echo $propelInstalled ? $okConstant : '<font color="red">You must install <a href="http://www.propelorm.org/">Propel</a></font>' ?></p>
+		<p>Vérification du dossier SQLite ... <?php echo $isDatabaseDirectoryWritable ? $okConstant : '<font color="red">&quot;' . $databaseDirectory . '&quot; directory must be writable</font>' ?></p>
 
 		<?php
 			if ($installationOk) {
