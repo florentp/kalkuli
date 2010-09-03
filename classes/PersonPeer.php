@@ -15,14 +15,4 @@
  */
 class PersonPeer extends BasePersonPeer {
 
-	public static function formOptionsArray () {
-		
-		$peopleList = self::doSelect(new Criteria());
-		$peopleOptions = array();
-		foreach($peopleList as $person)
-			$peopleOptions[$person->getPersonId()] = $person->getPersonName();
-		
-		return $peopleOptions;
-	}
-
 } // PersonPeer

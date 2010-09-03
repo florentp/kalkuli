@@ -3,7 +3,7 @@
 <div class="main">
 
   <h2>Contributions de {$person->getPersonName()}</h2>
-  {if $nIncomings <= 0}
+  {if $incomingsList->isEmpty()}
     <p>Aucune contribution enregistrée.</p>
   {else}
     <table>
@@ -25,7 +25,7 @@
   {/if}
   
   <h2>Consommations de {$person->getPersonName()}</h2>
-  {if $nOutgoings <= 0}
+  {if $outgoingsList->isEmpty()}
     <p>Aucune consommation enregistrée.</p>
   {else}
     <table>

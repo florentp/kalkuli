@@ -16,10 +16,7 @@
 class Outgoing extends BaseOutgoing {
 
 	public function computeWeightedPart() {
-		
 		return $this->getOutWeight() * $this->getOperation()->computePart();
-		echo $this->getOperation()->computePart() . " ";
-		
 	}
 	
 	public function getOperationWeightTotal() {

@@ -2,7 +2,9 @@
 	
 	require_once('include/php_header.inc.php');
 
-	$peopleList = PersonPeer::doSelect(new Criteria());
+	$peopleList = PersonQuery::create()
+		->orderByPersonname()
+		->find();
 	
 	$smarty->assign('templateName',	'index');
 	$smarty->assign('CURRENCY', CURRENCY);

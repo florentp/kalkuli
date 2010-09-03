@@ -10,14 +10,18 @@ $conf = array (
       'connection' => 
       array (
         'dsn' => 'sqlite:' . DATABASE_PATH,
+        'classname' => (defined('PROPEL_USE_DEBUG') && PROPEL_USE_DEBUG === true) ? 'DebugPDO' : 'PropelPDO',
       ),
     ),
     'default' => 'money',
   ),
   'log' => 
   array (
-    'ident' => 'money',
+    'type' => 'file',
+    'name' => './propel.log',
+    'ident' => 'propel',
     'level' => PROPEL_DEBUG_LEVEL,
+    'conf' => '',
   ),
   'generator_version' => '1.5.4-dev',
 );

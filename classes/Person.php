@@ -17,8 +17,16 @@ class Person extends BasePerson {
 
 	public function getBalance() {
 		
-		$incomingsSum = IncomingPeer::computeTotal($this->getPersonId());
-		$outgoingsSum = OutgoingPeer::computeTotal($this->getPersonId());
+		$incomingsSum = IncomingQuery::create()
+			->filterByPerson($this)
+			->withColumn('SUM(InAmount)', 'totalInAmount')
+			->groupBy('Personidfk')
+			->select('totalInAmount')
+			->findOne();
+
+		$outgoingsSum = 0;
+		foreach ($this->getOutgoings() as $outgoing)
+			$outgoingsSum += $outgoing->computeWeightedPart();
 		
 		return $incomingsSum - $outgoingsSum;
 		

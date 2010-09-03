@@ -10,7 +10,7 @@
 		<tr>
 			<th colspan="2">Contributions</th>
 		</tr>
-		{if $nIncomings <= 0}
+		{if $incomingsList->isEmpty()}
 			<tr>
 				<td colspan="2">Aucune contribution</td>
 			</tr>
@@ -31,7 +31,7 @@
 		<tr>
 			<th colspan="2">Participations</th>
 		</tr>
-		{if $nOutgoings <= 0}
+		{if $outgoingsList->isEmpty()}
 			<tr>
 				<td colspan="2">Aucune participation</td>
 			</tr>

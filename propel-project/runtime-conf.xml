@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <config>
 	<log>
-		<ident>money</ident>
+		<type>file</type>
+		<name>./propel.log</name>
+		<ident>propel</ident>
 		<level>7</level>
+		<conf></conf>
 	</log>
 	<propel>
 		<datasources default="money">
@@ -10,6 +13,7 @@
 				<adapter>sqlite</adapter>
 				<connection>
 					<dsn>sqlite:/money.db</dsn>
+					<classname>DebugPDO</classname>
 				</connection>
 			</datasource>
 		</datasources>

@@ -17,9 +17,11 @@
 	$form->addElement('select'		, 'dateDay'		, null		, $days);
 	$form->addElement('text'		, 'description'	, 'Description&nbsp;:'		, array('class' => 'description', 'maxlength' => 255));
 	$form->addElement('text'		, 'amount'		, "Montant&nbsp;:"		, array('class' => 'amount', 'maxlength' => 10));
-	$form->addElement('select'		, 'contributor'	, 'Celui qui a contribué à cette opération&nbsp;:'		, PersonPeer::formOptionsArray(), array('class' => 'contributor'));
+	$form->addElement('select'		, 'contributor'	, 'Celui qui a contribué à cette opération&nbsp;:'		, PersonQuery::formOptionsArray(), array('class' => 'contributor'));
 	
-	$peopleList = PersonPeer::doSelect(new Criteria());
+	$peopleList = PersonQuery::create()
+		->orderByPersonname()
+		->find();
 	if (count($peopleList) == 0)
 		header('Location: index.php');
 	foreach ($peopleList as $person) {

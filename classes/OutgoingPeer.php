@@ -15,19 +15,4 @@
  */
 class OutgoingPeer extends BaseOutgoingPeer {
 
-	public static function computeTotal($person){
-		
-		$c = new Criteria();
-		$c->add(OutgoingPeer::PERSONIDFK, $person);
-		
-		$outgoingsList = OutgoingPeer::doSelect($c);
-		
-		$total = 0;
-		foreach ($outgoingsList as $outgoing)
-			$total += $outgoing->computeWeightedPart();
-		
-		return $total;
-		
-	}
-
 } // OutgoingPeer

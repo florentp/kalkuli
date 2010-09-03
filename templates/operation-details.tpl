@@ -6,7 +6,7 @@
 <div class="main">
 
   <h2>Contributions</h2>
-  {if $nIncomings <= 0}
+  {if $incomingsList->isEmpty()}
     <p>Aucune contribution enregistrée.</p>
   {else}
     <table>
@@ -37,7 +37,7 @@
   </form>
   
   <h2>Consommations</h2>
-  {if $nOutgoings <= 0}
+  {if $outgoingsList->isEmpty()}
     <p>Aucune consommation enregistrée.</p>
   {else}
     <table>

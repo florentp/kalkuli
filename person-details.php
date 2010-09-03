@@ -6,18 +6,28 @@
 	if (!isset($personId))
 		die("'personId' must be set");
 
-	$person = PersonPeer::retrieveByPk($personId);
+	$person = PersonQuery::create()
+		->findPK($personId);
 	
-	$incomingsList = $person->getIncomingsJoinOperation();
-	$outgoingsList = $person->getOutgoingsJoinOperation();
+	$incomingsList = IncomingQuery::create()
+		->filterByPerson($person)
+		->useOperationQuery()
+			->orderByOperationts('desc')
+		->endUse()
+		->find();
+
+	$outgoingsList = OutgoingQuery::create()
+		->filterByPerson($person)
+		->useOperationQuery()
+			->orderByOperationts('desc')
+		->endUse()
+		->find();
 	
 	$smarty->assign('templateName',	'person-details');
 	$smarty->assign('CURRENCY', CURRENCY);
 	$smarty->assign_by_ref('person',	$person);
 	$smarty->assign_by_ref('incomingsList',	$incomingsList);
-	$smarty->assign('nIncomings', count($incomingsList));
 	$smarty->assign_by_ref('outgoingsList',	$outgoingsList);
-	$smarty->assign('nOutgoings', count($outgoingsList));
 
 	if (Money::isMobileBrowser())
 		$smarty->display('mobile/layout.tpl');

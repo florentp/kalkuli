@@ -16,29 +16,42 @@
 				// Treated by validate() function of QuickForm
 				break;
 			case 'deleteIn':
-				$c = new Criteria();
-				$c->add(IncomingPeer::INID, $_REQUEST['toDeleteId']);
-				IncomingPeer::doDelete($c);
+				IncomingQuery::create()
+					->findPK($_REQUEST['toDeleteId'])
+					->delete();
+				header("Location: $_SERVER[PHP_SELF]?operationId=" . $operationId);
 				break;
 			case 'deleteOut':
-				$c = new Criteria();
-				$c->add(OutgoingPeer::OUTID, $_REQUEST['toDeleteId']);
-				OutgoingPeer::doDelete($c);
+				OutgoingQuery::create()
+					->findPK($_REQUEST['toDeleteId'])
+					->delete();
+				header("Location: $_SERVER[PHP_SELF]?operationId=" . $operationId);
 				break;
 			default;
 				die("'action' value is incorrect");
 		}
 	}
 
-	$operation = OperationPeer::retrieveByPk($operationId);
+	$operation = OperationQuery::create()
+		->findPK($operationId);
 	
-	$incomingsList = $operation->getIncomingsJoinPerson();
-	$outgoingsList = $operation->getOutgoingsJoinPerson();
+	$incomingsList = IncomingQuery::create()
+		->filterByOperation($operation)
+		->usePersonQuery()
+			->orderByPersonname()
+		->endUse()
+		->find();
+	$outgoingsList = OutgoingQuery::create()
+		->filterByOperation($operation)
+		->usePersonQuery()
+			->orderByPersonname()
+		->endUse()
+		->find();
 	
 	$addInForm = new HTML_QuickForm('addInForm', 'POST');
 	$addInForm->addElement('hidden'		, 'action'			, 'addIn');
 	$addInForm->addElement('hidden'		, 'operationId'		, $operation->getOperationId());
-	$addInForm->addElement('select'		, 'personId'		, 'Nom&nbsp;:'			, PersonPeer::formOptionsArray());
+	$addInForm->addElement('select'		, 'personId'		, 'Nom&nbsp;:'			, PersonQuery::formOptionsArray());
 	$addInForm->addElement('text'		, 'amount'			, 'Montant&nbsp;:'		, array('class' => 'amount', 'maxlength' => 10));
 	$addInForm->addElement('submit'		, 'submit'			, 'Ajouter');
 	
@@ -77,7 +90,7 @@
 	$addOutForm = new HTML_QuickForm('addOutForm', 'POST');
 	$addOutForm->addElement('hidden'		, 'action'			, 'addOut');
 	$addOutForm->addElement('hidden'		, 'operationId'		, $operation->getOperationId());
-	$addOutForm->addElement('select'		, 'personId'		, 'Nom&nbsp;:'		, PersonPeer::formOptionsArray());
+	$addOutForm->addElement('select'		, 'personId'		, 'Nom&nbsp;:'		, PersonQuery::formOptionsArray());
 	$addOutForm->addElement('text'			, 'weight'			, 'Part&nbsp;:'		, array('class' => 'weight', 'maxlength' => 10));
 	$addOutForm->addElement('submit'		, 'submit'			, 'Ajouter');
 
@@ -122,9 +135,7 @@
 	$smarty->assign('templateName',	'operation-details');
 	$smarty->assign_by_ref('operation',	$operation);
 	$smarty->assign_by_ref('incomingsList',	$incomingsList);
-	$smarty->assign('nIncomings', count($incomingsList));
 	$smarty->assign_by_ref('outgoingsList',	$outgoingsList);
-	$smarty->assign('nOutgoings', count($outgoingsList));
 	$smarty->assign_by_ref('addInForm', $addInRenderer->toArray());
 	$smarty->assign_by_ref('addOutForm', $addOutRenderer->toArray());
 	

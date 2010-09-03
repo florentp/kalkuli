@@ -26,32 +26,21 @@ class Operation extends BaseOperation {
 	
 	public function computeWeightTotal(){
 		
-		$c = new Criteria();
-		$c->add(OutgoingPeer::OPERATIONIDFK, $this->getOperationId());
-		
-		$outgoingsList = OutgoingPeer::doSelect($c);
-		
-		$weightTotal = 0;
-		foreach ($outgoingsList as $outgoing)
-			$weightTotal += $outgoing->getOutWeight();
-		
-		return $weightTotal;
-		
+		return OutgoingQuery::create()
+			->filterByOperation($this)
+			->withColumn('SUM(OutWeight)', 'totalOutWeight')
+			->groupBy('Operationidfk')
+			->select('totalOutWeight')
+			->findOne();
 	}
 	
 	public function computeAmountTotal() {
-		
-		$c = new Criteria();
-		$c->add(IncomingPeer::OPERATIONIDFK, $this->getOperationId());
-		
-		$incomingsList = IncomingPeer::doSelect($c);
-		
-		$amountTotal = 0;
-		foreach ($incomingsList as $incoming)
-			$amountTotal += $incoming->getInAmount();
-		
-		return $amountTotal;
-		
+		return IncomingQuery::create()
+			->filterByOperation($this)
+			->withColumn('SUM(InAmount)', 'totalInAmount')
+			->groupBy('Operationidfk')
+			->select('totalInAmount')
+			->findOne();
 	}
 
 } // Operation

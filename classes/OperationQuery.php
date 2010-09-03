@@ -15,4 +15,25 @@
  */
 class OperationQuery extends BaseOperationQuery {
 
+	public function getWeightedOperationList() {
+		$con = Propel::getConnection(BookPeer::DATABASE_NAME);
+		$sql = 
+			"SELECT operation.*, (totalInAmount / totalOutWeight) weightedAmount
+			FROM operation
+			JOIN (
+					SELECT operationIdFK , SUM ( inAmount ) totalInAmount
+					FROM incoming
+					GROUP BY operationIdFK
+				) operationTotalAmount
+				ON operationTotalAmount.operationIdFK = operation.operationId
+			JOIN (
+					SELECT operationIdFK , SUM ( outWeight ) totalOutWeight
+					FROM outgoing
+					GROUP BY operationIdFK
+				) operationTotalWeight
+				ON operationTotalWeight.operationIdFK = operation.operationId";
+		$stmt = $con->prepare($sql);
+		$stmt->execute();
+	}
+
 } // OperationQuery

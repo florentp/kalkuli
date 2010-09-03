@@ -15,19 +15,4 @@
  */
 class IncomingPeer extends BaseIncomingPeer {
 
-	public static function computeTotal($person){
-		
-		$c = new Criteria();
-		$c->add(IncomingPeer::PERSONIDFK, $person);
-		
-		$incomingsList = IncomingPeer::doSelect($c);
-		
-		$total = 0;
-		foreach ($incomingsList as $incoming)
-			$total += $incoming->getInAmount();
-		
-		return $total;
-		
-	}
-
 } // IncomingPeer
