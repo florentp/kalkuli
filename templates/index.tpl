@@ -1,4 +1,4 @@
-<h1>Bienvenue dans Money</h1>
+<h1>Bienvenue dans /kal.'ku.li/</h1>
 
 <div class="main">
 

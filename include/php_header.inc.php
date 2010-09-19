@@ -9,7 +9,7 @@
 		die();
 	}
 	require_once('propel/Propel.php');
-	require_once('classes/Money.php');
+	require_once('classes/Kalkuli.php');
 	
 	Propel::init('include/propel-db-config.inc.php');
 	
@@ -17,9 +17,9 @@
 	
 	$smarty = new Smarty();
 	
-	$smarty->register_modifier('formatMoney', array('Money', 'formatMoney'));
+	$smarty->register_modifier('formatMoney', array('Kalkuli', 'formatMoney'));
 	$smarty->unregister_modifier('money');
-	$smarty->register_modifier('formatDate', array('Money', 'formatDate'));
+	$smarty->register_modifier('formatDate', array('Kalkuli', 'formatDate'));
 	
 	$smarty->assign('CURRENCY', CURRENCY);
 	$smarty->assign('PHP_SELF', $_SERVER['PHP_SELF']);

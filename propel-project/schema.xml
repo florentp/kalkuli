@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE database SYSTEM "../dtd/database.dtd">
 
-<database name="money" defaultIdMethod="native">
+<database name="kalkuli" defaultIdMethod="native">
 
 	<table name="person" description="List of person in the community">
 		<!-- Primary keys -->

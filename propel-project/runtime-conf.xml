@@ -8,11 +8,11 @@
 		<conf></conf>
 	</log>
 	<propel>
-		<datasources default="money">
-			<datasource id="money">
+		<datasources default="kalkuli">
+			<datasource id="kalkuli">
 				<adapter>sqlite</adapter>
 				<connection>
-					<dsn>sqlite:/money.db</dsn>
+					<dsn>sqlite:/kalkuli.db</dsn>
 					<classname>DebugPDO</classname>
 				</connection>
 			</datasource>

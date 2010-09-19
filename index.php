@@ -11,7 +11,7 @@
 	$smarty->assign('nPeople', count($peopleList));
 	$smarty->assign_by_ref('peopleList', $peopleList);
 	
-	if (Money::isMobileBrowser())
+	if (Kalkuli::isMobileBrowser())
 		$smarty->display('mobile/layout.tpl');
 	else
 		$smarty->display('layout.tpl');

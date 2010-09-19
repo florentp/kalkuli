@@ -49,7 +49,7 @@ abstract class BaseOperationQuery extends ModelCriteria
 	 * @param     string $modelName The phpName of a model, e.g. 'Book'
 	 * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
 	 */
-	public function __construct($dbName = 'money', $modelName = 'Operation', $modelAlias = null)
+	public function __construct($dbName = 'kalkuli', $modelName = 'Operation', $modelAlias = null)
 	{
 		parent::__construct($dbName, $modelName, $modelAlias);
 	}

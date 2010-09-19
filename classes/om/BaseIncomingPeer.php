@@ -11,7 +11,7 @@
 abstract class BaseIncomingPeer {
 
 	/** the default database name for this class */
-	const DATABASE_NAME = 'money';
+	const DATABASE_NAME = 'kalkuli';
 
 	/** the table name for this class */
 	const TABLE_NAME = 'incoming';

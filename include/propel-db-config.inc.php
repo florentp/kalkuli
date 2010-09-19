@@ -4,7 +4,7 @@
 $conf = array (
   'datasources' => 
   array (
-    'money' => 
+    'kalkuli' => 
     array (
       'adapter' => 'sqlite',
       'connection' => 
@@ -13,7 +13,7 @@ $conf = array (
         'classname' => (defined('PROPEL_USE_DEBUG') && PROPEL_USE_DEBUG === true) ? 'DebugPDO' : 'PropelPDO',
       ),
     ),
-    'default' => 'money',
+    'default' => 'kalkuli',
   ),
   'log' => 
   array (
@@ -25,5 +25,5 @@ $conf = array (
   ),
   'generator_version' => '1.5.4-dev',
 );
-$conf['classmap'] = include(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'classmap-money-conf.php');
+$conf['classmap'] = include(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'classmap-kalkuli-conf.php');
 return $conf;

@@ -29,7 +29,7 @@
 	$smarty->assign_by_ref('incomingsList',	$incomingsList);
 	$smarty->assign_by_ref('outgoingsList',	$outgoingsList);
 
-	if (Money::isMobileBrowser())
+	if (Kalkuli::isMobileBrowser())
 		$smarty->display('mobile/layout.tpl');
 	else
 		$smarty->display('layout.tpl');

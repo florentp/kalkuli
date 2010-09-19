@@ -139,7 +139,7 @@
 	$smarty->assign_by_ref('addInForm', $addInRenderer->toArray());
 	$smarty->assign_by_ref('addOutForm', $addOutRenderer->toArray());
 	
-	if (Money::isMobileBrowser())
+	if (Kalkuli::isMobileBrowser())
 		$smarty->display('mobile/layout.tpl');
 	else
 		$smarty->display('layout.tpl');

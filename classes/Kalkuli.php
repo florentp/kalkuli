@@ -2,7 +2,7 @@
 
 	require_once('include/config.inc.php');
 
-	class Money {
+	class Kalkuli {
 		
 		public static function formatMoney($value) {
 			$formatedMoney = "";
