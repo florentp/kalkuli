@@ -26,7 +26,7 @@ abstract class BaseOperationPeer {
 	const TM_CLASS = 'OperationTableMap';
 	
 	/** The total number of columns. */
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 5;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -39,6 +39,12 @@ abstract class BaseOperationPeer {
 
 	/** the column name for the OPERATIONDESCRIPTION field */
 	const OPERATIONDESCRIPTION = 'operation.OPERATIONDESCRIPTION';
+
+	/** the column name for the TOTALINAMOUNT field */
+	const TOTALINAMOUNT = 'operation.TOTALINAMOUNT';
+
+	/** the column name for the TOTALOUTWEIGHT field */
+	const TOTALOUTWEIGHT = 'operation.TOTALOUTWEIGHT';
 
 	/**
 	 * An identiy map to hold any loaded instances of Operation objects.
@@ -56,12 +62,12 @@ abstract class BaseOperationPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Operationid', 'Operationts', 'Operationdescription', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('operationid', 'operationts', 'operationdescription', ),
-		BasePeer::TYPE_COLNAME => array (self::OPERATIONID, self::OPERATIONTS, self::OPERATIONDESCRIPTION, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('OPERATIONID', 'OPERATIONTS', 'OPERATIONDESCRIPTION', ),
-		BasePeer::TYPE_FIELDNAME => array ('operationId', 'operationTS', 'operationDescription', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Operationid', 'Operationts', 'Operationdescription', 'Totalinamount', 'Totaloutweight', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('operationid', 'operationts', 'operationdescription', 'totalinamount', 'totaloutweight', ),
+		BasePeer::TYPE_COLNAME => array (self::OPERATIONID, self::OPERATIONTS, self::OPERATIONDESCRIPTION, self::TOTALINAMOUNT, self::TOTALOUTWEIGHT, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('OPERATIONID', 'OPERATIONTS', 'OPERATIONDESCRIPTION', 'TOTALINAMOUNT', 'TOTALOUTWEIGHT', ),
+		BasePeer::TYPE_FIELDNAME => array ('operationId', 'operationTS', 'operationDescription', 'totalInAmount', 'totalOutWeight', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -71,12 +77,12 @@ abstract class BaseOperationPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Operationid' => 0, 'Operationts' => 1, 'Operationdescription' => 2, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('operationid' => 0, 'operationts' => 1, 'operationdescription' => 2, ),
-		BasePeer::TYPE_COLNAME => array (self::OPERATIONID => 0, self::OPERATIONTS => 1, self::OPERATIONDESCRIPTION => 2, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('OPERATIONID' => 0, 'OPERATIONTS' => 1, 'OPERATIONDESCRIPTION' => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('operationId' => 0, 'operationTS' => 1, 'operationDescription' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Operationid' => 0, 'Operationts' => 1, 'Operationdescription' => 2, 'Totalinamount' => 3, 'Totaloutweight' => 4, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('operationid' => 0, 'operationts' => 1, 'operationdescription' => 2, 'totalinamount' => 3, 'totaloutweight' => 4, ),
+		BasePeer::TYPE_COLNAME => array (self::OPERATIONID => 0, self::OPERATIONTS => 1, self::OPERATIONDESCRIPTION => 2, self::TOTALINAMOUNT => 3, self::TOTALOUTWEIGHT => 4, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('OPERATIONID' => 0, 'OPERATIONTS' => 1, 'OPERATIONDESCRIPTION' => 2, 'TOTALINAMOUNT' => 3, 'TOTALOUTWEIGHT' => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('operationId' => 0, 'operationTS' => 1, 'operationDescription' => 2, 'totalInAmount' => 3, 'totalOutWeight' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -151,10 +157,14 @@ abstract class BaseOperationPeer {
 			$criteria->addSelectColumn(OperationPeer::OPERATIONID);
 			$criteria->addSelectColumn(OperationPeer::OPERATIONTS);
 			$criteria->addSelectColumn(OperationPeer::OPERATIONDESCRIPTION);
+			$criteria->addSelectColumn(OperationPeer::TOTALINAMOUNT);
+			$criteria->addSelectColumn(OperationPeer::TOTALOUTWEIGHT);
 		} else {
 			$criteria->addSelectColumn($alias . '.OPERATIONID');
 			$criteria->addSelectColumn($alias . '.OPERATIONTS');
 			$criteria->addSelectColumn($alias . '.OPERATIONDESCRIPTION');
+			$criteria->addSelectColumn($alias . '.TOTALINAMOUNT');
+			$criteria->addSelectColumn($alias . '.TOTALOUTWEIGHT');
 		}
 	}
 

@@ -9,10 +9,14 @@
  * @method     OperationQuery orderByOperationid($order = Criteria::ASC) Order by the operationId column
  * @method     OperationQuery orderByOperationts($order = Criteria::ASC) Order by the operationTS column
  * @method     OperationQuery orderByOperationdescription($order = Criteria::ASC) Order by the operationDescription column
+ * @method     OperationQuery orderByTotalinamount($order = Criteria::ASC) Order by the totalInAmount column
+ * @method     OperationQuery orderByTotaloutweight($order = Criteria::ASC) Order by the totalOutWeight column
  *
  * @method     OperationQuery groupByOperationid() Group by the operationId column
  * @method     OperationQuery groupByOperationts() Group by the operationTS column
  * @method     OperationQuery groupByOperationdescription() Group by the operationDescription column
+ * @method     OperationQuery groupByTotalinamount() Group by the totalInAmount column
+ * @method     OperationQuery groupByTotaloutweight() Group by the totalOutWeight column
  *
  * @method     OperationQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     OperationQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -32,10 +36,14 @@
  * @method     Operation findOneByOperationid(int $operationId) Return the first Operation filtered by the operationId column
  * @method     Operation findOneByOperationts(string $operationTS) Return the first Operation filtered by the operationTS column
  * @method     Operation findOneByOperationdescription(string $operationDescription) Return the first Operation filtered by the operationDescription column
+ * @method     Operation findOneByTotalinamount(double $totalInAmount) Return the first Operation filtered by the totalInAmount column
+ * @method     Operation findOneByTotaloutweight(double $totalOutWeight) Return the first Operation filtered by the totalOutWeight column
  *
  * @method     array findByOperationid(int $operationId) Return Operation objects filtered by the operationId column
  * @method     array findByOperationts(string $operationTS) Return Operation objects filtered by the operationTS column
  * @method     array findByOperationdescription(string $operationDescription) Return Operation objects filtered by the operationDescription column
+ * @method     array findByTotalinamount(double $totalInAmount) Return Operation objects filtered by the totalInAmount column
+ * @method     array findByTotaloutweight(double $totalOutWeight) Return Operation objects filtered by the totalOutWeight column
  *
  * @package    propel.generator.classes.om
  */
@@ -213,6 +221,68 @@ abstract class BaseOperationQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(OperationPeer::OPERATIONDESCRIPTION, $operationdescription, $comparison);
+	}
+
+	/**
+	 * Filter the query on the totalInAmount column
+	 * 
+	 * @param     double|array $totalinamount The value to use as filter.
+	 *            Accepts an associative array('min' => $minValue, 'max' => $maxValue)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    OperationQuery The current query, for fluid interface
+	 */
+	public function filterByTotalinamount($totalinamount = null, $comparison = null)
+	{
+		if (is_array($totalinamount)) {
+			$useMinMax = false;
+			if (isset($totalinamount['min'])) {
+				$this->addUsingAlias(OperationPeer::TOTALINAMOUNT, $totalinamount['min'], Criteria::GREATER_EQUAL);
+				$useMinMax = true;
+			}
+			if (isset($totalinamount['max'])) {
+				$this->addUsingAlias(OperationPeer::TOTALINAMOUNT, $totalinamount['max'], Criteria::LESS_EQUAL);
+				$useMinMax = true;
+			}
+			if ($useMinMax) {
+				return $this;
+			}
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(OperationPeer::TOTALINAMOUNT, $totalinamount, $comparison);
+	}
+
+	/**
+	 * Filter the query on the totalOutWeight column
+	 * 
+	 * @param     double|array $totaloutweight The value to use as filter.
+	 *            Accepts an associative array('min' => $minValue, 'max' => $maxValue)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    OperationQuery The current query, for fluid interface
+	 */
+	public function filterByTotaloutweight($totaloutweight = null, $comparison = null)
+	{
+		if (is_array($totaloutweight)) {
+			$useMinMax = false;
+			if (isset($totaloutweight['min'])) {
+				$this->addUsingAlias(OperationPeer::TOTALOUTWEIGHT, $totaloutweight['min'], Criteria::GREATER_EQUAL);
+				$useMinMax = true;
+			}
+			if (isset($totaloutweight['max'])) {
+				$this->addUsingAlias(OperationPeer::TOTALOUTWEIGHT, $totaloutweight['max'], Criteria::LESS_EQUAL);
+				$useMinMax = true;
+			}
+			if ($useMinMax) {
+				return $this;
+			}
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(OperationPeer::TOTALOUTWEIGHT, $totaloutweight, $comparison);
 	}
 
 	/**

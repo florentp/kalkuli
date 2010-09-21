@@ -16,7 +16,7 @@
         <tr>
           <td class="summarytd">{$incoming->getOperationTS()}</td>
           <td class="summarytd">
-            <a href="operation-details.php?operationId={$incoming->getOperationIdFk()}">{$incoming->getOperationDescription()} ({$incoming->getOperationAmountTotal()|formatMoney})</a>
+            <a href="operation-details.php?operationId={$incoming->getOperationIdFk()}">{$incoming->getOperationDescription()} ({$incoming->getOperationTotalInAmount()|formatMoney})</a>
           </td>
           <td class="summarytd">{$incoming->getInAmount()|formatMoney}</td>
         </tr>
@@ -39,9 +39,9 @@
         <tr>
           <td class="summarytd">{$outgoing->getOperationTS()}</td>
           <td class="summarytd">
-            <a href="operation-details.php?operationId={$outgoing->getOperationIdFk()}">{$outgoing->getOperationDescription()} ({$outgoing->getOperationAmountTotal()|formatMoney})</a>
+            <a href="operation-details.php?operationId={$outgoing->getOperationIdFk()}">{$outgoing->getOperationDescription()} ({$outgoing->getOperationTotalInAmount()|formatMoney})</a>
           </td>
-          <td class="summarytd">{$outgoing->getOutWeight()} / {$outgoing->getOperationWeightTotal()}</td>
+          <td class="summarytd">{$outgoing->getOutWeight()} / {$outgoing->getOperationTotalOutWeight()}</td>
           <td class="summarytd">{$outgoing->computeWeightedPart()|formatMoney}</td>
         </tr>
       {/foreach}

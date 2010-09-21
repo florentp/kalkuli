@@ -57,7 +57,7 @@
 					</td>
 					<td>
 						<div>{$outgoing->computeWeightedPart()|formatMoney}</div>
-						<div style="font-size: 0.8em;">{$outgoing->getOutWeight()} part(s) sur {$outgoing->getOperationWeightTotal()}</div>
+						<div style="font-size: 0.8em;">{$outgoing->getOutWeight()} part(s) sur {$outgoing->getOperationTotalOutWeight()}</div>
 					</td>
 					<td>
 						<a href="{$PHP_SELF}?operationId={$operation->getOperationId()}&action=deleteOut&toDeleteId={$outgoing->getOutId()}" onclick="return confirm('Etes-vous sûr de vouloir effacer {$outgoing->getPersonName()} de la liste.');"><img src="icons/cross.png" alt="Supprimer" height="16" width="16" /></a>

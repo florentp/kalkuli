@@ -24,10 +24,19 @@ class Person extends BasePerson {
 			->select('totalInAmount')
 			->findOne();
 
+		$outgoingsList = OutgoingQuery::create()
+			->filterByPerson($this)
+			->joinWith('Outgoing.Operation')
+			->find();
+
 		$outgoingsSum = 0;
-		foreach ($this->getOutgoings() as $outgoing)
-			$outgoingsSum += $outgoing->computeWeightedPart();
-		
+		foreach ($outgoingsList as $outgoing) {
+			$totalInAmount = $outgoing->getOperation()->getTotalInAmount();
+			$totalOutWeight = $outgoing->getOperation()->getTotalOutWeight();
+			$outWeight = $outgoing->getOutWeight();
+			$outgoingsSum += $outWeight * ($totalOutWeight == 0 ? 0 : $totalInAmount / $totalOutWeight);
+		}
+
 		return $incomingsSum - $outgoingsSum;
 		
 	}

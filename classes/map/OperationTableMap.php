@@ -40,6 +40,8 @@ class OperationTableMap extends TableMap {
 		$this->addPrimaryKey('OPERATIONID', 'Operationid', 'INTEGER', true, null, null);
 		$this->addColumn('OPERATIONTS', 'Operationts', 'TIMESTAMP', true, null, null);
 		$this->addColumn('OPERATIONDESCRIPTION', 'Operationdescription', 'LONGVARCHAR', true, null, null);
+		$this->addColumn('TOTALINAMOUNT', 'Totalinamount', 'FLOAT', true, null, null);
+		$this->addColumn('TOTALOUTWEIGHT', 'Totaloutweight', 'FLOAT', true, null, null);
 		// validators
 	} // initialize()
 

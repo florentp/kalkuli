@@ -113,7 +113,13 @@
 					$dbh->query("DROP TABLE IF EXISTS [incoming];");
 					$dbh->query("CREATE TABLE [incoming]([inId] INTEGER  NOT NULL PRIMARY KEY,[inAmount] FLOAT,[operationIdFK] INTEGER  NOT NULL,[personIdFK] INTEGER  NOT NULL);");
 					$dbh->query("DROP TABLE IF EXISTS [operation];");
-					$dbh->query("CREATE TABLE [operation]([operationId] INTEGER  NOT NULL PRIMARY KEY,[operationTS] TIMESTAMP  NOT NULL,[operationDescription] MEDIUMTEXT  NOT NULL);");
+					$dbh->query("CREATE TABLE [operation]([operationId] INTEGER  NOT NULL PRIMARY KEY,[operationTS] TIMESTAMP  NOT NULL,[operationDescription] MEDIUMTEXT  NOT NULL, [totalInAmount] FLOAT NOT NULL DEFAULT '0.0', [totalOutWeight] FLOAT NOT NULL DEFAULT '0.0');");
+					$dbh->query("CREATE TRIGGER 'incomingInsert' AFTER INSERT ON 'incoming' BEGIN UPDATE operation SET totalInAmount = ( SELECT SUM (inAmount) FROM incoming WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK; END;");
+					$dbh->query("CREATE TRIGGER 'incomingUpdate' AFTER UPDATE OF inAmount ON 'incoming' BEGIN UPDATE operation SET totalInAmount = ( SELECT SUM (inAmount) FROM incoming WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK; END;");
+					$dbh->query("CREATE TRIGGER 'incomingDelete' AFTER DELETE ON 'incoming' BEGIN UPDATE operation SET totalInAmount = ( SELECT SUM (inAmount) FROM incoming WHERE operationIdFK = OLD.operationIdFK) WHERE operationId = OLD.operationIdFK; END;");
+					$dbh->query("CREATE TRIGGER 'outgoingInsert' AFTER INSERT ON 'outgoing' BEGIN UPDATE operation SET totalOutWeight = ( SELECT SUM (outWeight) FROM outgoing WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK ; END;");
+					$dbh->query("CREATE TRIGGER 'outgoingUpdate' AFTER UPDATE OF outWeight ON 'outgoing' BEGIN UPDATE operation SET totalOutWeight = ( SELECT SUM (outWeight) FROM outgoing WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK; END;");
+					$dbh->query("CREATE TRIGGER 'outgoingDelete' AFTER DELETE ON 'outgoing' BEGIN UPDATE operation SET totalOutWeight = ( SELECT SUM (outWeight) FROM outgoing WHERE operationIdFK = OLD.operationIdFK) WHERE operationId = OLD.operationIdFK; END;");
 					$dbCreation = true;
 				}
 				else {

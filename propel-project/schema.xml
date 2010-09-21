@@ -57,6 +57,10 @@
 		<!-- Data fields -->
 		<column name="operationTS" required="true" type="TIMESTAMP" description="Operation date" />
 		<column name="operationDescription" required="true" type="LONGVARCHAR" description="Operation description" />
+
+		<!-- Computed fields -->
+		<column name="totalInAmount" required="true" type="FLOAT" description="Total amount of all incomings for this operation" />
+		<column name="totalOutWeight" required="true" type="FLOAT" description="Total weight of all outgoings for this operation" />
 	</table>
 	
 </database>

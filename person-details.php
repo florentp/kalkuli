@@ -14,6 +14,7 @@
 		->useOperationQuery()
 			->orderByOperationts('desc')
 		->endUse()
+		->joinWith('Incoming.Operation')
 		->find();
 
 	$outgoingsList = OutgoingQuery::create()
@@ -21,6 +22,7 @@
 		->useOperationQuery()
 			->orderByOperationts('desc')
 		->endUse()
+		->joinWith('Outgoing.Operation')
 		->find();
 	
 	$smarty->assign('templateName',	'person-details');

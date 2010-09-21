@@ -31,8 +31,12 @@ class Incoming extends BaseIncoming {
 		return $this->getPerson()->getPersonName();
 	}
 	
-	public function getOperationAmountTotal(){
-		return $this->getOperation()->computeAmountTotal();
+	public function getOperationTotalInAmount() {
+		return $this->getOperation()->getTotalInAmount();
+	}
+	
+	public function getOperationTotalOutWeight() {
+		return $this->getOperation()->getTotalOutWeight();
 	}
 
 } // Incoming

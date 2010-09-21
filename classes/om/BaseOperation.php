@@ -43,6 +43,18 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	protected $operationdescription;
 
 	/**
+	 * The value for the totalinamount field.
+	 * @var        double
+	 */
+	protected $totalinamount;
+
+	/**
+	 * The value for the totaloutweight field.
+	 * @var        double
+	 */
+	protected $totaloutweight;
+
+	/**
 	 * @var        array Outgoing[] Collection to store aggregation of Outgoing objects.
 	 */
 	protected $collOutgoings;
@@ -117,6 +129,26 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	public function getOperationdescription()
 	{
 		return $this->operationdescription;
+	}
+
+	/**
+	 * Get the [totalinamount] column value.
+	 * Total amount of all incomings for this operation
+	 * @return     double
+	 */
+	public function getTotalinamount()
+	{
+		return $this->totalinamount;
+	}
+
+	/**
+	 * Get the [totaloutweight] column value.
+	 * Total weight of all outgoings for this operation
+	 * @return     double
+	 */
+	public function getTotaloutweight()
+	{
+		return $this->totaloutweight;
 	}
 
 	/**
@@ -209,6 +241,46 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	} // setOperationdescription()
 
 	/**
+	 * Set the value of [totalinamount] column.
+	 * Total amount of all incomings for this operation
+	 * @param      double $v new value
+	 * @return     Operation The current object (for fluent API support)
+	 */
+	public function setTotalinamount($v)
+	{
+		if ($v !== null) {
+			$v = (double) $v;
+		}
+
+		if ($this->totalinamount !== $v) {
+			$this->totalinamount = $v;
+			$this->modifiedColumns[] = OperationPeer::TOTALINAMOUNT;
+		}
+
+		return $this;
+	} // setTotalinamount()
+
+	/**
+	 * Set the value of [totaloutweight] column.
+	 * Total weight of all outgoings for this operation
+	 * @param      double $v new value
+	 * @return     Operation The current object (for fluent API support)
+	 */
+	public function setTotaloutweight($v)
+	{
+		if ($v !== null) {
+			$v = (double) $v;
+		}
+
+		if ($this->totaloutweight !== $v) {
+			$this->totaloutweight = $v;
+			$this->modifiedColumns[] = OperationPeer::TOTALOUTWEIGHT;
+		}
+
+		return $this;
+	} // setTotaloutweight()
+
+	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -243,6 +315,8 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 			$this->operationid = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->operationts = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
 			$this->operationdescription = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+			$this->totalinamount = ($row[$startcol + 3] !== null) ? (double) $row[$startcol + 3] : null;
+			$this->totaloutweight = ($row[$startcol + 4] !== null) ? (double) $row[$startcol + 4] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -251,7 +325,7 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 3; // 3 = OperationPeer::NUM_COLUMNS - OperationPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 5; // 5 = OperationPeer::NUM_COLUMNS - OperationPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Operation object", $e);
@@ -595,6 +669,12 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 			case 2:
 				return $this->getOperationdescription();
 				break;
+			case 3:
+				return $this->getTotalinamount();
+				break;
+			case 4:
+				return $this->getTotaloutweight();
+				break;
 			default:
 				return null;
 				break;
@@ -621,6 +701,8 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 			$keys[0] => $this->getOperationid(),
 			$keys[1] => $this->getOperationts(),
 			$keys[2] => $this->getOperationdescription(),
+			$keys[3] => $this->getTotalinamount(),
+			$keys[4] => $this->getTotaloutweight(),
 		);
 		return $result;
 	}
@@ -661,6 +743,12 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 			case 2:
 				$this->setOperationdescription($value);
 				break;
+			case 3:
+				$this->setTotalinamount($value);
+				break;
+			case 4:
+				$this->setTotaloutweight($value);
+				break;
 		} // switch()
 	}
 
@@ -688,6 +776,8 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 		if (array_key_exists($keys[0], $arr)) $this->setOperationid($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setOperationts($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setOperationdescription($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setTotalinamount($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setTotaloutweight($arr[$keys[4]]);
 	}
 
 	/**
@@ -702,6 +792,8 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 		if ($this->isColumnModified(OperationPeer::OPERATIONID)) $criteria->add(OperationPeer::OPERATIONID, $this->operationid);
 		if ($this->isColumnModified(OperationPeer::OPERATIONTS)) $criteria->add(OperationPeer::OPERATIONTS, $this->operationts);
 		if ($this->isColumnModified(OperationPeer::OPERATIONDESCRIPTION)) $criteria->add(OperationPeer::OPERATIONDESCRIPTION, $this->operationdescription);
+		if ($this->isColumnModified(OperationPeer::TOTALINAMOUNT)) $criteria->add(OperationPeer::TOTALINAMOUNT, $this->totalinamount);
+		if ($this->isColumnModified(OperationPeer::TOTALOUTWEIGHT)) $criteria->add(OperationPeer::TOTALOUTWEIGHT, $this->totaloutweight);
 
 		return $criteria;
 	}
@@ -765,6 +857,8 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	{
 		$copyObj->setOperationts($this->operationts);
 		$copyObj->setOperationdescription($this->operationdescription);
+		$copyObj->setTotalinamount($this->totalinamount);
+		$copyObj->setTotaloutweight($this->totaloutweight);
 
 		if ($deepCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -1104,6 +1198,8 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 		$this->operationid = null;
 		$this->operationts = null;
 		$this->operationdescription = null;
+		$this->totalinamount = null;
+		$this->totaloutweight = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();

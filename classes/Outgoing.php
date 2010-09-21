@@ -19,10 +19,6 @@ class Outgoing extends BaseOutgoing {
 		return $this->getOutWeight() * $this->getOperation()->computePart();
 	}
 	
-	public function getOperationWeightTotal() {
-		return $this->getOperation()->computeWeightTotal();
-	}
-	
 	public function getOperationTS() {
 		return $this->getOperation()->getOperationTS(DATE_FORMAT);
 	}
@@ -31,16 +27,20 @@ class Outgoing extends BaseOutgoing {
 		return $this->getOperation()->getOperationDescription();
 	}
 	
+	public function getOperationTotalInAmount() {
+		return $this->getOperation()->getTotalInAmount();
+	}
+	
+	public function getOperationTotalOutWeight() {
+		return $this->getOperation()->getTotalOutWeight();
+	}
+	
 	public function getPersonName() {
 		return $this->getPerson()->getPersonName();
 	}
 	
 	public function getPersonId() {
 		return $this->getPerson()->getPersonId();
-	}
-	
-	public function getOperationAmountTotal() {
-		return $this->getOperation()->computeAmountTotal();
 	}
 
 } // Outgoing
