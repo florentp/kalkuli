@@ -15,9 +15,9 @@
 	$form->addElement('select'		, 'dateYear'	, null		, $years);
 	$form->addElement('select'		, 'dateMonth'	, null		, $months);
 	$form->addElement('select'		, 'dateDay'		, null		, $days);
-	$form->addElement('text'		, 'description'	, 'Description&nbsp;:'		, array('class' => 'description', 'maxlength' => 255));
-	$form->addElement('text'		, 'amount'		, "Montant&nbsp;:"		, array('class' => 'amount', 'maxlength' => 10));
-	$form->addElement('select'		, 'contributor'	, 'Celui qui a contribué à cette opération&nbsp;:'		, PersonQuery::formOptionsArray(), array('class' => 'contributor'));
+	$form->addElement('text'		, 'description'	, null		, array('class' => 'description', 'maxlength' => 255));
+	$form->addElement('text'		, 'amount'		, null		, array('class' => 'amount', 'maxlength' => 10));
+	$form->addElement('select'		, 'contributor'	, null		, PersonQuery::formOptionsArray(), array('class' => 'contributor'));
 	
 	$peopleList = PersonQuery::create()
 		->orderByPersonname()

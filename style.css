@@ -2,11 +2,6 @@ body {
 	color:				black;
 	font:				normal 80% Verdana, "Lucida Sans", Arial, Geneva, Helvetica, Helv, "Myriad Web", Syntax, sans-serif;
 	background-color:	#ffffff;
-	text-align:			center;
-}
-
-p {
-	padding:			5px 0px 5px 0px;
 }
 
 h1 {
@@ -16,14 +11,49 @@ h1 {
 
 h2 {
 	font:				bold 150% Verdana, "Lucida Sans", Arial, Geneva, Helvetica, Helv, "Myriad Web", Syntax, sans-serif;
+	text-align:			center;
 }
 
 table {
 	border:				0;
+}
+
+table.dataGrid {
 	margin-left:		auto;
 	margin-right:		auto;
 }
 
+table.dataGrid tr.alternate {
+	background-color:	#DDDDDD;
+}
+
+table.dataGrid th {
+	padding: 2px 10px;
+	background-color: black;
+	color: white;
+}
+
+table.dataGrid td {
+	padding: 2px 10px;
+}
+
+table.dataGrid td.amount {
+	text-align: right;
+}
+
+table.tableForm {
+	margin-left:		auto;
+	margin-right:		auto;
+}
+
+table.tableForm th {
+	padding: 2px 10px;
+	text-align: left;
+}
+
+table.tableForm td {
+	padding: 2px 10px;
+}
 
 a, a:visited {
 	font-weight:		bold;
@@ -37,24 +67,13 @@ a:hover, a:active {
 	text-decoration:	none;
 }
 
-.summarytd {
-	padding-left:		10px;
-	padding-right:		10px;
-	padding-top:		2px;
-	padding-bottom:		2px;
+img {
+	border: 0;
 }
 
-.headertd {
-	padding-left:		10px;
-	padding-right:		10px;
-	padding-top:		2px;
-	padding-bottom:		2px;
-	background-color:	black;
-	color:				white;		
-}
-
-.main {
-	text-align:			center;
+.navigation {
+	padding: .5em;
+	text-align: center;
 }
 
 input.amount {

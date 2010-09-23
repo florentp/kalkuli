@@ -1,56 +1,42 @@
-<table cellspacing="0" cellpadding="0" class="summary">
+<table cellspacing="0" cellpadding="0" class="mobile">
 	<tbody>
 		<tr>
 			<th>{$person->getPersonName()}</th>
-			<th style="text-align:right;">{$person->getBalance()|formatMoney}</th>
+			<th class="amount">{$person->getBalance()|formatMoney}</th>
 		</tr>
 		<tr>
-			<td colspan="3" class="spacer">&nbsp;</td>
+			<td colspan="2" class="spacer">&nbsp;</td>
 		</tr>
-		<tr>
-			<th colspan="2">Contributions</th>
-		</tr>
-		{if $incomingsList->isEmpty()}
-			<tr>
-				<td colspan="2">Aucune contribution</td>
-			</tr>
-		{else}
-			{foreach from=$incomingsList item="incoming"}
-				<tr>
-					<td>
-						<div><a href="operation-details.php?operationId={$incoming->getOperationIdFk()}">{$incoming->getOperationDescription()}</a></div>
-						<div style="font-size: 0.8em;">{$incoming->getOperationTS()|formatDate}</div>
-					</td>
-					<td style="text-align:right;">{$incoming->getInAmount()|formatMoney}</td>
-				</tr>
-			{/foreach}
-		{/if}
-		<tr>
-			<td colspan="3" class="spacer">&nbsp;</td>
-		</tr>
-		<tr>
-			<th colspan="2">Participations</th>
-		</tr>
-		{if $outgoingsList->isEmpty()}
+		{if $operationsList->isEmpty()}
 			<tr>
 				<td colspan="2">Aucune participation</td>
 			</tr>
 		{else}
-			{foreach from=$outgoingsList item="outgoing"}
+			{foreach from=$operationsList item="operation"}
 				<tr>
 					<td>
-						<div><a href="operation-details.php?operationId={$outgoing->getOperationIdFk()}">{$outgoing->getOperationDescription()}</a></div>
-						<div style="font-size: 0.8em;">{$outgoing->getOperationTS()|formatDate}</div>
+						<div><a href="operation-details.php?operationId={$operation->getOperationId()}">{$operation->getOperationDescription()}</a></div>
+						<div style="font-size: 0.8em;">{$operation->getOperationTS()|formatDate}</div>
 					</td>
-					<td style="text-align:right;">{$outgoing->computeWeightedPart()|formatMoney}</td>
+					<td class="amount">
+						{assign var="personTotalInAmount" value=$operation->getPersontotalinamount()}
+						{if isset($personTotalInAmount)}
+							<div>{$personTotalInAmount|formatMoney}</div>
+						{/if}
+
+						{assign var="personTotalOutAmount" value=$operation->getPersontotaloutamount()}
+						{if isset($personTotalOutAmount)}
+							<div>{$personTotalOutAmount|formatMoney}</div>
+						{/if}
+					</td>
 				</tr>
 			{/foreach}
 		{/if}
 		<tr>
-			<td colspan="3" class="spacer">&nbsp;</td>
+			<td colspan="2" class="spacer">&nbsp;</td>
 		</tr>
 		<tr>
-			<td colspan="3">
+			<td colspan="2">
 				<a href="index.php">Retour à l'accueil</a>
 			</td>
 		</tr>

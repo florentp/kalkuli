@@ -1,10 +1,10 @@
-<table cellspacing="0" cellpadding="0" class="summary">
+<table cellspacing="0" cellpadding="0" class="mobile">
 	{foreach from=$peopleList item="person"}
 		<tr>
 			<td>
 				<a href="person-details.php?personId={$person->getPersonId()}">{$person->getPersonName()}</a>
 			</td>
-			<td>{$person->getBalance()|formatMoney}</td>
+			<td class="amount">{$person->getBalance()|formatMoney}</td>
 		</tr>
 	{foreachelse}
 		<tr>

@@ -21,7 +21,7 @@ table {
 	width: 100%;
 }
 
-table.summary th {
+table.mobile th {
 	background-color: #CCCCCC;
 	border-top: 1px solid #444444;
 	border-bottom: 1px solid #444444;
@@ -29,7 +29,11 @@ table.summary th {
 	padding: 0.5em;
 }
 
-table.summary td {
+table.mobile th.amount {
+	text-align: right;
+}
+
+table.mobile td {
 	background-color: #EEEEEE;
 	border-top: 1px solid #444444;
 	border-bottom: 1px solid #444444;
@@ -37,7 +41,11 @@ table.summary td {
 	padding: 0.5em;
 }
 
-table.summary td.spacer {
+table.mobile td.amount {
+	text-align: right;
+}
+
+table.mobile td.spacer {
 	background-color: transparent;
 }
 
@@ -53,6 +61,10 @@ a:hover, a:active
 	color:				grey;
 	background-color:	transparent;
 	text-decoration:	none;
+}
+
+img {
+	border: 0;
 }
 
 input.amount {

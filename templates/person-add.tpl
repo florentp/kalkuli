@@ -5,13 +5,14 @@
 <div class="main">
   <form {$form.attributes}>
     {$form.hidden}
-    <table>
+    <table class="tableForm">
       <tr>
-        <td>{$form.name.label}</td>
+        <th>Nom&nbsp;:</th>
         <td>{$form.name.html}</td>
       </tr>
+	  <tr>
+	    <td colspan="2">{$form.submit.html}</td>
+	  </tr>
     </table>
-    
-    <p>{$form.submit.html}</p>
   </form>
 </div>

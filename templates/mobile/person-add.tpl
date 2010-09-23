@@ -2,7 +2,7 @@
 
 <form {$form.attributes}>
 	{$form.hidden}
-	<table cellspacing="0" cellpadding="0" class="summary">
+	<table cellspacing="0" cellpadding="0" class="mobile">
 		<tbody>
 			<tr>
 				<th>Nouveau participant</th>

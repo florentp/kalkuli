@@ -15,25 +15,38 @@
  */
 class OperationQuery extends BaseOperationQuery {
 
-	public function getWeightedOperationList() {
-		$con = Propel::getConnection(BookPeer::DATABASE_NAME);
+	public function getPersonOperationList($personId) {
+		$con = Propel::getConnection(OperationPeer::DATABASE_NAME);
 		$sql = 
-			"SELECT operation.*, (totalInAmount / totalOutWeight) weightedAmount
+			"SELECT operation.*, i.personTotalInAmount personTotalInAmount, -(o.personTotalOutWeight / operation.totalOutWeight * operation.totalInAmount) personTotalOutAmount
 			FROM operation
-			JOIN (
-					SELECT operationIdFK , SUM ( inAmount ) totalInAmount
+			LEFT JOIN (
+					SELECT operationIdFK , SUM ( inAmount ) personTotalInAmount
 					FROM incoming
+					WHERE personIdFK = :personIdFK
 					GROUP BY operationIdFK
-				) operationTotalAmount
-				ON operationTotalAmount.operationIdFK = operation.operationId
-			JOIN (
-					SELECT operationIdFK , SUM ( outWeight ) totalOutWeight
+				) i
+				ON i.operationIdFK = operation.operationId
+			LEFT JOIN (
+					SELECT operationIdFK , SUM ( outWeight ) personTotalOutWeight
 					FROM outgoing
+					WHERE personIdFK = :personIdFK
 					GROUP BY operationIdFK
-				) operationTotalWeight
-				ON operationTotalWeight.operationIdFK = operation.operationId";
+				) o
+				ON o.operationIdFK = operation.operationId
+			WHERE i.personTotalInAmount IS NOT NULL OR o.personTotalOutWeight IS NOT NULL
+			ORDER BY operation.operationTS DESC";
+		
 		$stmt = $con->prepare($sql);
-		$stmt->execute();
+		$stmt->execute(array(':personIdFK' => $personId));
+
+		$formatter = new PropelObjectFormatter($this);
+		$formatter->setAsColumns(array(
+				'Persontotalinamount' => 'personTotalInAmount',
+				'Persontotaloutamount' => 'personTotalOutAmount'
+			));
+		$operationsList = $formatter->format($stmt);
+		return $operationsList;
 	}
 
 } // OperationQuery

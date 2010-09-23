@@ -5,7 +5,7 @@
 	require_once('HTML/QuickForm/Renderer/ArraySmarty.php');
 	
 	$form = new HTML_QuickForm('form', 'POST');
-	$form->addElement('text'		, 'name'	, 'Nom&nbsp;:'	, array('class' => 'participantName', 'maxlength' => 255));	
+	$form->addElement('text'		, 'name'	, null	, array('class' => 'participantName', 'maxlength' => 255));	
 	$form->addElement('submit'		, 'submit'			, 'Ajouter');
 	
 	$form->addRule('name', 'Vous devez saisir un nom', 'required', null, 'client');

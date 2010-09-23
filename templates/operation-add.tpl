@@ -19,28 +19,28 @@
 <div class="main">
   <form {$form.attributes}>
     {$form.hidden}
-    <table>
+    <table class="tableForm">
       <tr>
-        <td>{$form.contributor.label}</td>
+        <th>Contributeur&nbsp;:</th>
         <td>{$form.contributor.html}</td>
       </tr>
       <tr>
-        <td>{$form.amount.label}</td>
+        <th>Montant&nbsp:</th>
         <td>{$form.amount.html|formatMoney}</td>
       </tr>
       <tr>
-        <td>{$form.description.label}</td>
+        <th>Description&nbsp;:</th>
         <td>{$form.description.html}</td>
       </tr>
       <tr>
-        <td>Date (Y-m-d)</td>
+        <th>Date (Y-m-d)&nbsp;:</th>
         <td>{$form.dateYear.html} - {$form.dateMonth.html} - {$form.dateDay.html}</td>
       </tr>
       <tr>
-        <td>Ceux qui ont consommé</td>
+        <th>Participants&nbsp;:</th>
         <td style="padding:0.7em;">
-	  <div><a href="javascript:;" onclick="javascript:selectDeselectAll();">Sélectionner / Désélectionner tous</a></div>
-          <table>
+	      <div><a href="javascript:;" onclick="javascript:selectDeselectAll();">Sélectionner / Désélectionner tous</a></div>
+          <table style="width: 100%;">
             {foreach from=$form.consumersList key="consumerId" item="consumer"}
               <tr>
                 <td style="text-align:left;">{$consumer.html}</td>
@@ -50,8 +50,10 @@
           </table>
         </td>
       </tr>
+	  <tr>
+	    <td colspan="2">{$form.submit.html}</td>
+	  </tr>
     </table>
     
-    <p>{$form.submit.html}</p>
   </form>
 </div>
