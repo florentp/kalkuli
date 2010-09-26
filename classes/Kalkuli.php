@@ -21,7 +21,7 @@
 		
 		public static function formatDate($value) {
 			$dt = new DateTime($value);
-			return $dt->format(DATE_FORMAT);
+			return 'Le '. $dt->format(DATE_FORMAT);
 		}
 
 		public static function isMobileBrowser() {

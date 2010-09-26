@@ -10,4 +10,4 @@
 	
 	// Must match date() function format
 	// http://ca3.php.net/manual/en/function.date.php
-	define('DATE_FORMAT',                      'Y-m-d');
+	define('DATE_FORMAT',                      'd/m/Y');

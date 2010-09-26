@@ -1,0 +1,188 @@
+body {
+	color: black;
+	font-family: Verdana, "Lucida Sans", Arial, Geneva, Helvetica, Helv, "Myriad Web", Syntax, sans-serif;
+	background-color: #ffffff;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	background-color: #888888;
+	font-size: 100%;
+	margin: 0;
+	margin-bottom: 2em;
+	padding: 0.5em;
+	text-align: center;
+}
+
+a, a:visited
+{
+	font-weight:		bold;
+	color:				black;
+	background-color:	transparent;
+}
+
+a:hover, a:active
+{
+	color:				grey;
+	background-color:	transparent;
+	text-decoration:	none;
+}
+
+a.datepicker {
+	font-weight: normal;
+}
+
+img {
+	border: 0;
+}
+
+span.alternate {
+	color: #004276;
+	font-weight: bold;
+}
+
+.ui-widget-header span.alternate {
+	color: #aaaaaa;
+}
+
+.ui-widget button, .ui-widget input, .ui-widget select, .ui-widget textarea {
+	font-size:0.9em;
+}
+
+input.name {
+	width: 9em;
+}
+
+select.contributor {
+	width: 9.4em;
+}
+
+input.amount {
+	text-align: right;
+	width: 4em;
+}
+
+input.weight {
+	text-align: right;
+	width: 3em;
+}
+
+input.description {
+	width: 9em;
+}
+
+input.participantName {
+	width: 15em;
+}
+
+.formValidationMessage {
+	font-style: italic;
+}
+
+/* standard jQuery UI overriding */
+.ui-corner-all {
+	-moz-border-radius: 0;
+}
+
+.ui-widget {
+	font-size: 1em;
+}
+
+.ui-widget-content {
+	border: 0;
+}
+
+.ui-datepicker {
+	padding: 0;
+}
+
+.ui-datepicker table {
+	margin: 0;
+}
+
+.ui-datepicker .ui-widget-header {
+	background: url('../css/jquery-ui/blitzer-custom/images/ui-bg_highlight-soft_75_cccccc_1x100.png') repeat-x scroll 50% 50% #cccccc;
+	border: 1px solid #d8dcdf;
+	color: #222222;
+	font-weight: bold;
+}
+
+.ui-datepicker .ui-widget-header .ui-icon {
+	background-image: url('../css/jquery-ui/blitzer-custom/images/ui-icons_004276_256x240.png');
+}
+
+.ui-datepicker .ui-datepicker-title {
+	line-height: 1em;
+	padding: .3em 0;
+}
+
+#ui-datepicker-div {
+	font-size: 100%;
+}
+
+/* jQuery UI mobile widgets */
+.ui-mobile-widget-header {
+	padding: .4em .2em;
+	text-align: center;
+}
+
+.ui-mobile-widget-separator {
+	background: url('../css/jquery-ui/blitzer-custom/images/ui-bg_highlight-soft_75_cccccc_1x100.png') repeat-x scroll 50% 50% #cccccc;
+	border: 0;
+	border-bottom: 1px solid #d8dcdf;
+	color: #222222;
+	font-weight: bold;
+	padding: .4em .2em;
+	text-align: center;
+}
+
+.ui-mobile-widget-menu {
+	background: url('../css/jquery-ui/blitzer-custom/images/ui-bg_highlight-soft_75_cccccc_1x100.png') repeat-x scroll 50% 50% #cccccc;
+	border: 0;
+	border-bottom: 1px solid #d8dcdf;
+	color: #222222;
+	font-weight: bold;
+	padding: 0.8em 0.4em;
+}
+
+.ui-mobile-widget-menu a {
+	color: #004276;
+}
+
+.ui-mobile-widget-buttons {
+	background-color: #EEEEEE;
+	border-bottom: 1px solid #CDCDCC;
+	padding: 0.2em 0.4em;
+	text-align: center;
+}
+
+.ui-mobile-widget-item {
+	background-color: #EEEEEE;
+	border-bottom: 1px solid #CDCDCC;
+	padding: 0.8em 0.4em;
+}
+
+.ui-mobile-widget-item .ui-button .ui-button-text {
+	padding: 0;
+}
+
+.ui-mobile-widget-item-label {
+	font-weight: bold;
+}
+
+.ui-mobile-widget-item-field {
+	float: right;
+	padding-left: .5em;
+	text-align: right;
+}
+
+.ui-mobile-widget-item-description {
+	color: #555555;
+	font-size: 0.8em;
+}
+
+.ui-dialog-button-row {
+	padding: 1.4em;
+	text-align: center;
+}

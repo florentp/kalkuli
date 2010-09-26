@@ -7,7 +7,6 @@
 		->find();
 	
 	$smarty->assign('templateName',	'index');
-	$smarty->assign('CURRENCY', CURRENCY);
 	$smarty->assign('nPeople', count($peopleList));
 	$smarty->assign_by_ref('peopleList', $peopleList);
 	

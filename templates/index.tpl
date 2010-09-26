@@ -1,12 +1,16 @@
-<h1>Bienvenue dans /kal.'ku.li/</h1>
+{include file="menu.tpl"}
+<div class="ui-main-widget">
+	<div class="ui-main-widget-header">Participants à cette feuille de comptes</div>
 
-<div class="main">
-
-  <table class="dataGrid">
-    {foreach from=$peopleList item="person"}
-      <tr>
+	<table cellpadding="0" cellspacing="0" class="dataGrid">
+    {foreach from=$peopleList item="person" name="peopleList"}
+	  {if $smarty.foreach.peopleList.index is even}
+			<tr>
+		{else}
+			<tr class="alternate">
+		{/if}
         <td>
-          <a href="person-details.php?personId={$person->getPersonId()}">{$person->getPersonName()}</a>
+          <a href="person-details.php?personId={$person->getPersonId()}">{$person->getPersonName()|escape}</a>
         </td>
         <td class="amount">
           {$person->getBalance()|formatMoney}
@@ -16,10 +20,5 @@
       <tr><td>Vous devez commencer par saisir des personnes</td></tr>
     {/foreach}
   </table>
-	
-  {if $nPeople != 0}
-    <div class="navigation"><a href="operation-add.php">Saisir une nouvelle opération</a></div>
-  {/if}
-  <div class="navigation"><a href="person-add.php">Saisir une nouvelle personne</a></div>
-  
+
 </div>

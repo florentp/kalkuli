@@ -1,0 +1,176 @@
+body {
+	background-color: #ffffff;
+	color: black;
+	font: .8em "Trebuchet MS",sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	text-align: center;
+}
+
+h2 {
+	text-align: center;
+}
+
+table {
+	border:				0;
+}
+
+table.dataGrid {
+	width: 100%;
+}
+
+table.dataGrid tr.alternate {
+	background-color:	#eeeeee;
+}
+
+table.dataGrid td {
+	padding: .3em 0.6em;
+}
+
+table.dataGrid td.amount {
+	text-align: right;
+}
+
+table.dataGrid td.weight {
+	text-align: right;
+}
+
+table.dataGrid .ui-button .ui-button-text {
+	padding: 0;
+}
+
+table.tableForm {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table.tableForm tr.buttonRow td {
+	padding-top: 1.4em;
+	text-align:center;
+}
+
+table.tableForm th {
+	padding: .3em .6em;
+	text-align: right;
+}
+
+table.tableForm td {
+	padding: .3em 0.6em;
+}
+
+a, a:visited {
+	font-weight:		bold;
+}
+
+a:hover, a:active {
+	text-decoration:	none;
+}
+
+img {
+	border: 0;
+}
+
+span.alternate {
+	color: #004276;
+	font-weight: bold;
+}
+
+.ui-widget-header span.alternate {
+	color: #aaaaaa;
+}
+
+.navigation {
+	padding: .5em;
+	text-align: center;
+}
+
+input.name {
+	width: 15em;
+}
+
+input.amount {
+	text-align: right;
+	width: 4em;
+}
+
+input.date {
+	text-align: right;
+	width: 6em;
+}
+
+input.description {
+	width: 15em;
+}
+
+input.participantName {
+	width: 25em;
+}
+
+input.weight {
+	text-align: right;
+	width: 3em;
+}
+
+.ui-main-widget {
+	margin: 3em auto;
+	padding: 0.2em;
+	width: 45em;
+}
+
+.ui-main-widget-header {
+	line-height: 1.8em;
+	margin-bottom: .2em;
+	padding: .2em .5em;
+}
+
+.ui-main-widget-header {
+	line-height: 1.8em;
+	margin-bottom: .2em;
+	padding: .2em .5em;
+}
+
+.ui-main-widget-separator {
+	background: url('../css/jquery-ui/blitzer-custom/images/ui-bg_highlight-soft_75_cccccc_1x100.png') repeat-x scroll 50% 50% #cccccc;
+	border: 1px solid #d8dcdf;
+	color: #222222;
+	font-weight: bold;
+	line-height: 1.8em;
+	margin-bottom: .2em;
+	padding: .2em .5em;
+}
+
+.ui-main-widget-content {
+	margin-bottom: 1em;
+}
+
+.formValidationMessage {
+	font-style: italic;
+}
+
+.formValidationMessage .ui-icon {
+	margin-right: .3em;
+}
+
+#menu {
+	border: 0;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#menu li {
+	border: 0;
+	cursor: pointer;
+	float: left;
+	line-height: 3em;
+	margin: 0;
+	padding: 0 1em;
+}
+
+.ui-dialog-button-row {
+	padding: 1.4em;
+	text-align: center;
+}

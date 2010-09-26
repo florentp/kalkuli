@@ -1,99 +1,113 @@
 <?php
 	
 	require_once('include/php_header.inc.php');
-	require_once('HTML/QuickForm.php');
-	require_once('HTML/QuickForm/Renderer/ArraySmarty.php');
-	
-	$form = new HTML_QuickForm('form', 'POST');
-
-	for ($i = date('Y') - 2; $i <= date('Y') + 2;$i++)
-		$years[$i] = $i;
-	for ($i = 1; $i <= 12;$i++)
-		$months[$i] = $i;
-	for ($i = 1; $i <= 31;$i++)
-		$days[$i] = $i;
-	$form->addElement('select'		, 'dateYear'	, null		, $years);
-	$form->addElement('select'		, 'dateMonth'	, null		, $months);
-	$form->addElement('select'		, 'dateDay'		, null		, $days);
-	$form->addElement('text'		, 'description'	, null		, array('class' => 'description', 'maxlength' => 255));
-	$form->addElement('text'		, 'amount'		, null		, array('class' => 'amount', 'maxlength' => 10));
-	$form->addElement('select'		, 'contributor'	, null		, PersonQuery::formOptionsArray(), array('class' => 'contributor'));
 	
 	$peopleList = PersonQuery::create()
 		->orderByPersonname()
 		->find();
 	if (count($peopleList) == 0)
 		header('Location: index.php');
-	foreach ($peopleList as $person) {
-		$form->addElement('checkbox'	, 'consumersList[' . $person->getPersonId() . ']' , null, $person->getPersonName());
-		$form->addElement('text'		, 'consumersWeightsList[' . $person->getPersonId() . ']'	, null	, array('class' => 'weight', 'maxlength' => 10));
-		$form->addRule('consumersWeightsList[' . $person->getPersonId() . ']', 'Le coefficient saisi pour ' . $person->getPersonName() . ' doit être un nombre', 'numeric', null, 'client');
-	}
-	
-	$form->addElement('submit'		, 'submit'			, 'Ajouter');
-	
-	$form->addRule('description', 'Vous devez saisir une description', 'required', null, 'client');
-	$form->addRule('amount', 'Vous devez saisir un montant', 'required', null, 'client');
-	$form->addRule('amount', 'Le montant saisi doit être un nombre', 'numeric', null, 'client');
-	
-	$formDefaultValues = array (
-			'dateYear' => date('Y'),
-			'dateMonth' => date('n'),
-			'dateDay' => date('j')
-		);
 
-	foreach ($peopleList as $person) {
-		$formDefaultValues['consumersWeightsList[' . $person->getPersonId() . ']'] = 1;
-	}
+	if (isset($_REQUEST['addOperationButton'])) {
+
+		// contributor exists
+		if (!isset($_REQUEST['contributorId'])
+				|| !ctype_digit($_REQUEST['contributorId'])
+				|| ($contributorId = intval($_REQUEST['contributorId'])) === 0
+				|| ($contributor = PersonQuery::create()->findPk($contributorId)) === null) {
+			// TODO: Handle error
+			trigger_error("Invalid contributorId value: " . $_REQUEST['contributorId'], E_USER_ERROR);
+		}
+
+		// amount is numeric and not equal to 0
+		if (!isset ($_REQUEST['amount'])
+				|| !is_numeric($_REQUEST['amount'])
+				|| ($amount = floatval($_REQUEST['amount'])) === 0.0) {
+			// TODO: Handle error
+			trigger_error("Invalid amount value: " . $_REQUEST['amount'], E_USER_ERROR);
+		}
+
+		// description is not empty
+		if (!isset($_REQUEST['description'])
+				|| strlen($description = trim($_REQUEST['description'])) === 0) {
+			// TODO: Handle error
+			trigger_error("Invalid description value: " . $_REQUEST['description'], E_USER_ERROR);
+		}
 		
-	$form->setDefaults($formDefaultValues);
-	
-	if ($form->validate()) {
-		$operation = new Operation();
-		$operation->setOperationTS("$_REQUEST[dateYear]-$_REQUEST[dateMonth]-$_REQUEST[dateDay]");
-		$operation->setOperationDescription($_REQUEST['description']);
-		$operation->save();
-		
-		$incoming = new Incoming();
-		$incoming->setInAmount($_REQUEST['amount']);
-		$incoming->setOperationIdFk($operation->getOperationId());
-		$incoming->setPersonIdFk($_REQUEST['contributor']);
-		$incoming->save();
-		
-		foreach ($_REQUEST['consumersList'] as $contributorId => $value) {
-			$outgoing = new Outgoing();
-			$outgoing->setOutWeight($_REQUEST['consumersWeightsList'][$contributorId]);
-			$outgoing->setOperationIdFk($operation->getOperationId());
-			$outgoing->setPersonIdFk($contributorId);
-			$outgoing->save();
+		// date format is valid
+		if (!($date = DateTime::createFromFormat('d/m/Y H:i:s', $_REQUEST['date'] . ' 00:00:00'))) {
+			// TODO: Handle error
+			trigger_error("Invalid date value: " . $_REQUEST['date'], E_USER_ERROR);
+		}
+
+		// consumers exist
+		if (!isset($_REQUEST['consumersIdList'])
+				|| !is_array($_REQUEST['consumersIdList'])
+				|| !isset ($_REQUEST['consumersWeightsList'])
+				|| !is_array($_REQUEST['consumersWeightsList'])) {
+			// TODO: Handle error
+			trigger_error("consumersIdList and consumersWeightsList must be arrays", E_USER_ERROR);
+		}
+		else {
+			$consumersIdList = array();
+			$consumersWeightList = array();
+			foreach($_REQUEST['consumersIdList'] as $consumerId => $value) {
+				if (!is_int($consumerId) && !ctype_digit($consumerId)
+						|| ($consumerId = intval($consumerId)) === 0
+						|| ($consumer = PersonQuery::create()->findPk($consumerId)) === null) {
+					// TODO: Handle error
+					trigger_error("Invalid consumerId value: " . $consumerId, E_USER_ERROR);
+				}
+
+				if (!isset ($_REQUEST['consumersWeightsList'][$consumerId])
+						|| !is_numeric($_REQUEST['consumersWeightsList'][$consumerId])
+						|| ($weight = floatval($_REQUEST['consumersWeightsList'][$consumerId])) === 0.0) {
+					// TODO: Handle error
+					trigger_error("Invalid consumersWeight value for consumerId $consumerId: " . $_REQUEST['consumersWeightsList'][$consumerId], E_USER_ERROR);
+				}
+
+				$consumersIdList[] = $consumerId;
+				$consumersWeightList[$consumerId] = $weight;
+			}
+		}
+
+		$dbConnection = Propel::getConnection(OperationPeer::DATABASE_NAME);
+
+		$dbConnection->beginTransaction();
+
+		try {
+			$operation = new Operation();
+			$operation->setOperationTS($date->format('Y-m-d'));
+			$operation->setOperationDescription($description);
+			$operation->save();
+			
+			$incoming = new Incoming();
+			$incoming->setInAmount($amount);
+			$incoming->setOperation($operation);
+			$incoming->setPersonIdFk($contributorId);
+			$incoming->save();
+			
+			foreach ($consumersIdList as $consumerId) {
+				$outgoing = new Outgoing();
+				$outgoing->setOutWeight($consumersWeightList[$consumerId]);
+				$outgoing->setOperation($operation);
+				$outgoing->setPersonIdFk($consumerId);
+				$outgoing->save();
+			}
+			$dbConnection->commit();
+
+		}
+		catch (Exception $e) {
+			$dbConnection->rollback();
 		}
 		
 		header('Location: operation-details.php?operationId=' . $operation->getOperationId());
 	}
 	
-	$renderer =& new HTML_QuickForm_Renderer_ArraySmarty($smarty, true);
-	
-	$renderer->setRequiredTemplate(
-		'{if $error}
-			<font color="red">{$label}</font>
-		{else}
-			{$label}
-		{/if}'
-	);
-	
-	$renderer->setErrorTemplate(
-		'{if $error}
-			<font color="red">{$label}</font>
-		{else}
-			{$label}
-		{/if}'
-	);
-	
-	$form->accept($renderer);
-	
 	$smarty->assign('templateName',	'operation-add');
+	$smarty->assign('peopleList', $peopleList);
 	$smarty->assign('nPeople', count($peopleList));
-	$smarty->assign_by_ref('form', $renderer->toArray());
+	$smarty->assign('CURRENCY', CURRENCY);
 
 	if (Kalkuli::isMobileBrowser())
 		$smarty->display('mobile/layout.tpl');
