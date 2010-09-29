@@ -20,6 +20,12 @@
 	$smarty->register_modifier('formatMoney', array('Kalkuli', 'formatMoney'));
 	$smarty->unregister_modifier('money');
 	$smarty->register_modifier('formatDate', array('Kalkuli', 'formatDate'));
+
+	$smarty->register_function('round', 'smarty_round');
 	
 	$smarty->assign('CURRENCY', CURRENCY);
 	$smarty->assign('PHP_SELF', $_SERVER['PHP_SELF']);
+
+	function smarty_round($params, &$smarty) {
+		return round($params['value']);
+	}

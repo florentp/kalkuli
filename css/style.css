@@ -174,3 +174,28 @@ input.weight {
 	padding: 1.4em;
 	text-align: center;
 }
+
+.bargraph {
+	border: 1px solid #cccccc;
+	font-size: .6em;
+	margin: 0 auto;
+	width: 50px
+}
+
+.bargraph .negativeBar {
+	background-color: #e50000;
+	border-right: 1px solid #cccccc;
+	float: left;
+}
+
+.bargraph .positiveBar {
+	background-color: green;
+	border-left: 1px solid #cccccc;
+	float: right;
+}
+
+.bargraph .emptyBar {
+	background-color: #cccccc;
+	margin: 0 auto;
+	width:1px;
+}
