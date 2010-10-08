@@ -35,7 +35,7 @@
 			<tr>
 				<th><label for="date">Date&nbsp;:</label></th>
 				<td colspan="2">
-					<a class="datepicker" id="dateLink" href="#"></a>
+					<img src="icons/calendar_day.png" align="absmiddle" alt="Modifier la date" />&nbsp;<a class="datepicker" id="dateLink" href="#"><span id="dateLinkSpan"></span></a>
 					<input type="hidden" id="date" name="date" />
 				</td>
 			</tr>
@@ -84,7 +84,7 @@
 		});
 		
 		$('#date').val($.datepicker.formatDate('dd/mm/yy', new Date()));
-		$('#dateLink').text('Le ' + $('#date').val());
+		$('#dateLinkSpan').text('Le ' + $('#date').val());
 
 		$('#dateLink').click(function (event) {
 			$(this).datepicker(
@@ -92,7 +92,7 @@
 				$('#date').val(),
 				function(dateText, datepicker) {
 					$('#date').val(dateText);
-					$('#dateLink').text('Le ' + dateText);
+					$('#dateLinkSpan').text('Le ' + dateText);
 				},
 				{
 					dateFormat: 'dd/mm/yy',

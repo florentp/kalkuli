@@ -43,12 +43,11 @@
 		<div class="ui-mobile-widget-item">
 			<div class="ui-helper-clearfix">
 				<div class="ui-mobile-widget-item-field">
-					<a class="datepicker" id="dateLink" href="#"></a>
+					{html_select_date start_year="-2" end_year="+2" field_order="DMY" month_format="%m" prefix="date" day_extra='id="dateDay"' month_extra='id="dateMonth"' year_extra='id="dateYear"'}
 					<input type="hidden" id="date" name="date" />
 				</div>
 				<div class="ui-mobile-widget-item-label">Date</div>
 			</div>
-			<div class="ui-mobile-widget-item-description">Cliquer sur la date pour la modifier.</div>
 		</div>
 		<div class="ui-mobile-widget-separator">Participants</div>
 			{foreach from=$peopleList key="consumerId" item="consumer"}
@@ -85,25 +84,10 @@
 				return false;
 		});
 		
-		$('#date').val($.datepicker.formatDate('dd/mm/yy', new Date()));
-		$('#dateLink').text('Le ' + $('#date').val());
-
-		$('#dateLink').click(function (event) {
-			$(this).datepicker(
-				'dialog',
-				$('#date').val(),
-				function(dateText, datepicker) {
-					$('#date').val(dateText);
-					$('#dateLink').text('Le ' + dateText);
-				},
-				{
-					dateFormat: 'dd/mm/yy',
-					duration: 0
-				}
-			);
-			$('#ui-datepicker-div').css('z-index', '1000');
-			return false;
-		});
+		$('#dateDay, #dateMonth, #dateYear').change(function() {
+			$('#date').val($('#dateDay').val() + '/' + $('#dateMonth').val() + '/' + $('#dateYear').val());
+		})
+			.first().change();
 
 		$('#addOperationForm').validate({
 			errorPlacement : function (label, element) {
