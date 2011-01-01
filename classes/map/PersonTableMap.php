@@ -39,6 +39,7 @@ class PersonTableMap extends TableMap {
 		// columns
 		$this->addPrimaryKey('PERSONID', 'Personid', 'INTEGER', true, null, null);
 		$this->addColumn('PERSONNAME', 'Personname', 'VARCHAR', true, 255, null);
+		$this->addForeignKey('SHEETIDFK', 'Sheetidfk', 'INTEGER', 'sheet', 'SHEETID', true, null, null);
 		// validators
 	} // initialize()
 
@@ -47,6 +48,7 @@ class PersonTableMap extends TableMap {
 	 */
 	public function buildRelations()
 	{
+    $this->addRelation('Sheet', 'Sheet', RelationMap::MANY_TO_ONE, array('sheetIdFK' => 'sheetId', ), 'CASCADE', null);
     $this->addRelation('Outgoing', 'Outgoing', RelationMap::ONE_TO_MANY, array('personId' => 'personIdFK', ), 'CASCADE', null);
     $this->addRelation('Incoming', 'Incoming', RelationMap::ONE_TO_MANY, array('personId' => 'personIdFK', ), 'CASCADE', null);
 	} // buildRelations()

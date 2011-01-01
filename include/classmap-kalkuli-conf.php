@@ -13,6 +13,9 @@ return array (
   'BasePerson' => 'classes/om/BasePerson.php',
   'BasePersonPeer' => 'classes/om/BasePersonPeer.php',
   'BasePersonQuery' => 'classes/om/BasePersonQuery.php',
+  'BaseSheet' => 'classes/om/BaseSheet.php',
+  'BaseSheetPeer' => 'classes/om/BaseSheetPeer.php',
+  'BaseSheetQuery' => 'classes/om/BaseSheetQuery.php',
   'Incoming' => 'classes/Incoming.php',
   'IncomingPeer' => 'classes/IncomingPeer.php',
   'IncomingQuery' => 'classes/IncomingQuery.php',
@@ -29,4 +32,8 @@ return array (
   'PersonPeer' => 'classes/PersonPeer.php',
   'PersonQuery' => 'classes/PersonQuery.php',
   'PersonTableMap' => 'classes/map/PersonTableMap.php',
+  'Sheet' => 'classes/Sheet.php',
+  'SheetPeer' => 'classes/SheetPeer.php',
+  'SheetQuery' => 'classes/SheetQuery.php',
+  'SheetTableMap' => 'classes/map/SheetTableMap.php',
 );

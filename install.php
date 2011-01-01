@@ -96,14 +96,16 @@
 			if ($installationOk) {
 				$dbh = new PDO('sqlite:' . DATABASE_PATH);
 				if ($dbh) {
+					$dbh->query("DROP TABLE IF EXISTS [sheet];");
+					$dbh->query("CREATE TABLE [sheet]( [sheetId] INTEGER NOT NULL PRIMARY KEY, [accessKey] VARCHAR(255) NOT NULL, [name] VARCHAR(255) NOT NULL, [currencyCode] VARCHAR(255) NOT NULL, [creatorEmail] VARCHAR(255) NOT NULL, [creationTS] TIMESTAMP NOT NULL, [lastModificationTS] TIMESTAMP NOT NULL);");
 					$dbh->query("DROP TABLE IF EXISTS [person];");
-					$dbh->query("CREATE TABLE [person]([personId] INTEGER  NOT NULL PRIMARY KEY,[personName] VARCHAR(255)  NOT NULL);");
-					$dbh->query("DROP TABLE IF EXISTS [outgoing];");;
-					$dbh->query("CREATE TABLE [outgoing]([outId] INTEGER  NOT NULL PRIMARY KEY,[outWeight] FLOAT,[operationIdFK] INTEGER  NOT NULL,[personIdFK] INTEGER  NOT NULL);");
+					$dbh->query("CREATE TABLE [person]( [personId] INTEGER NOT NULL PRIMARY KEY, [personName] VARCHAR(255) NOT NULL, [sheetIdFK] INTEGER NOT NULL);");
+					$dbh->query("DROP TABLE IF EXISTS [outgoing];");
+					$dbh->query("CREATE TABLE [outgoing]( [outId] INTEGER NOT NULL PRIMARY KEY, [outWeight] FLOAT, [operationIdFK] INTEGER NOT NULL, [personIdFK] INTEGER NOT NULL);");
 					$dbh->query("DROP TABLE IF EXISTS [incoming];");
-					$dbh->query("CREATE TABLE [incoming]([inId] INTEGER  NOT NULL PRIMARY KEY,[inAmount] FLOAT,[operationIdFK] INTEGER  NOT NULL,[personIdFK] INTEGER  NOT NULL);");
+					$dbh->query("CREATE TABLE [incoming]( [inId] INTEGER NOT NULL PRIMARY KEY, [inAmount] FLOAT, [operationIdFK] INTEGER NOT NULL, [personIdFK] INTEGER NOT NULL);");
 					$dbh->query("DROP TABLE IF EXISTS [operation];");
-					$dbh->query("CREATE TABLE [operation]([operationId] INTEGER  NOT NULL PRIMARY KEY,[operationTS] TIMESTAMP  NOT NULL,[operationDescription] MEDIUMTEXT  NOT NULL, [totalInAmount] FLOAT NOT NULL DEFAULT '0.0', [totalOutWeight] FLOAT NOT NULL DEFAULT '0.0');");
+					$dbh->query("CREATE TABLE [operation]( [operationId] INTEGER NOT NULL PRIMARY KEY, [operationTS] TIMESTAMP NOT NULL, [operationDescription] MEDIUMTEXT NOT NULL, [sheetIdFK] INTEGER NOT NULL, [totalInAmount] FLOAT NOT NULL, [totalOutWeight] FLOAT NOT NULL);");
 					$dbh->query("CREATE TRIGGER 'incomingInsert' AFTER INSERT ON 'incoming' BEGIN UPDATE operation SET totalInAmount = ( SELECT COALESCE (SUM (inAmount), 0) FROM incoming WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK; END;");
 					$dbh->query("CREATE TRIGGER 'incomingUpdate' AFTER UPDATE OF inAmount ON 'incoming' BEGIN UPDATE operation SET totalInAmount = ( SELECT COALESCE (SUM (inAmount), 0) FROM incoming WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK; END;");
 					$dbh->query("CREATE TRIGGER 'incomingDelete' AFTER DELETE ON 'incoming' BEGIN UPDATE operation SET totalInAmount = ( SELECT COALESCE (SUM (inAmount), 0) FROM incoming WHERE operationIdFK = OLD.operationIdFK) WHERE operationId = OLD.operationIdFK; END;");

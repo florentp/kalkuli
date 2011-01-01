@@ -2,78 +2,79 @@
 
 
 /**
- * Base class that represents a row from the 'operation' table.
+ * Base class that represents a row from the 'sheet' table.
  *
- * List of operations (made of incomings and outgoings)
+ * List of sheets
  *
  * @package    propel.generator.classes.om
  */
-abstract class BaseOperation extends BaseObject  implements Persistent
+abstract class BaseSheet extends BaseObject  implements Persistent
 {
 
 	/**
 	 * Peer class name
 	 */
-  const PEER = 'OperationPeer';
+  const PEER = 'SheetPeer';
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        OperationPeer
+	 * @var        SheetPeer
 	 */
 	protected static $peer;
 
 	/**
-	 * The value for the operationid field.
+	 * The value for the sheetid field.
 	 * @var        int
 	 */
-	protected $operationid;
+	protected $sheetid;
 
 	/**
-	 * The value for the operationts field.
+	 * The value for the accesskey field.
 	 * @var        string
 	 */
-	protected $operationts;
+	protected $accesskey;
 
 	/**
-	 * The value for the operationdescription field.
+	 * The value for the name field.
 	 * @var        string
 	 */
-	protected $operationdescription;
+	protected $name;
 
 	/**
-	 * The value for the sheetidfk field.
-	 * @var        int
+	 * The value for the currencycode field.
+	 * @var        string
 	 */
-	protected $sheetidfk;
+	protected $currencycode;
 
 	/**
-	 * The value for the totalinamount field.
-	 * @var        double
+	 * The value for the creatoremail field.
+	 * @var        string
 	 */
-	protected $totalinamount;
+	protected $creatoremail;
 
 	/**
-	 * The value for the totaloutweight field.
-	 * @var        double
+	 * The value for the creationts field.
+	 * @var        string
 	 */
-	protected $totaloutweight;
+	protected $creationts;
 
 	/**
-	 * @var        Sheet
+	 * The value for the lastmodificationts field.
+	 * @var        string
 	 */
-	protected $aSheet;
+	protected $lastmodificationts;
 
 	/**
-	 * @var        array Outgoing[] Collection to store aggregation of Outgoing objects.
+	 * @var        array Person[] Collection to store aggregation of Person objects.
 	 */
-	protected $collOutgoings;
+	protected $collPersons;
 
 	/**
-	 * @var        array Incoming[] Collection to store aggregation of Incoming objects.
+	 * @var        array Operation[] Collection to store aggregation of Operation objects.
 	 */
-	protected $collIncomings;
+	protected $collOperations;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -90,36 +91,76 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	protected $alreadyInValidation = false;
 
 	/**
-	 * Get the [operationid] column value.
-	 * Operation ID
+	 * Get the [sheetid] column value.
+	 * Sheet ID
 	 * @return     int
 	 */
-	public function getOperationid()
+	public function getSheetid()
 	{
-		return $this->operationid;
+		return $this->sheetid;
 	}
 
 	/**
-	 * Get the [optionally formatted] temporal [operationts] column value.
-	 * Operation date
+	 * Get the [accesskey] column value.
+	 * Access key
+	 * @return     string
+	 */
+	public function getAccesskey()
+	{
+		return $this->accesskey;
+	}
+
+	/**
+	 * Get the [name] column value.
+	 * Sheet name
+	 * @return     string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * Get the [currencycode] column value.
+	 * Currency code (EUR, USD...)
+	 * @return     string
+	 */
+	public function getCurrencycode()
+	{
+		return $this->currencycode;
+	}
+
+	/**
+	 * Get the [creatoremail] column value.
+	 * Email of the creator of this sheet
+	 * @return     string
+	 */
+	public function getCreatoremail()
+	{
+		return $this->creatoremail;
+	}
+
+	/**
+	 * Get the [optionally formatted] temporal [creationts] column value.
+	 * Sheet creation date
 	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the raw DateTime object will be returned.
 	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
 	 * @throws     PropelException - if unable to parse/validate the date/time value.
 	 */
-	public function getOperationts($format = 'Y-m-d H:i:s')
+	public function getCreationts($format = 'Y-m-d H:i:s')
 	{
-		if ($this->operationts === null) {
+		if ($this->creationts === null) {
 			return null;
 		}
 
 
 
 		try {
-			$dt = new DateTime($this->operationts);
+			$dt = new DateTime($this->creationts);
 		} catch (Exception $x) {
-			throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->operationts, true), $x);
+			throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->creationts, true), $x);
 		}
 
 		if ($format === null) {
@@ -133,73 +174,146 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [operationdescription] column value.
-	 * Operation description
-	 * @return     string
+	 * Get the [optionally formatted] temporal [lastmodificationts] column value.
+	 * Last modification date (adding/updating/deleting person, operation or any object in the sheet)
+	 *
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the raw DateTime object will be returned.
+	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+	 * @throws     PropelException - if unable to parse/validate the date/time value.
 	 */
-	public function getOperationdescription()
+	public function getLastmodificationts($format = 'Y-m-d H:i:s')
 	{
-		return $this->operationdescription;
+		if ($this->lastmodificationts === null) {
+			return null;
+		}
+
+
+
+		try {
+			$dt = new DateTime($this->lastmodificationts);
+		} catch (Exception $x) {
+			throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->lastmodificationts, true), $x);
+		}
+
+		if ($format === null) {
+			// Because propel.useDateTimeClass is TRUE, we return a DateTime object.
+			return $dt;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $dt->format('U'));
+		} else {
+			return $dt->format($format);
+		}
 	}
 
 	/**
-	 * Get the [sheetidfk] column value.
-	 * Sheet foreign key
-	 * @return     int
-	 */
-	public function getSheetidfk()
-	{
-		return $this->sheetidfk;
-	}
-
-	/**
-	 * Get the [totalinamount] column value.
-	 * Total amount of all incomings for this operation
-	 * @return     double
-	 */
-	public function getTotalinamount()
-	{
-		return $this->totalinamount;
-	}
-
-	/**
-	 * Get the [totaloutweight] column value.
-	 * Total weight of all outgoings for this operation
-	 * @return     double
-	 */
-	public function getTotaloutweight()
-	{
-		return $this->totaloutweight;
-	}
-
-	/**
-	 * Set the value of [operationid] column.
-	 * Operation ID
+	 * Set the value of [sheetid] column.
+	 * Sheet ID
 	 * @param      int $v new value
-	 * @return     Operation The current object (for fluent API support)
+	 * @return     Sheet The current object (for fluent API support)
 	 */
-	public function setOperationid($v)
+	public function setSheetid($v)
 	{
 		if ($v !== null) {
 			$v = (int) $v;
 		}
 
-		if ($this->operationid !== $v) {
-			$this->operationid = $v;
-			$this->modifiedColumns[] = OperationPeer::OPERATIONID;
+		if ($this->sheetid !== $v) {
+			$this->sheetid = $v;
+			$this->modifiedColumns[] = SheetPeer::SHEETID;
 		}
 
 		return $this;
-	} // setOperationid()
+	} // setSheetid()
 
 	/**
-	 * Sets the value of [operationts] column to a normalized version of the date/time value specified.
-	 * Operation date
+	 * Set the value of [accesskey] column.
+	 * Access key
+	 * @param      string $v new value
+	 * @return     Sheet The current object (for fluent API support)
+	 */
+	public function setAccesskey($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->accesskey !== $v) {
+			$this->accesskey = $v;
+			$this->modifiedColumns[] = SheetPeer::ACCESSKEY;
+		}
+
+		return $this;
+	} // setAccesskey()
+
+	/**
+	 * Set the value of [name] column.
+	 * Sheet name
+	 * @param      string $v new value
+	 * @return     Sheet The current object (for fluent API support)
+	 */
+	public function setName($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->name !== $v) {
+			$this->name = $v;
+			$this->modifiedColumns[] = SheetPeer::NAME;
+		}
+
+		return $this;
+	} // setName()
+
+	/**
+	 * Set the value of [currencycode] column.
+	 * Currency code (EUR, USD...)
+	 * @param      string $v new value
+	 * @return     Sheet The current object (for fluent API support)
+	 */
+	public function setCurrencycode($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->currencycode !== $v) {
+			$this->currencycode = $v;
+			$this->modifiedColumns[] = SheetPeer::CURRENCYCODE;
+		}
+
+		return $this;
+	} // setCurrencycode()
+
+	/**
+	 * Set the value of [creatoremail] column.
+	 * Email of the creator of this sheet
+	 * @param      string $v new value
+	 * @return     Sheet The current object (for fluent API support)
+	 */
+	public function setCreatoremail($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->creatoremail !== $v) {
+			$this->creatoremail = $v;
+			$this->modifiedColumns[] = SheetPeer::CREATOREMAIL;
+		}
+
+		return $this;
+	} // setCreatoremail()
+
+	/**
+	 * Sets the value of [creationts] column to a normalized version of the date/time value specified.
+	 * Sheet creation date
 	 * @param      mixed $v string, integer (timestamp), or DateTime value.  Empty string will
 	 *						be treated as NULL for temporal objects.
-	 * @return     Operation The current object (for fluent API support)
+	 * @return     Sheet The current object (for fluent API support)
 	 */
-	public function setOperationts($v)
+	public function setCreationts($v)
 	{
 		// we treat '' as NULL for temporal objects because DateTime('') == DateTime('now')
 		// -- which is unexpected, to say the least.
@@ -224,106 +338,71 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 			}
 		}
 
-		if ( $this->operationts !== null || $dt !== null ) {
+		if ( $this->creationts !== null || $dt !== null ) {
 			// (nested ifs are a little easier to read in this case)
 
-			$currNorm = ($this->operationts !== null && $tmpDt = new DateTime($this->operationts)) ? $tmpDt->format('Y-m-d\\TH:i:sO') : null;
+			$currNorm = ($this->creationts !== null && $tmpDt = new DateTime($this->creationts)) ? $tmpDt->format('Y-m-d\\TH:i:sO') : null;
 			$newNorm = ($dt !== null) ? $dt->format('Y-m-d\\TH:i:sO') : null;
 
 			if ( ($currNorm !== $newNorm) // normalized values don't match 
 					)
 			{
-				$this->operationts = ($dt ? $dt->format('Y-m-d\\TH:i:sO') : null);
-				$this->modifiedColumns[] = OperationPeer::OPERATIONTS;
+				$this->creationts = ($dt ? $dt->format('Y-m-d\\TH:i:sO') : null);
+				$this->modifiedColumns[] = SheetPeer::CREATIONTS;
 			}
 		} // if either are not null
 
 		return $this;
-	} // setOperationts()
+	} // setCreationts()
 
 	/**
-	 * Set the value of [operationdescription] column.
-	 * Operation description
-	 * @param      string $v new value
-	 * @return     Operation The current object (for fluent API support)
+	 * Sets the value of [lastmodificationts] column to a normalized version of the date/time value specified.
+	 * Last modification date (adding/updating/deleting person, operation or any object in the sheet)
+	 * @param      mixed $v string, integer (timestamp), or DateTime value.  Empty string will
+	 *						be treated as NULL for temporal objects.
+	 * @return     Sheet The current object (for fluent API support)
 	 */
-	public function setOperationdescription($v)
+	public function setLastmodificationts($v)
 	{
-		if ($v !== null) {
-			$v = (string) $v;
+		// we treat '' as NULL for temporal objects because DateTime('') == DateTime('now')
+		// -- which is unexpected, to say the least.
+		if ($v === null || $v === '') {
+			$dt = null;
+		} elseif ($v instanceof DateTime) {
+			$dt = $v;
+		} else {
+			// some string/numeric value passed; we normalize that so that we can
+			// validate it.
+			try {
+				if (is_numeric($v)) { // if it's a unix timestamp
+					$dt = new DateTime('@'.$v, new DateTimeZone('UTC'));
+					// We have to explicitly specify and then change the time zone because of a
+					// DateTime bug: http://bugs.php.net/bug.php?id=43003
+					$dt->setTimeZone(new DateTimeZone(date_default_timezone_get()));
+				} else {
+					$dt = new DateTime($v);
+				}
+			} catch (Exception $x) {
+				throw new PropelException('Error parsing date/time value: ' . var_export($v, true), $x);
+			}
 		}
 
-		if ($this->operationdescription !== $v) {
-			$this->operationdescription = $v;
-			$this->modifiedColumns[] = OperationPeer::OPERATIONDESCRIPTION;
-		}
+		if ( $this->lastmodificationts !== null || $dt !== null ) {
+			// (nested ifs are a little easier to read in this case)
+
+			$currNorm = ($this->lastmodificationts !== null && $tmpDt = new DateTime($this->lastmodificationts)) ? $tmpDt->format('Y-m-d\\TH:i:sO') : null;
+			$newNorm = ($dt !== null) ? $dt->format('Y-m-d\\TH:i:sO') : null;
+
+			if ( ($currNorm !== $newNorm) // normalized values don't match 
+					)
+			{
+				$this->lastmodificationts = ($dt ? $dt->format('Y-m-d\\TH:i:sO') : null);
+				$this->modifiedColumns[] = SheetPeer::LASTMODIFICATIONTS;
+			}
+		} // if either are not null
 
 		return $this;
-	} // setOperationdescription()
-
-	/**
-	 * Set the value of [sheetidfk] column.
-	 * Sheet foreign key
-	 * @param      int $v new value
-	 * @return     Operation The current object (for fluent API support)
-	 */
-	public function setSheetidfk($v)
-	{
-		if ($v !== null) {
-			$v = (int) $v;
-		}
-
-		if ($this->sheetidfk !== $v) {
-			$this->sheetidfk = $v;
-			$this->modifiedColumns[] = OperationPeer::SHEETIDFK;
-		}
-
-		if ($this->aSheet !== null && $this->aSheet->getSheetid() !== $v) {
-			$this->aSheet = null;
-		}
-
-		return $this;
-	} // setSheetidfk()
-
-	/**
-	 * Set the value of [totalinamount] column.
-	 * Total amount of all incomings for this operation
-	 * @param      double $v new value
-	 * @return     Operation The current object (for fluent API support)
-	 */
-	public function setTotalinamount($v)
-	{
-		if ($v !== null) {
-			$v = (double) $v;
-		}
-
-		if ($this->totalinamount !== $v) {
-			$this->totalinamount = $v;
-			$this->modifiedColumns[] = OperationPeer::TOTALINAMOUNT;
-		}
-
-		return $this;
-	} // setTotalinamount()
-
-	/**
-	 * Set the value of [totaloutweight] column.
-	 * Total weight of all outgoings for this operation
-	 * @param      double $v new value
-	 * @return     Operation The current object (for fluent API support)
-	 */
-	public function setTotaloutweight($v)
-	{
-		if ($v !== null) {
-			$v = (double) $v;
-		}
-
-		if ($this->totaloutweight !== $v) {
-			$this->totaloutweight = $v;
-			$this->modifiedColumns[] = OperationPeer::TOTALOUTWEIGHT;
-		}
-
-		return $this;
-	} // setTotaloutweight()
+	} // setLastmodificationts()
 
 	/**
 	 * Indicates whether the columns in this object are only set to default values.
@@ -357,12 +436,13 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	{
 		try {
 
-			$this->operationid = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-			$this->operationts = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-			$this->operationdescription = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-			$this->sheetidfk = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
-			$this->totalinamount = ($row[$startcol + 4] !== null) ? (double) $row[$startcol + 4] : null;
-			$this->totaloutweight = ($row[$startcol + 5] !== null) ? (double) $row[$startcol + 5] : null;
+			$this->sheetid = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
+			$this->accesskey = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+			$this->name = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+			$this->currencycode = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+			$this->creatoremail = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+			$this->creationts = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+			$this->lastmodificationts = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -371,10 +451,10 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 6; // 6 = OperationPeer::NUM_COLUMNS - OperationPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 7; // 7 = SheetPeer::NUM_COLUMNS - SheetPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Operation object", $e);
+			throw new PropelException("Error populating Sheet object", $e);
 		}
 	}
 
@@ -394,9 +474,6 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
-		if ($this->aSheet !== null && $this->sheetidfk !== $this->aSheet->getSheetid()) {
-			$this->aSheet = null;
-		}
 	} // ensureConsistency
 
 	/**
@@ -420,13 +497,13 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(SheetPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		// We don't need to alter the object instance pool; we're just modifying this instance
 		// already in the pool.
 
-		$stmt = OperationPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+		$stmt = SheetPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
 		$row = $stmt->fetch(PDO::FETCH_NUM);
 		$stmt->closeCursor();
 		if (!$row) {
@@ -436,10 +513,9 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
-			$this->aSheet = null;
-			$this->collOutgoings = null;
+			$this->collPersons = null;
 
-			$this->collIncomings = null;
+			$this->collOperations = null;
 
 		} // if (deep)
 	}
@@ -460,14 +536,14 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(SheetPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 		
 		$con->beginTransaction();
 		try {
 			$ret = $this->preDelete($con);
 			if ($ret) {
-				OperationQuery::create()
+				SheetQuery::create()
 					->filterByPrimaryKey($this->getPrimaryKey())
 					->delete($con);
 				$this->postDelete($con);
@@ -502,7 +578,7 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(SheetPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 		
 		$con->beginTransaction();
@@ -522,7 +598,7 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 					$this->postUpdate($con);
 				}
 				$this->postSave($con);
-				OperationPeer::addInstanceToPool($this);
+				SheetPeer::addInstanceToPool($this);
 			} else {
 				$affectedRows = 0;
 			}
@@ -551,51 +627,39 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
-			// We call the save method on the following object(s) if they
-			// were passed to this object by their coresponding set
-			// method.  This object relates to these object(s) by a
-			// foreign key reference.
-
-			if ($this->aSheet !== null) {
-				if ($this->aSheet->isModified() || $this->aSheet->isNew()) {
-					$affectedRows += $this->aSheet->save($con);
-				}
-				$this->setSheet($this->aSheet);
-			}
-
 			if ($this->isNew() ) {
-				$this->modifiedColumns[] = OperationPeer::OPERATIONID;
+				$this->modifiedColumns[] = SheetPeer::SHEETID;
 			}
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
 					$criteria = $this->buildCriteria();
-					if ($criteria->keyContainsValue(OperationPeer::OPERATIONID) ) {
-						throw new PropelException('Cannot insert a value for auto-increment primary key ('.OperationPeer::OPERATIONID.')');
+					if ($criteria->keyContainsValue(SheetPeer::SHEETID) ) {
+						throw new PropelException('Cannot insert a value for auto-increment primary key ('.SheetPeer::SHEETID.')');
 					}
 
 					$pk = BasePeer::doInsert($criteria, $con);
-					$affectedRows += 1;
-					$this->setOperationid($pk);  //[IMV] update autoincrement primary key
+					$affectedRows = 1;
+					$this->setSheetid($pk);  //[IMV] update autoincrement primary key
 					$this->setNew(false);
 				} else {
-					$affectedRows += OperationPeer::doUpdate($this, $con);
+					$affectedRows = SheetPeer::doUpdate($this, $con);
 				}
 
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
 
-			if ($this->collOutgoings !== null) {
-				foreach ($this->collOutgoings as $referrerFK) {
+			if ($this->collPersons !== null) {
+				foreach ($this->collPersons as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
 				}
 			}
 
-			if ($this->collIncomings !== null) {
-				foreach ($this->collIncomings as $referrerFK) {
+			if ($this->collOperations !== null) {
+				foreach ($this->collOperations as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -668,33 +732,21 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
-			// We call the validate method on the following object(s) if they
-			// were passed to this object by their coresponding set
-			// method.  This object relates to these object(s) by a
-			// foreign key reference.
-
-			if ($this->aSheet !== null) {
-				if (!$this->aSheet->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aSheet->getValidationFailures());
-				}
-			}
-
-
-			if (($retval = OperationPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = SheetPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
 
-				if ($this->collOutgoings !== null) {
-					foreach ($this->collOutgoings as $referrerFK) {
+				if ($this->collPersons !== null) {
+					foreach ($this->collPersons as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
 					}
 				}
 
-				if ($this->collIncomings !== null) {
-					foreach ($this->collIncomings as $referrerFK) {
+				if ($this->collOperations !== null) {
+					foreach ($this->collOperations as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -719,7 +771,7 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = OperationPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = SheetPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		$field = $this->getByPosition($pos);
 		return $field;
 	}
@@ -735,22 +787,25 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	{
 		switch($pos) {
 			case 0:
-				return $this->getOperationid();
+				return $this->getSheetid();
 				break;
 			case 1:
-				return $this->getOperationts();
+				return $this->getAccesskey();
 				break;
 			case 2:
-				return $this->getOperationdescription();
+				return $this->getName();
 				break;
 			case 3:
-				return $this->getSheetidfk();
+				return $this->getCurrencycode();
 				break;
 			case 4:
-				return $this->getTotalinamount();
+				return $this->getCreatoremail();
 				break;
 			case 5:
-				return $this->getTotaloutweight();
+				return $this->getCreationts();
+				break;
+			case 6:
+				return $this->getLastmodificationts();
 				break;
 			default:
 				return null;
@@ -768,26 +823,21 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 *                    BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM. 
 	 *                    Defaults to BasePeer::TYPE_PHPNAME.
 	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
-	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
 	 *
 	 * @return    array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $includeForeignObjects = false)
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true)
 	{
-		$keys = OperationPeer::getFieldNames($keyType);
+		$keys = SheetPeer::getFieldNames($keyType);
 		$result = array(
-			$keys[0] => $this->getOperationid(),
-			$keys[1] => $this->getOperationts(),
-			$keys[2] => $this->getOperationdescription(),
-			$keys[3] => $this->getSheetidfk(),
-			$keys[4] => $this->getTotalinamount(),
-			$keys[5] => $this->getTotaloutweight(),
+			$keys[0] => $this->getSheetid(),
+			$keys[1] => $this->getAccesskey(),
+			$keys[2] => $this->getName(),
+			$keys[3] => $this->getCurrencycode(),
+			$keys[4] => $this->getCreatoremail(),
+			$keys[5] => $this->getCreationts(),
+			$keys[6] => $this->getLastmodificationts(),
 		);
-		if ($includeForeignObjects) {
-			if (null !== $this->aSheet) {
-				$result['Sheet'] = $this->aSheet->toArray($keyType, $includeLazyLoadColumns, true);
-			}
-		}
 		return $result;
 	}
 
@@ -803,7 +853,7 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = OperationPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = SheetPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -819,22 +869,25 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	{
 		switch($pos) {
 			case 0:
-				$this->setOperationid($value);
+				$this->setSheetid($value);
 				break;
 			case 1:
-				$this->setOperationts($value);
+				$this->setAccesskey($value);
 				break;
 			case 2:
-				$this->setOperationdescription($value);
+				$this->setName($value);
 				break;
 			case 3:
-				$this->setSheetidfk($value);
+				$this->setCurrencycode($value);
 				break;
 			case 4:
-				$this->setTotalinamount($value);
+				$this->setCreatoremail($value);
 				break;
 			case 5:
-				$this->setTotaloutweight($value);
+				$this->setCreationts($value);
+				break;
+			case 6:
+				$this->setLastmodificationts($value);
 				break;
 		} // switch()
 	}
@@ -858,14 +911,15 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = OperationPeer::getFieldNames($keyType);
+		$keys = SheetPeer::getFieldNames($keyType);
 
-		if (array_key_exists($keys[0], $arr)) $this->setOperationid($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setOperationts($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setOperationdescription($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setSheetidfk($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setTotalinamount($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setTotaloutweight($arr[$keys[5]]);
+		if (array_key_exists($keys[0], $arr)) $this->setSheetid($arr[$keys[0]]);
+		if (array_key_exists($keys[1], $arr)) $this->setAccesskey($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setName($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setCurrencycode($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setCreatoremail($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setCreationts($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setLastmodificationts($arr[$keys[6]]);
 	}
 
 	/**
@@ -875,14 +929,15 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(OperationPeer::DATABASE_NAME);
+		$criteria = new Criteria(SheetPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(OperationPeer::OPERATIONID)) $criteria->add(OperationPeer::OPERATIONID, $this->operationid);
-		if ($this->isColumnModified(OperationPeer::OPERATIONTS)) $criteria->add(OperationPeer::OPERATIONTS, $this->operationts);
-		if ($this->isColumnModified(OperationPeer::OPERATIONDESCRIPTION)) $criteria->add(OperationPeer::OPERATIONDESCRIPTION, $this->operationdescription);
-		if ($this->isColumnModified(OperationPeer::SHEETIDFK)) $criteria->add(OperationPeer::SHEETIDFK, $this->sheetidfk);
-		if ($this->isColumnModified(OperationPeer::TOTALINAMOUNT)) $criteria->add(OperationPeer::TOTALINAMOUNT, $this->totalinamount);
-		if ($this->isColumnModified(OperationPeer::TOTALOUTWEIGHT)) $criteria->add(OperationPeer::TOTALOUTWEIGHT, $this->totaloutweight);
+		if ($this->isColumnModified(SheetPeer::SHEETID)) $criteria->add(SheetPeer::SHEETID, $this->sheetid);
+		if ($this->isColumnModified(SheetPeer::ACCESSKEY)) $criteria->add(SheetPeer::ACCESSKEY, $this->accesskey);
+		if ($this->isColumnModified(SheetPeer::NAME)) $criteria->add(SheetPeer::NAME, $this->name);
+		if ($this->isColumnModified(SheetPeer::CURRENCYCODE)) $criteria->add(SheetPeer::CURRENCYCODE, $this->currencycode);
+		if ($this->isColumnModified(SheetPeer::CREATOREMAIL)) $criteria->add(SheetPeer::CREATOREMAIL, $this->creatoremail);
+		if ($this->isColumnModified(SheetPeer::CREATIONTS)) $criteria->add(SheetPeer::CREATIONTS, $this->creationts);
+		if ($this->isColumnModified(SheetPeer::LASTMODIFICATIONTS)) $criteria->add(SheetPeer::LASTMODIFICATIONTS, $this->lastmodificationts);
 
 		return $criteria;
 	}
@@ -897,8 +952,8 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(OperationPeer::DATABASE_NAME);
-		$criteria->add(OperationPeer::OPERATIONID, $this->operationid);
+		$criteria = new Criteria(SheetPeer::DATABASE_NAME);
+		$criteria->add(SheetPeer::SHEETID, $this->sheetid);
 
 		return $criteria;
 	}
@@ -909,18 +964,18 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 */
 	public function getPrimaryKey()
 	{
-		return $this->getOperationid();
+		return $this->getSheetid();
 	}
 
 	/**
-	 * Generic method to set the primary key (operationid column).
+	 * Generic method to set the primary key (sheetid column).
 	 *
 	 * @param      int $key Primary key.
 	 * @return     void
 	 */
 	public function setPrimaryKey($key)
 	{
-		$this->setOperationid($key);
+		$this->setSheetid($key);
 	}
 
 	/**
@@ -929,7 +984,7 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 */
 	public function isPrimaryKeyNull()
 	{
-		return null === $this->getOperationid();
+		return null === $this->getSheetid();
 	}
 
 	/**
@@ -938,32 +993,33 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of Operation (or compatible) type.
+	 * @param      object $copyObj An object of Sheet (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
-		$copyObj->setOperationts($this->operationts);
-		$copyObj->setOperationdescription($this->operationdescription);
-		$copyObj->setSheetidfk($this->sheetidfk);
-		$copyObj->setTotalinamount($this->totalinamount);
-		$copyObj->setTotaloutweight($this->totaloutweight);
+		$copyObj->setAccesskey($this->accesskey);
+		$copyObj->setName($this->name);
+		$copyObj->setCurrencycode($this->currencycode);
+		$copyObj->setCreatoremail($this->creatoremail);
+		$copyObj->setCreationts($this->creationts);
+		$copyObj->setLastmodificationts($this->lastmodificationts);
 
 		if ($deepCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
 			// the getter/setter methods for fkey referrer objects.
 			$copyObj->setNew(false);
 
-			foreach ($this->getOutgoings() as $relObj) {
+			foreach ($this->getPersons() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addOutgoing($relObj->copy($deepCopy));
+					$copyObj->addPerson($relObj->copy($deepCopy));
 				}
 			}
 
-			foreach ($this->getIncomings() as $relObj) {
+			foreach ($this->getOperations() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addIncoming($relObj->copy($deepCopy));
+					$copyObj->addOperation($relObj->copy($deepCopy));
 				}
 			}
 
@@ -971,7 +1027,7 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 
 
 		$copyObj->setNew(true);
-		$copyObj->setOperationid(NULL); // this is a auto-increment column, so set to default value
+		$copyObj->setSheetid(NULL); // this is a auto-increment column, so set to default value
 	}
 
 	/**
@@ -983,7 +1039,7 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     Operation Clone of current object.
+	 * @return     Sheet Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -1002,331 +1058,232 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     OperationPeer
+	 * @return     SheetPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new OperationPeer();
+			self::$peer = new SheetPeer();
 		}
 		return self::$peer;
 	}
 
 	/**
-	 * Declares an association between this object and a Sheet object.
-	 *
-	 * @param      Sheet $v
-	 * @return     Operation The current object (for fluent API support)
-	 * @throws     PropelException
-	 */
-	public function setSheet(Sheet $v = null)
-	{
-		if ($v === null) {
-			$this->setSheetidfk(NULL);
-		} else {
-			$this->setSheetidfk($v->getSheetid());
-		}
-
-		$this->aSheet = $v;
-
-		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Sheet object, it will not be re-added.
-		if ($v !== null) {
-			$v->addOperation($this);
-		}
-
-		return $this;
-	}
-
-
-	/**
-	 * Get the associated Sheet object
-	 *
-	 * @param      PropelPDO Optional Connection object.
-	 * @return     Sheet The associated Sheet object.
-	 * @throws     PropelException
-	 */
-	public function getSheet(PropelPDO $con = null)
-	{
-		if ($this->aSheet === null && ($this->sheetidfk !== null)) {
-			$this->aSheet = SheetQuery::create()->findPk($this->sheetidfk, $con);
-			/* The following can be used additionally to
-			   guarantee the related object contains a reference
-			   to this object.  This level of coupling may, however, be
-			   undesirable since it could result in an only partially populated collection
-			   in the referenced object.
-			   $this->aSheet->addOperations($this);
-			 */
-		}
-		return $this->aSheet;
-	}
-
-	/**
-	 * Clears out the collOutgoings collection
+	 * Clears out the collPersons collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
 	 * @return     void
-	 * @see        addOutgoings()
+	 * @see        addPersons()
 	 */
-	public function clearOutgoings()
+	public function clearPersons()
 	{
-		$this->collOutgoings = null; // important to set this to NULL since that means it is uninitialized
+		$this->collPersons = null; // important to set this to NULL since that means it is uninitialized
 	}
 
 	/**
-	 * Initializes the collOutgoings collection.
+	 * Initializes the collPersons collection.
 	 *
-	 * By default this just sets the collOutgoings collection to an empty array (like clearcollOutgoings());
+	 * By default this just sets the collPersons collection to an empty array (like clearcollPersons());
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
 	 * @return     void
 	 */
-	public function initOutgoings()
+	public function initPersons()
 	{
-		$this->collOutgoings = new PropelObjectCollection();
-		$this->collOutgoings->setModel('Outgoing');
+		$this->collPersons = new PropelObjectCollection();
+		$this->collPersons->setModel('Person');
 	}
 
 	/**
-	 * Gets an array of Outgoing objects which contain a foreign key that references this object.
+	 * Gets an array of Person objects which contain a foreign key that references this object.
 	 *
 	 * If the $criteria is not null, it is used to always fetch the results from the database.
 	 * Otherwise the results are fetched from the database the first time, then cached.
 	 * Next time the same method is called without $criteria, the cached collection is returned.
-	 * If this Operation is new, it will return
+	 * If this Sheet is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
 	 * @param      Criteria $criteria optional Criteria object to narrow the query
 	 * @param      PropelPDO $con optional connection object
-	 * @return     PropelCollection|array Outgoing[] List of Outgoing objects
+	 * @return     PropelCollection|array Person[] List of Person objects
 	 * @throws     PropelException
 	 */
-	public function getOutgoings($criteria = null, PropelPDO $con = null)
+	public function getPersons($criteria = null, PropelPDO $con = null)
 	{
-		if(null === $this->collOutgoings || null !== $criteria) {
-			if ($this->isNew() && null === $this->collOutgoings) {
+		if(null === $this->collPersons || null !== $criteria) {
+			if ($this->isNew() && null === $this->collPersons) {
 				// return empty collection
-				$this->initOutgoings();
+				$this->initPersons();
 			} else {
-				$collOutgoings = OutgoingQuery::create(null, $criteria)
-					->filterByOperation($this)
+				$collPersons = PersonQuery::create(null, $criteria)
+					->filterBySheet($this)
 					->find($con);
 				if (null !== $criteria) {
-					return $collOutgoings;
+					return $collPersons;
 				}
-				$this->collOutgoings = $collOutgoings;
+				$this->collPersons = $collPersons;
 			}
 		}
-		return $this->collOutgoings;
+		return $this->collPersons;
 	}
 
 	/**
-	 * Returns the number of related Outgoing objects.
+	 * Returns the number of related Person objects.
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct
 	 * @param      PropelPDO $con
-	 * @return     int Count of related Outgoing objects.
+	 * @return     int Count of related Person objects.
 	 * @throws     PropelException
 	 */
-	public function countOutgoings(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	public function countPersons(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
 	{
-		if(null === $this->collOutgoings || null !== $criteria) {
-			if ($this->isNew() && null === $this->collOutgoings) {
+		if(null === $this->collPersons || null !== $criteria) {
+			if ($this->isNew() && null === $this->collPersons) {
 				return 0;
 			} else {
-				$query = OutgoingQuery::create(null, $criteria);
+				$query = PersonQuery::create(null, $criteria);
 				if($distinct) {
 					$query->distinct();
 				}
 				return $query
-					->filterByOperation($this)
+					->filterBySheet($this)
 					->count($con);
 			}
 		} else {
-			return count($this->collOutgoings);
+			return count($this->collPersons);
 		}
 	}
 
 	/**
-	 * Method called to associate a Outgoing object to this object
-	 * through the Outgoing foreign key attribute.
+	 * Method called to associate a Person object to this object
+	 * through the Person foreign key attribute.
 	 *
-	 * @param      Outgoing $l Outgoing
+	 * @param      Person $l Person
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function addOutgoing(Outgoing $l)
+	public function addPerson(Person $l)
 	{
-		if ($this->collOutgoings === null) {
-			$this->initOutgoings();
+		if ($this->collPersons === null) {
+			$this->initPersons();
 		}
-		if (!$this->collOutgoings->contains($l)) { // only add it if the **same** object is not already associated
-			$this->collOutgoings[]= $l;
-			$l->setOperation($this);
+		if (!$this->collPersons->contains($l)) { // only add it if the **same** object is not already associated
+			$this->collPersons[]= $l;
+			$l->setSheet($this);
 		}
 	}
 
-
 	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Operation is new, it will return
-	 * an empty collection; or if this Operation has previously
-	 * been saved, it will retrieve related Outgoings from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Operation.
-	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-	 * @return     PropelCollection|array Outgoing[] List of Outgoing objects
-	 */
-	public function getOutgoingsJoinPerson($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$query = OutgoingQuery::create(null, $criteria);
-		$query->joinWith('Person', $join_behavior);
-
-		return $this->getOutgoings($query, $con);
-	}
-
-	/**
-	 * Clears out the collIncomings collection
+	 * Clears out the collOperations collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
 	 * @return     void
-	 * @see        addIncomings()
+	 * @see        addOperations()
 	 */
-	public function clearIncomings()
+	public function clearOperations()
 	{
-		$this->collIncomings = null; // important to set this to NULL since that means it is uninitialized
+		$this->collOperations = null; // important to set this to NULL since that means it is uninitialized
 	}
 
 	/**
-	 * Initializes the collIncomings collection.
+	 * Initializes the collOperations collection.
 	 *
-	 * By default this just sets the collIncomings collection to an empty array (like clearcollIncomings());
+	 * By default this just sets the collOperations collection to an empty array (like clearcollOperations());
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
 	 * @return     void
 	 */
-	public function initIncomings()
+	public function initOperations()
 	{
-		$this->collIncomings = new PropelObjectCollection();
-		$this->collIncomings->setModel('Incoming');
+		$this->collOperations = new PropelObjectCollection();
+		$this->collOperations->setModel('Operation');
 	}
 
 	/**
-	 * Gets an array of Incoming objects which contain a foreign key that references this object.
+	 * Gets an array of Operation objects which contain a foreign key that references this object.
 	 *
 	 * If the $criteria is not null, it is used to always fetch the results from the database.
 	 * Otherwise the results are fetched from the database the first time, then cached.
 	 * Next time the same method is called without $criteria, the cached collection is returned.
-	 * If this Operation is new, it will return
+	 * If this Sheet is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
 	 * @param      Criteria $criteria optional Criteria object to narrow the query
 	 * @param      PropelPDO $con optional connection object
-	 * @return     PropelCollection|array Incoming[] List of Incoming objects
+	 * @return     PropelCollection|array Operation[] List of Operation objects
 	 * @throws     PropelException
 	 */
-	public function getIncomings($criteria = null, PropelPDO $con = null)
+	public function getOperations($criteria = null, PropelPDO $con = null)
 	{
-		if(null === $this->collIncomings || null !== $criteria) {
-			if ($this->isNew() && null === $this->collIncomings) {
+		if(null === $this->collOperations || null !== $criteria) {
+			if ($this->isNew() && null === $this->collOperations) {
 				// return empty collection
-				$this->initIncomings();
+				$this->initOperations();
 			} else {
-				$collIncomings = IncomingQuery::create(null, $criteria)
-					->filterByOperation($this)
+				$collOperations = OperationQuery::create(null, $criteria)
+					->filterBySheet($this)
 					->find($con);
 				if (null !== $criteria) {
-					return $collIncomings;
+					return $collOperations;
 				}
-				$this->collIncomings = $collIncomings;
+				$this->collOperations = $collOperations;
 			}
 		}
-		return $this->collIncomings;
+		return $this->collOperations;
 	}
 
 	/**
-	 * Returns the number of related Incoming objects.
+	 * Returns the number of related Operation objects.
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct
 	 * @param      PropelPDO $con
-	 * @return     int Count of related Incoming objects.
+	 * @return     int Count of related Operation objects.
 	 * @throws     PropelException
 	 */
-	public function countIncomings(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	public function countOperations(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
 	{
-		if(null === $this->collIncomings || null !== $criteria) {
-			if ($this->isNew() && null === $this->collIncomings) {
+		if(null === $this->collOperations || null !== $criteria) {
+			if ($this->isNew() && null === $this->collOperations) {
 				return 0;
 			} else {
-				$query = IncomingQuery::create(null, $criteria);
+				$query = OperationQuery::create(null, $criteria);
 				if($distinct) {
 					$query->distinct();
 				}
 				return $query
-					->filterByOperation($this)
+					->filterBySheet($this)
 					->count($con);
 			}
 		} else {
-			return count($this->collIncomings);
+			return count($this->collOperations);
 		}
 	}
 
 	/**
-	 * Method called to associate a Incoming object to this object
-	 * through the Incoming foreign key attribute.
+	 * Method called to associate a Operation object to this object
+	 * through the Operation foreign key attribute.
 	 *
-	 * @param      Incoming $l Incoming
+	 * @param      Operation $l Operation
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function addIncoming(Incoming $l)
+	public function addOperation(Operation $l)
 	{
-		if ($this->collIncomings === null) {
-			$this->initIncomings();
+		if ($this->collOperations === null) {
+			$this->initOperations();
 		}
-		if (!$this->collIncomings->contains($l)) { // only add it if the **same** object is not already associated
-			$this->collIncomings[]= $l;
-			$l->setOperation($this);
+		if (!$this->collOperations->contains($l)) { // only add it if the **same** object is not already associated
+			$this->collOperations[]= $l;
+			$l->setSheet($this);
 		}
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Operation is new, it will return
-	 * an empty collection; or if this Operation has previously
-	 * been saved, it will retrieve related Incomings from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Operation.
-	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-	 * @return     PropelCollection|array Incoming[] List of Incoming objects
-	 */
-	public function getIncomingsJoinPerson($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$query = IncomingQuery::create(null, $criteria);
-		$query->joinWith('Person', $join_behavior);
-
-		return $this->getIncomings($query, $con);
 	}
 
 	/**
@@ -1334,12 +1291,13 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 */
 	public function clear()
 	{
-		$this->operationid = null;
-		$this->operationts = null;
-		$this->operationdescription = null;
-		$this->sheetidfk = null;
-		$this->totalinamount = null;
-		$this->totaloutweight = null;
+		$this->sheetid = null;
+		$this->accesskey = null;
+		$this->name = null;
+		$this->currencycode = null;
+		$this->creatoremail = null;
+		$this->creationts = null;
+		$this->lastmodificationts = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();
@@ -1360,21 +1318,20 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
-			if ($this->collOutgoings) {
-				foreach ((array) $this->collOutgoings as $o) {
+			if ($this->collPersons) {
+				foreach ((array) $this->collPersons as $o) {
 					$o->clearAllReferences($deep);
 				}
 			}
-			if ($this->collIncomings) {
-				foreach ((array) $this->collIncomings as $o) {
+			if ($this->collOperations) {
+				foreach ((array) $this->collOperations as $o) {
 					$o->clearAllReferences($deep);
 				}
 			}
 		} // if ($deep)
 
-		$this->collOutgoings = null;
-		$this->collIncomings = null;
-		$this->aSheet = null;
+		$this->collPersons = null;
+		$this->collOperations = null;
 	}
 
 	/**
@@ -1396,4 +1353,4 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 		return parent::__call($name, $params);
 	}
 
-} // BaseOperation
+} // BaseSheet

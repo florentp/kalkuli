@@ -8,13 +8,19 @@
  *
  * @method     PersonQuery orderByPersonid($order = Criteria::ASC) Order by the personId column
  * @method     PersonQuery orderByPersonname($order = Criteria::ASC) Order by the personName column
+ * @method     PersonQuery orderBySheetidfk($order = Criteria::ASC) Order by the sheetIdFK column
  *
  * @method     PersonQuery groupByPersonid() Group by the personId column
  * @method     PersonQuery groupByPersonname() Group by the personName column
+ * @method     PersonQuery groupBySheetidfk() Group by the sheetIdFK column
  *
  * @method     PersonQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     PersonQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     PersonQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method     PersonQuery leftJoinSheet($relationAlias = null) Adds a LEFT JOIN clause to the query using the Sheet relation
+ * @method     PersonQuery rightJoinSheet($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Sheet relation
+ * @method     PersonQuery innerJoinSheet($relationAlias = null) Adds a INNER JOIN clause to the query using the Sheet relation
  *
  * @method     PersonQuery leftJoinOutgoing($relationAlias = null) Adds a LEFT JOIN clause to the query using the Outgoing relation
  * @method     PersonQuery rightJoinOutgoing($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Outgoing relation
@@ -29,9 +35,11 @@
  *
  * @method     Person findOneByPersonid(int $personId) Return the first Person filtered by the personId column
  * @method     Person findOneByPersonname(string $personName) Return the first Person filtered by the personName column
+ * @method     Person findOneBySheetidfk(int $sheetIdFK) Return the first Person filtered by the sheetIdFK column
  *
  * @method     array findByPersonid(int $personId) Return Person objects filtered by the personId column
  * @method     array findByPersonname(string $personName) Return Person objects filtered by the personName column
+ * @method     array findBySheetidfk(int $sheetIdFK) Return Person objects filtered by the sheetIdFK column
  *
  * @package    propel.generator.classes.om
  */
@@ -178,6 +186,101 @@ abstract class BasePersonQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(PersonPeer::PERSONNAME, $personname, $comparison);
+	}
+
+	/**
+	 * Filter the query on the sheetIdFK column
+	 * 
+	 * @param     int|array $sheetidfk The value to use as filter.
+	 *            Accepts an associative array('min' => $minValue, 'max' => $maxValue)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    PersonQuery The current query, for fluid interface
+	 */
+	public function filterBySheetidfk($sheetidfk = null, $comparison = null)
+	{
+		if (is_array($sheetidfk)) {
+			$useMinMax = false;
+			if (isset($sheetidfk['min'])) {
+				$this->addUsingAlias(PersonPeer::SHEETIDFK, $sheetidfk['min'], Criteria::GREATER_EQUAL);
+				$useMinMax = true;
+			}
+			if (isset($sheetidfk['max'])) {
+				$this->addUsingAlias(PersonPeer::SHEETIDFK, $sheetidfk['max'], Criteria::LESS_EQUAL);
+				$useMinMax = true;
+			}
+			if ($useMinMax) {
+				return $this;
+			}
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(PersonPeer::SHEETIDFK, $sheetidfk, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Sheet object
+	 *
+	 * @param     Sheet $sheet  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    PersonQuery The current query, for fluid interface
+	 */
+	public function filterBySheet($sheet, $comparison = null)
+	{
+		return $this
+			->addUsingAlias(PersonPeer::SHEETIDFK, $sheet->getSheetid(), $comparison);
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Sheet relation
+	 * 
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    PersonQuery The current query, for fluid interface
+	 */
+	public function joinSheet($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Sheet');
+		
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+		
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Sheet');
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Use the Sheet relation Sheet object
+	 *
+	 * @see       useQuery()
+	 * 
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    SheetQuery A secondary query class using the current class as primary query
+	 */
+	public function useSheetQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinSheet($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Sheet', 'SheetQuery');
 	}
 
 	/**

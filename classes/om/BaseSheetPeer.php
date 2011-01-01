@@ -2,58 +2,61 @@
 
 
 /**
- * Base static class for performing query and update operations on the 'operation' table.
+ * Base static class for performing query and update operations on the 'sheet' table.
  *
- * List of operations (made of incomings and outgoings)
+ * List of sheets
  *
  * @package    propel.generator.classes.om
  */
-abstract class BaseOperationPeer {
+abstract class BaseSheetPeer {
 
 	/** the default database name for this class */
 	const DATABASE_NAME = 'kalkuli';
 
 	/** the table name for this class */
-	const TABLE_NAME = 'operation';
+	const TABLE_NAME = 'sheet';
 
 	/** the related Propel class for this table */
-	const OM_CLASS = 'Operation';
+	const OM_CLASS = 'Sheet';
 
 	/** A class that can be returned by this peer. */
-	const CLASS_DEFAULT = 'classes.Operation';
+	const CLASS_DEFAULT = 'classes.Sheet';
 
 	/** the related TableMap class for this table */
-	const TM_CLASS = 'OperationTableMap';
+	const TM_CLASS = 'SheetTableMap';
 	
 	/** The total number of columns. */
-	const NUM_COLUMNS = 6;
+	const NUM_COLUMNS = 7;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
-	/** the column name for the OPERATIONID field */
-	const OPERATIONID = 'operation.OPERATIONID';
+	/** the column name for the SHEETID field */
+	const SHEETID = 'sheet.SHEETID';
 
-	/** the column name for the OPERATIONTS field */
-	const OPERATIONTS = 'operation.OPERATIONTS';
+	/** the column name for the ACCESSKEY field */
+	const ACCESSKEY = 'sheet.ACCESSKEY';
 
-	/** the column name for the OPERATIONDESCRIPTION field */
-	const OPERATIONDESCRIPTION = 'operation.OPERATIONDESCRIPTION';
+	/** the column name for the NAME field */
+	const NAME = 'sheet.NAME';
 
-	/** the column name for the SHEETIDFK field */
-	const SHEETIDFK = 'operation.SHEETIDFK';
+	/** the column name for the CURRENCYCODE field */
+	const CURRENCYCODE = 'sheet.CURRENCYCODE';
 
-	/** the column name for the TOTALINAMOUNT field */
-	const TOTALINAMOUNT = 'operation.TOTALINAMOUNT';
+	/** the column name for the CREATOREMAIL field */
+	const CREATOREMAIL = 'sheet.CREATOREMAIL';
 
-	/** the column name for the TOTALOUTWEIGHT field */
-	const TOTALOUTWEIGHT = 'operation.TOTALOUTWEIGHT';
+	/** the column name for the CREATIONTS field */
+	const CREATIONTS = 'sheet.CREATIONTS';
+
+	/** the column name for the LASTMODIFICATIONTS field */
+	const LASTMODIFICATIONTS = 'sheet.LASTMODIFICATIONTS';
 
 	/**
-	 * An identiy map to hold any loaded instances of Operation objects.
+	 * An identiy map to hold any loaded instances of Sheet objects.
 	 * This must be public so that other peer classes can access this when hydrating from JOIN
 	 * queries.
-	 * @var        array Operation[]
+	 * @var        array Sheet[]
 	 */
 	public static $instances = array();
 
@@ -65,12 +68,12 @@ abstract class BaseOperationPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Operationid', 'Operationts', 'Operationdescription', 'Sheetidfk', 'Totalinamount', 'Totaloutweight', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('operationid', 'operationts', 'operationdescription', 'sheetidfk', 'totalinamount', 'totaloutweight', ),
-		BasePeer::TYPE_COLNAME => array (self::OPERATIONID, self::OPERATIONTS, self::OPERATIONDESCRIPTION, self::SHEETIDFK, self::TOTALINAMOUNT, self::TOTALOUTWEIGHT, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('OPERATIONID', 'OPERATIONTS', 'OPERATIONDESCRIPTION', 'SHEETIDFK', 'TOTALINAMOUNT', 'TOTALOUTWEIGHT', ),
-		BasePeer::TYPE_FIELDNAME => array ('operationId', 'operationTS', 'operationDescription', 'sheetIdFK', 'totalInAmount', 'totalOutWeight', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+		BasePeer::TYPE_PHPNAME => array ('Sheetid', 'Accesskey', 'Name', 'Currencycode', 'Creatoremail', 'Creationts', 'Lastmodificationts', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('sheetid', 'accesskey', 'name', 'currencycode', 'creatoremail', 'creationts', 'lastmodificationts', ),
+		BasePeer::TYPE_COLNAME => array (self::SHEETID, self::ACCESSKEY, self::NAME, self::CURRENCYCODE, self::CREATOREMAIL, self::CREATIONTS, self::LASTMODIFICATIONTS, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('SHEETID', 'ACCESSKEY', 'NAME', 'CURRENCYCODE', 'CREATOREMAIL', 'CREATIONTS', 'LASTMODIFICATIONTS', ),
+		BasePeer::TYPE_FIELDNAME => array ('sheetId', 'accessKey', 'name', 'currencyCode', 'creatorEmail', 'creationTS', 'lastModificationTS', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	/**
@@ -80,12 +83,12 @@ abstract class BaseOperationPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Operationid' => 0, 'Operationts' => 1, 'Operationdescription' => 2, 'Sheetidfk' => 3, 'Totalinamount' => 4, 'Totaloutweight' => 5, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('operationid' => 0, 'operationts' => 1, 'operationdescription' => 2, 'sheetidfk' => 3, 'totalinamount' => 4, 'totaloutweight' => 5, ),
-		BasePeer::TYPE_COLNAME => array (self::OPERATIONID => 0, self::OPERATIONTS => 1, self::OPERATIONDESCRIPTION => 2, self::SHEETIDFK => 3, self::TOTALINAMOUNT => 4, self::TOTALOUTWEIGHT => 5, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('OPERATIONID' => 0, 'OPERATIONTS' => 1, 'OPERATIONDESCRIPTION' => 2, 'SHEETIDFK' => 3, 'TOTALINAMOUNT' => 4, 'TOTALOUTWEIGHT' => 5, ),
-		BasePeer::TYPE_FIELDNAME => array ('operationId' => 0, 'operationTS' => 1, 'operationDescription' => 2, 'sheetIdFK' => 3, 'totalInAmount' => 4, 'totalOutWeight' => 5, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+		BasePeer::TYPE_PHPNAME => array ('Sheetid' => 0, 'Accesskey' => 1, 'Name' => 2, 'Currencycode' => 3, 'Creatoremail' => 4, 'Creationts' => 5, 'Lastmodificationts' => 6, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('sheetid' => 0, 'accesskey' => 1, 'name' => 2, 'currencycode' => 3, 'creatoremail' => 4, 'creationts' => 5, 'lastmodificationts' => 6, ),
+		BasePeer::TYPE_COLNAME => array (self::SHEETID => 0, self::ACCESSKEY => 1, self::NAME => 2, self::CURRENCYCODE => 3, self::CREATOREMAIL => 4, self::CREATIONTS => 5, self::LASTMODIFICATIONTS => 6, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('SHEETID' => 0, 'ACCESSKEY' => 1, 'NAME' => 2, 'CURRENCYCODE' => 3, 'CREATOREMAIL' => 4, 'CREATIONTS' => 5, 'LASTMODIFICATIONTS' => 6, ),
+		BasePeer::TYPE_FIELDNAME => array ('sheetId' => 0, 'accessKey' => 1, 'name' => 2, 'currencyCode' => 3, 'creatorEmail' => 4, 'creationTS' => 5, 'lastModificationTS' => 6, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	/**
@@ -134,12 +137,12 @@ abstract class BaseOperationPeer {
 	 *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
 	 * </code>
 	 * @param      string $alias The alias for the current table.
-	 * @param      string $column The column name for current table. (i.e. OperationPeer::COLUMN_NAME).
+	 * @param      string $column The column name for current table. (i.e. SheetPeer::COLUMN_NAME).
 	 * @return     string
 	 */
 	public static function alias($alias, $column)
 	{
-		return str_replace(OperationPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(SheetPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	/**
@@ -157,19 +160,21 @@ abstract class BaseOperationPeer {
 	public static function addSelectColumns(Criteria $criteria, $alias = null)
 	{
 		if (null === $alias) {
-			$criteria->addSelectColumn(OperationPeer::OPERATIONID);
-			$criteria->addSelectColumn(OperationPeer::OPERATIONTS);
-			$criteria->addSelectColumn(OperationPeer::OPERATIONDESCRIPTION);
-			$criteria->addSelectColumn(OperationPeer::SHEETIDFK);
-			$criteria->addSelectColumn(OperationPeer::TOTALINAMOUNT);
-			$criteria->addSelectColumn(OperationPeer::TOTALOUTWEIGHT);
+			$criteria->addSelectColumn(SheetPeer::SHEETID);
+			$criteria->addSelectColumn(SheetPeer::ACCESSKEY);
+			$criteria->addSelectColumn(SheetPeer::NAME);
+			$criteria->addSelectColumn(SheetPeer::CURRENCYCODE);
+			$criteria->addSelectColumn(SheetPeer::CREATOREMAIL);
+			$criteria->addSelectColumn(SheetPeer::CREATIONTS);
+			$criteria->addSelectColumn(SheetPeer::LASTMODIFICATIONTS);
 		} else {
-			$criteria->addSelectColumn($alias . '.OPERATIONID');
-			$criteria->addSelectColumn($alias . '.OPERATIONTS');
-			$criteria->addSelectColumn($alias . '.OPERATIONDESCRIPTION');
-			$criteria->addSelectColumn($alias . '.SHEETIDFK');
-			$criteria->addSelectColumn($alias . '.TOTALINAMOUNT');
-			$criteria->addSelectColumn($alias . '.TOTALOUTWEIGHT');
+			$criteria->addSelectColumn($alias . '.SHEETID');
+			$criteria->addSelectColumn($alias . '.ACCESSKEY');
+			$criteria->addSelectColumn($alias . '.NAME');
+			$criteria->addSelectColumn($alias . '.CURRENCYCODE');
+			$criteria->addSelectColumn($alias . '.CREATOREMAIL');
+			$criteria->addSelectColumn($alias . '.CREATIONTS');
+			$criteria->addSelectColumn($alias . '.LASTMODIFICATIONTS');
 		}
 	}
 
@@ -189,21 +194,21 @@ abstract class BaseOperationPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(OperationPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(SheetPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			OperationPeer::addSelectColumns($criteria);
+			SheetPeer::addSelectColumns($criteria);
 		}
 
 		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
 		$criteria->setDbName(self::DATABASE_NAME); // Set the correct dbName
 
 		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(SheetPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 		// BasePeer returns a PDOStatement
 		$stmt = BasePeer::doCount($criteria, $con);
@@ -221,7 +226,7 @@ abstract class BaseOperationPeer {
 	 *
 	 * @param      Criteria $criteria object used to create the SELECT statement.
 	 * @param      PropelPDO $con
-	 * @return     Operation
+	 * @return     Sheet
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -229,7 +234,7 @@ abstract class BaseOperationPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = OperationPeer::doSelect($critcopy, $con);
+		$objects = SheetPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -246,7 +251,7 @@ abstract class BaseOperationPeer {
 	 */
 	public static function doSelect(Criteria $criteria, PropelPDO $con = null)
 	{
-		return OperationPeer::populateObjects(OperationPeer::doSelectStmt($criteria, $con));
+		return SheetPeer::populateObjects(SheetPeer::doSelectStmt($criteria, $con));
 	}
 	/**
 	 * Prepares the Criteria object and uses the parent doSelect() method to execute a PDOStatement.
@@ -264,12 +269,12 @@ abstract class BaseOperationPeer {
 	public static function doSelectStmt(Criteria $criteria, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(SheetPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		if (!$criteria->hasSelectClause()) {
 			$criteria = clone $criteria;
-			OperationPeer::addSelectColumns($criteria);
+			SheetPeer::addSelectColumns($criteria);
 		}
 
 		// Set the correct dbName
@@ -287,14 +292,14 @@ abstract class BaseOperationPeer {
 	 * to the cache in order to ensure that the same objects are always returned by doSelect*()
 	 * and retrieveByPK*() calls.
 	 *
-	 * @param      Operation $value A Operation object.
+	 * @param      Sheet $value A Sheet object.
 	 * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
 	 */
-	public static function addInstanceToPool(Operation $obj, $key = null)
+	public static function addInstanceToPool(Sheet $obj, $key = null)
 	{
 		if (Propel::isInstancePoolingEnabled()) {
 			if ($key === null) {
-				$key = (string) $obj->getOperationid();
+				$key = (string) $obj->getSheetid();
 			} // if key === null
 			self::$instances[$key] = $obj;
 		}
@@ -308,18 +313,18 @@ abstract class BaseOperationPeer {
 	 * methods in your stub classes -- you may need to explicitly remove objects
 	 * from the cache in order to prevent returning objects that no longer exist.
 	 *
-	 * @param      mixed $value A Operation object or a primary key value.
+	 * @param      mixed $value A Sheet object or a primary key value.
 	 */
 	public static function removeInstanceFromPool($value)
 	{
 		if (Propel::isInstancePoolingEnabled() && $value !== null) {
-			if (is_object($value) && $value instanceof Operation) {
-				$key = (string) $value->getOperationid();
+			if (is_object($value) && $value instanceof Sheet) {
+				$key = (string) $value->getSheetid();
 			} elseif (is_scalar($value)) {
 				// assume we've been passed a primary key
 				$key = (string) $value;
 			} else {
-				$e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Operation object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
+				$e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Sheet object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
 				throw $e;
 			}
 
@@ -334,7 +339,7 @@ abstract class BaseOperationPeer {
 	 * a multi-column primary key, a serialize()d version of the primary key will be returned.
 	 *
 	 * @param      string $key The key (@see getPrimaryKeyHash()) for this instance.
-	 * @return     Operation Found object or NULL if 1) no instance exists for specified key or 2) instance pooling has been disabled.
+	 * @return     Sheet Found object or NULL if 1) no instance exists for specified key or 2) instance pooling has been disabled.
 	 * @see        getPrimaryKeyHash()
 	 */
 	public static function getInstanceFromPool($key)
@@ -358,17 +363,17 @@ abstract class BaseOperationPeer {
 	}
 	
 	/**
-	 * Method to invalidate the instance pool of all tables related to operation
+	 * Method to invalidate the instance pool of all tables related to sheet
 	 * by a foreign key with ON DELETE CASCADE
 	 */
 	public static function clearRelatedInstancePool()
 	{
-		// Invalidate objects in OutgoingPeer instance pool, 
+		// Invalidate objects in PersonPeer instance pool, 
 		// since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-		OutgoingPeer::clearInstancePool();
-		// Invalidate objects in IncomingPeer instance pool, 
+		PersonPeer::clearInstancePool();
+		// Invalidate objects in OperationPeer instance pool, 
 		// since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-		IncomingPeer::clearInstancePool();
+		OperationPeer::clearInstancePool();
 	}
 
 	/**
@@ -416,11 +421,11 @@ abstract class BaseOperationPeer {
 		$results = array();
 	
 		// set the class once to avoid overhead in the loop
-		$cls = OperationPeer::getOMClass(false);
+		$cls = SheetPeer::getOMClass(false);
 		// populate the object(s)
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key = OperationPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj = OperationPeer::getInstanceFromPool($key))) {
+			$key = SheetPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj = SheetPeer::getInstanceFromPool($key))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://www.propelorm.org/ticket/509
 				// $obj->hydrate($row, 0, true); // rehydrate
@@ -429,7 +434,7 @@ abstract class BaseOperationPeer {
 				$obj = new $cls();
 				$obj->hydrate($row);
 				$results[] = $obj;
-				OperationPeer::addInstanceToPool($obj, $key);
+				SheetPeer::addInstanceToPool($obj, $key);
 			} // if key exists
 		}
 		$stmt->closeCursor();
@@ -442,258 +447,24 @@ abstract class BaseOperationPeer {
 	 * @param      int $startcol The 0-based offset for reading from the resultset row.
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
-	 * @return     array (Operation object, last column rank)
+	 * @return     array (Sheet object, last column rank)
 	 */
 	public static function populateObject($row, $startcol = 0)
 	{
-		$key = OperationPeer::getPrimaryKeyHashFromRow($row, $startcol);
-		if (null !== ($obj = OperationPeer::getInstanceFromPool($key))) {
+		$key = SheetPeer::getPrimaryKeyHashFromRow($row, $startcol);
+		if (null !== ($obj = SheetPeer::getInstanceFromPool($key))) {
 			// We no longer rehydrate the object, since this can cause data loss.
 			// See http://www.propelorm.org/ticket/509
 			// $obj->hydrate($row, $startcol, true); // rehydrate
-			$col = $startcol + OperationPeer::NUM_COLUMNS;
+			$col = $startcol + SheetPeer::NUM_COLUMNS;
 		} else {
-			$cls = OperationPeer::OM_CLASS;
+			$cls = SheetPeer::OM_CLASS;
 			$obj = new $cls();
 			$col = $obj->hydrate($row, $startcol);
-			OperationPeer::addInstanceToPool($obj, $key);
+			SheetPeer::addInstanceToPool($obj, $key);
 		}
 		return array($obj, $col);
 	}
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related Sheet table
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinSheet(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(OperationPeer::TABLE_NAME);
-
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			OperationPeer::addSelectColumns($criteria);
-		}
-		
-		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-		
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-
-		$criteria->addJoin(OperationPeer::SHEETIDFK, SheetPeer::SHEETID, $join_behavior);
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-
-	/**
-	 * Selects a collection of Operation objects pre-filled with their Sheet objects.
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of Operation objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinSheet(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		OperationPeer::addSelectColumns($criteria);
-		$startcol = (OperationPeer::NUM_COLUMNS - OperationPeer::NUM_LAZY_LOAD_COLUMNS);
-		SheetPeer::addSelectColumns($criteria);
-
-		$criteria->addJoin(OperationPeer::SHEETIDFK, SheetPeer::SHEETID, $join_behavior);
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = OperationPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = OperationPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://www.propelorm.org/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-
-				$cls = OperationPeer::getOMClass(false);
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				OperationPeer::addInstanceToPool($obj1, $key1);
-			} // if $obj1 already loaded
-
-			$key2 = SheetPeer::getPrimaryKeyHashFromRow($row, $startcol);
-			if ($key2 !== null) {
-				$obj2 = SheetPeer::getInstanceFromPool($key2);
-				if (!$obj2) {
-
-					$cls = SheetPeer::getOMClass(false);
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol);
-					SheetPeer::addInstanceToPool($obj2, $key2);
-				} // if obj2 already loaded
-
-				// Add the $obj1 (Operation) to $obj2 (Sheet)
-				$obj2->addOperation($obj1);
-
-			} // if joined row was not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining all related tables
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(OperationPeer::TABLE_NAME);
-
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			OperationPeer::addSelectColumns($criteria);
-		}
-		
-		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-		
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-
-		$criteria->addJoin(OperationPeer::SHEETIDFK, SheetPeer::SHEETID, $join_behavior);
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-	/**
-	 * Selects a collection of Operation objects pre-filled with all related objects.
-	 *
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of Operation objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		OperationPeer::addSelectColumns($criteria);
-		$startcol2 = (OperationPeer::NUM_COLUMNS - OperationPeer::NUM_LAZY_LOAD_COLUMNS);
-
-		SheetPeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + (SheetPeer::NUM_COLUMNS - SheetPeer::NUM_LAZY_LOAD_COLUMNS);
-
-		$criteria->addJoin(OperationPeer::SHEETIDFK, SheetPeer::SHEETID, $join_behavior);
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = OperationPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = OperationPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://www.propelorm.org/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-				$cls = OperationPeer::getOMClass(false);
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				OperationPeer::addInstanceToPool($obj1, $key1);
-			} // if obj1 already loaded
-
-			// Add objects for joined Sheet rows
-
-			$key2 = SheetPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-			if ($key2 !== null) {
-				$obj2 = SheetPeer::getInstanceFromPool($key2);
-				if (!$obj2) {
-
-					$cls = SheetPeer::getOMClass(false);
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol2);
-					SheetPeer::addInstanceToPool($obj2, $key2);
-				} // if obj2 loaded
-
-				// Add the $obj1 (Operation) to the collection in $obj2 (Sheet)
-				$obj2->addOperation($obj1);
-			} // if joined row not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
-	}
-
 	/**
 	 * Returns the TableMap related to this peer.
 	 * This method is not needed for general use but a specific application could have a need.
@@ -711,10 +482,10 @@ abstract class BaseOperationPeer {
 	 */
 	public static function buildTableMap()
 	{
-	  $dbMap = Propel::getDatabaseMap(BaseOperationPeer::DATABASE_NAME);
-	  if (!$dbMap->hasTable(BaseOperationPeer::TABLE_NAME))
+	  $dbMap = Propel::getDatabaseMap(BaseSheetPeer::DATABASE_NAME);
+	  if (!$dbMap->hasTable(BaseSheetPeer::TABLE_NAME))
 	  {
-	    $dbMap->addTableObject(new OperationTableMap());
+	    $dbMap->addTableObject(new SheetTableMap());
 	  }
 	}
 
@@ -731,13 +502,13 @@ abstract class BaseOperationPeer {
 	 */
 	public static function getOMClass($withPrefix = true)
 	{
-		return $withPrefix ? OperationPeer::CLASS_DEFAULT : OperationPeer::OM_CLASS;
+		return $withPrefix ? SheetPeer::CLASS_DEFAULT : SheetPeer::OM_CLASS;
 	}
 
 	/**
-	 * Method perform an INSERT on the database, given a Operation or Criteria object.
+	 * Method perform an INSERT on the database, given a Sheet or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or Operation object containing data that is used to create the INSERT statement.
+	 * @param      mixed $values Criteria or Sheet object containing data that is used to create the INSERT statement.
 	 * @param      PropelPDO $con the PropelPDO connection to use
 	 * @return     mixed The new primary key.
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -746,17 +517,17 @@ abstract class BaseOperationPeer {
 	public static function doInsert($values, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(SheetPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 		} else {
-			$criteria = $values->buildCriteria(); // build Criteria from Operation object
+			$criteria = $values->buildCriteria(); // build Criteria from Sheet object
 		}
 
-		if ($criteria->containsKey(OperationPeer::OPERATIONID) && $criteria->keyContainsValue(OperationPeer::OPERATIONID) ) {
-			throw new PropelException('Cannot insert a value for auto-increment primary key ('.OperationPeer::OPERATIONID.')');
+		if ($criteria->containsKey(SheetPeer::SHEETID) && $criteria->keyContainsValue(SheetPeer::SHEETID) ) {
+			throw new PropelException('Cannot insert a value for auto-increment primary key ('.SheetPeer::SHEETID.')');
 		}
 
 
@@ -778,9 +549,9 @@ abstract class BaseOperationPeer {
 	}
 
 	/**
-	 * Method perform an UPDATE on the database, given a Operation or Criteria object.
+	 * Method perform an UPDATE on the database, given a Sheet or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or Operation object containing data that is used to create the UPDATE statement.
+	 * @param      mixed $values Criteria or Sheet object containing data that is used to create the UPDATE statement.
 	 * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -789,7 +560,7 @@ abstract class BaseOperationPeer {
 	public static function doUpdate($values, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(SheetPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$selectCriteria = new Criteria(self::DATABASE_NAME);
@@ -797,15 +568,15 @@ abstract class BaseOperationPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 
-			$comparison = $criteria->getComparison(OperationPeer::OPERATIONID);
-			$value = $criteria->remove(OperationPeer::OPERATIONID);
+			$comparison = $criteria->getComparison(SheetPeer::SHEETID);
+			$value = $criteria->remove(SheetPeer::SHEETID);
 			if ($value) {
-				$selectCriteria->add(OperationPeer::OPERATIONID, $value, $comparison);
+				$selectCriteria->add(SheetPeer::SHEETID, $value, $comparison);
 			} else {
-				$selectCriteria->setPrimaryTableName(OperationPeer::TABLE_NAME);
+				$selectCriteria->setPrimaryTableName(SheetPeer::TABLE_NAME);
 			}
 
-		} else { // $values is Operation object
+		} else { // $values is Sheet object
 			$criteria = $values->buildCriteria(); // gets full criteria
 			$selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
 		}
@@ -817,27 +588,27 @@ abstract class BaseOperationPeer {
 	}
 
 	/**
-	 * Method to DELETE all rows from the operation table.
+	 * Method to DELETE all rows from the sheet table.
 	 *
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 */
 	public static function doDeleteAll($con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(SheetPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 		$affectedRows = 0; // initialize var to track total num of affected rows
 		try {
 			// use transaction because $criteria could contain info
 			// for more than one table or we could emulating ON DELETE CASCADE, etc.
 			$con->beginTransaction();
-			$affectedRows += OperationPeer::doOnDeleteCascade(new Criteria(OperationPeer::DATABASE_NAME), $con);
-			$affectedRows += BasePeer::doDeleteAll(OperationPeer::TABLE_NAME, $con, OperationPeer::DATABASE_NAME);
+			$affectedRows += SheetPeer::doOnDeleteCascade(new Criteria(SheetPeer::DATABASE_NAME), $con);
+			$affectedRows += BasePeer::doDeleteAll(SheetPeer::TABLE_NAME, $con, SheetPeer::DATABASE_NAME);
 			// Because this db requires some delete cascade/set null emulation, we have to
 			// clear the cached instance *after* the emulation has happened (since
 			// instances get re-added by the select statement contained therein).
-			OperationPeer::clearInstancePool();
-			OperationPeer::clearRelatedInstancePool();
+			SheetPeer::clearInstancePool();
+			SheetPeer::clearRelatedInstancePool();
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -847,9 +618,9 @@ abstract class BaseOperationPeer {
 	}
 
 	/**
-	 * Method perform a DELETE on the database, given a Operation or Criteria object OR a primary key value.
+	 * Method perform a DELETE on the database, given a Sheet or Criteria object OR a primary key value.
 	 *
-	 * @param      mixed $values Criteria or Operation object or primary key or array of primary keys
+	 * @param      mixed $values Criteria or Sheet object or primary key or array of primary keys
 	 *              which is used to create the DELETE statement
 	 * @param      PropelPDO $con the connection to use
 	 * @return     int 	The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -860,18 +631,18 @@ abstract class BaseOperationPeer {
 	 public static function doDelete($values, PropelPDO $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(SheetPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		if ($values instanceof Criteria) {
 			// rename for clarity
 			$criteria = clone $values;
-		} elseif ($values instanceof Operation) { // it's a model object
+		} elseif ($values instanceof Sheet) { // it's a model object
 			// create criteria based on pk values
 			$criteria = $values->buildPkeyCriteria();
 		} else { // it's a primary key, or an array of pks
 			$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(OperationPeer::OPERATIONID, (array) $values, Criteria::IN);
+			$criteria->add(SheetPeer::SHEETID, (array) $values, Criteria::IN);
 		}
 
 		// Set the correct dbName
@@ -886,23 +657,23 @@ abstract class BaseOperationPeer {
 			
 			// cloning the Criteria in case it's modified by doSelect() or doSelectStmt()
 			$c = clone $criteria;
-			$affectedRows += OperationPeer::doOnDeleteCascade($c, $con);
+			$affectedRows += SheetPeer::doOnDeleteCascade($c, $con);
 			
 			// Because this db requires some delete cascade/set null emulation, we have to
 			// clear the cached instance *after* the emulation has happened (since
 			// instances get re-added by the select statement contained therein).
 			if ($values instanceof Criteria) {
-				OperationPeer::clearInstancePool();
-			} elseif ($values instanceof Operation) { // it's a model object
-				OperationPeer::removeInstanceFromPool($values);
+				SheetPeer::clearInstancePool();
+			} elseif ($values instanceof Sheet) { // it's a model object
+				SheetPeer::removeInstanceFromPool($values);
 			} else { // it's a primary key, or an array of pks
 				foreach ((array) $values as $singleval) {
-					OperationPeer::removeInstanceFromPool($singleval);
+					SheetPeer::removeInstanceFromPool($singleval);
 				}
 			}
 			
 			$affectedRows += BasePeer::doDelete($criteria, $con);
-			OperationPeer::clearRelatedInstancePool();
+			SheetPeer::clearRelatedInstancePool();
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -930,44 +701,44 @@ abstract class BaseOperationPeer {
 		$affectedRows = 0;
 
 		// first find the objects that are implicated by the $criteria
-		$objects = OperationPeer::doSelect($criteria, $con);
+		$objects = SheetPeer::doSelect($criteria, $con);
 		foreach ($objects as $obj) {
 
 
-			// delete related Outgoing objects
-			$criteria = new Criteria(OutgoingPeer::DATABASE_NAME);
+			// delete related Person objects
+			$criteria = new Criteria(PersonPeer::DATABASE_NAME);
 			
-			$criteria->add(OutgoingPeer::OPERATIONIDFK, $obj->getOperationid());
-			$affectedRows += OutgoingPeer::doDelete($criteria, $con);
+			$criteria->add(PersonPeer::SHEETIDFK, $obj->getSheetid());
+			$affectedRows += PersonPeer::doDelete($criteria, $con);
 
-			// delete related Incoming objects
-			$criteria = new Criteria(IncomingPeer::DATABASE_NAME);
+			// delete related Operation objects
+			$criteria = new Criteria(OperationPeer::DATABASE_NAME);
 			
-			$criteria->add(IncomingPeer::OPERATIONIDFK, $obj->getOperationid());
-			$affectedRows += IncomingPeer::doDelete($criteria, $con);
+			$criteria->add(OperationPeer::SHEETIDFK, $obj->getSheetid());
+			$affectedRows += OperationPeer::doDelete($criteria, $con);
 		}
 		return $affectedRows;
 	}
 
 	/**
-	 * Validates all modified columns of given Operation object.
+	 * Validates all modified columns of given Sheet object.
 	 * If parameter $columns is either a single column name or an array of column names
 	 * than only those columns are validated.
 	 *
 	 * NOTICE: This does not apply to primary or foreign keys for now.
 	 *
-	 * @param      Operation $obj The object to validate.
+	 * @param      Sheet $obj The object to validate.
 	 * @param      mixed $cols Column name or array of column names.
 	 *
 	 * @return     mixed TRUE if all columns are valid or the error message of the first invalid column.
 	 */
-	public static function doValidate(Operation $obj, $cols = null)
+	public static function doValidate(Sheet $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(OperationPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(OperationPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(SheetPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(SheetPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -983,7 +754,7 @@ abstract class BaseOperationPeer {
 
 		}
 
-		return BasePeer::doValidate(OperationPeer::DATABASE_NAME, OperationPeer::TABLE_NAME, $columns);
+		return BasePeer::doValidate(SheetPeer::DATABASE_NAME, SheetPeer::TABLE_NAME, $columns);
 	}
 
 	/**
@@ -991,23 +762,23 @@ abstract class BaseOperationPeer {
 	 *
 	 * @param      int $pk the primary key.
 	 * @param      PropelPDO $con the connection to use
-	 * @return     Operation
+	 * @return     Sheet
 	 */
 	public static function retrieveByPK($pk, PropelPDO $con = null)
 	{
 
-		if (null !== ($obj = OperationPeer::getInstanceFromPool((string) $pk))) {
+		if (null !== ($obj = SheetPeer::getInstanceFromPool((string) $pk))) {
 			return $obj;
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(SheetPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria = new Criteria(OperationPeer::DATABASE_NAME);
-		$criteria->add(OperationPeer::OPERATIONID, $pk);
+		$criteria = new Criteria(SheetPeer::DATABASE_NAME);
+		$criteria->add(SheetPeer::SHEETID, $pk);
 
-		$v = OperationPeer::doSelect($criteria, $con);
+		$v = SheetPeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -1023,23 +794,23 @@ abstract class BaseOperationPeer {
 	public static function retrieveByPKs($pks, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(OperationPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(SheetPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		$objs = null;
 		if (empty($pks)) {
 			$objs = array();
 		} else {
-			$criteria = new Criteria(OperationPeer::DATABASE_NAME);
-			$criteria->add(OperationPeer::OPERATIONID, $pks, Criteria::IN);
-			$objs = OperationPeer::doSelect($criteria, $con);
+			$criteria = new Criteria(SheetPeer::DATABASE_NAME);
+			$criteria->add(SheetPeer::SHEETID, $pks, Criteria::IN);
+			$objs = SheetPeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
 
-} // BaseOperationPeer
+} // BaseSheetPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-BaseOperationPeer::buildTableMap();
+BaseSheetPeer::buildTableMap();
 

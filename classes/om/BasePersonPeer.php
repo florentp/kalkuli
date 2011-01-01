@@ -26,7 +26,7 @@ abstract class BasePersonPeer {
 	const TM_CLASS = 'PersonTableMap';
 	
 	/** The total number of columns. */
-	const NUM_COLUMNS = 2;
+	const NUM_COLUMNS = 3;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -36,6 +36,9 @@ abstract class BasePersonPeer {
 
 	/** the column name for the PERSONNAME field */
 	const PERSONNAME = 'person.PERSONNAME';
+
+	/** the column name for the SHEETIDFK field */
+	const SHEETIDFK = 'person.SHEETIDFK';
 
 	/**
 	 * An identiy map to hold any loaded instances of Person objects.
@@ -53,12 +56,12 @@ abstract class BasePersonPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Personid', 'Personname', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('personid', 'personname', ),
-		BasePeer::TYPE_COLNAME => array (self::PERSONID, self::PERSONNAME, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('PERSONID', 'PERSONNAME', ),
-		BasePeer::TYPE_FIELDNAME => array ('personId', 'personName', ),
-		BasePeer::TYPE_NUM => array (0, 1, )
+		BasePeer::TYPE_PHPNAME => array ('Personid', 'Personname', 'Sheetidfk', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('personid', 'personname', 'sheetidfk', ),
+		BasePeer::TYPE_COLNAME => array (self::PERSONID, self::PERSONNAME, self::SHEETIDFK, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('PERSONID', 'PERSONNAME', 'SHEETIDFK', ),
+		BasePeer::TYPE_FIELDNAME => array ('personId', 'personName', 'sheetIdFK', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	/**
@@ -68,12 +71,12 @@ abstract class BasePersonPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Personid' => 0, 'Personname' => 1, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('personid' => 0, 'personname' => 1, ),
-		BasePeer::TYPE_COLNAME => array (self::PERSONID => 0, self::PERSONNAME => 1, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('PERSONID' => 0, 'PERSONNAME' => 1, ),
-		BasePeer::TYPE_FIELDNAME => array ('personId' => 0, 'personName' => 1, ),
-		BasePeer::TYPE_NUM => array (0, 1, )
+		BasePeer::TYPE_PHPNAME => array ('Personid' => 0, 'Personname' => 1, 'Sheetidfk' => 2, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('personid' => 0, 'personname' => 1, 'sheetidfk' => 2, ),
+		BasePeer::TYPE_COLNAME => array (self::PERSONID => 0, self::PERSONNAME => 1, self::SHEETIDFK => 2, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('PERSONID' => 0, 'PERSONNAME' => 1, 'SHEETIDFK' => 2, ),
+		BasePeer::TYPE_FIELDNAME => array ('personId' => 0, 'personName' => 1, 'sheetIdFK' => 2, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	/**
@@ -147,9 +150,11 @@ abstract class BasePersonPeer {
 		if (null === $alias) {
 			$criteria->addSelectColumn(PersonPeer::PERSONID);
 			$criteria->addSelectColumn(PersonPeer::PERSONNAME);
+			$criteria->addSelectColumn(PersonPeer::SHEETIDFK);
 		} else {
 			$criteria->addSelectColumn($alias . '.PERSONID');
 			$criteria->addSelectColumn($alias . '.PERSONNAME');
+			$criteria->addSelectColumn($alias . '.SHEETIDFK');
 		}
 	}
 
@@ -440,6 +445,240 @@ abstract class BasePersonPeer {
 		}
 		return array($obj, $col);
 	}
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related Sheet table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinSheet(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(PersonPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			PersonPeer::addSelectColumns($criteria);
+		}
+		
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+		
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(PersonPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(PersonPeer::SHEETIDFK, SheetPeer::SHEETID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Selects a collection of Person objects pre-filled with their Sheet objects.
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Person objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinSheet(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		PersonPeer::addSelectColumns($criteria);
+		$startcol = (PersonPeer::NUM_COLUMNS - PersonPeer::NUM_LAZY_LOAD_COLUMNS);
+		SheetPeer::addSelectColumns($criteria);
+
+		$criteria->addJoin(PersonPeer::SHEETIDFK, SheetPeer::SHEETID, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = PersonPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = PersonPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+
+				$cls = PersonPeer::getOMClass(false);
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				PersonPeer::addInstanceToPool($obj1, $key1);
+			} // if $obj1 already loaded
+
+			$key2 = SheetPeer::getPrimaryKeyHashFromRow($row, $startcol);
+			if ($key2 !== null) {
+				$obj2 = SheetPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = SheetPeer::getOMClass(false);
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol);
+					SheetPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 already loaded
+
+				// Add the $obj1 (Person) to $obj2 (Sheet)
+				$obj2->addPerson($obj1);
+
+			} // if joined row was not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining all related tables
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(PersonPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			PersonPeer::addSelectColumns($criteria);
+		}
+		
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+		
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(PersonPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(PersonPeer::SHEETIDFK, SheetPeer::SHEETID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+	/**
+	 * Selects a collection of Person objects pre-filled with all related objects.
+	 *
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Person objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		PersonPeer::addSelectColumns($criteria);
+		$startcol2 = (PersonPeer::NUM_COLUMNS - PersonPeer::NUM_LAZY_LOAD_COLUMNS);
+
+		SheetPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + (SheetPeer::NUM_COLUMNS - SheetPeer::NUM_LAZY_LOAD_COLUMNS);
+
+		$criteria->addJoin(PersonPeer::SHEETIDFK, SheetPeer::SHEETID, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = PersonPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = PersonPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+				$cls = PersonPeer::getOMClass(false);
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				PersonPeer::addInstanceToPool($obj1, $key1);
+			} // if obj1 already loaded
+
+			// Add objects for joined Sheet rows
+
+			$key2 = SheetPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+			if ($key2 !== null) {
+				$obj2 = SheetPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = SheetPeer::getOMClass(false);
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol2);
+					SheetPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 loaded
+
+				// Add the $obj1 (Person) to the collection in $obj2 (Sheet)
+				$obj2->addPerson($obj1);
+			} // if joined row not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
 	/**
 	 * Returns the TableMap related to this peer.
 	 * This method is not needed for general use but a specific application could have a need.

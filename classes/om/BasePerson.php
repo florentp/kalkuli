@@ -37,6 +37,17 @@ abstract class BasePerson extends BaseObject  implements Persistent
 	protected $personname;
 
 	/**
+	 * The value for the sheetidfk field.
+	 * @var        int
+	 */
+	protected $sheetidfk;
+
+	/**
+	 * @var        Sheet
+	 */
+	protected $aSheet;
+
+	/**
 	 * @var        array Outgoing[] Collection to store aggregation of Outgoing objects.
 	 */
 	protected $collOutgoings;
@@ -81,6 +92,16 @@ abstract class BasePerson extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Get the [sheetidfk] column value.
+	 * Sheet foreign key
+	 * @return     int
+	 */
+	public function getSheetidfk()
+	{
+		return $this->sheetidfk;
+	}
+
+	/**
 	 * Set the value of [personid] column.
 	 * Person ID
 	 * @param      int $v new value
@@ -121,6 +142,30 @@ abstract class BasePerson extends BaseObject  implements Persistent
 	} // setPersonname()
 
 	/**
+	 * Set the value of [sheetidfk] column.
+	 * Sheet foreign key
+	 * @param      int $v new value
+	 * @return     Person The current object (for fluent API support)
+	 */
+	public function setSheetidfk($v)
+	{
+		if ($v !== null) {
+			$v = (int) $v;
+		}
+
+		if ($this->sheetidfk !== $v) {
+			$this->sheetidfk = $v;
+			$this->modifiedColumns[] = PersonPeer::SHEETIDFK;
+		}
+
+		if ($this->aSheet !== null && $this->aSheet->getSheetid() !== $v) {
+			$this->aSheet = null;
+		}
+
+		return $this;
+	} // setSheetidfk()
+
+	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -154,6 +199,7 @@ abstract class BasePerson extends BaseObject  implements Persistent
 
 			$this->personid = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->personname = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+			$this->sheetidfk = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -162,7 +208,7 @@ abstract class BasePerson extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 2; // 2 = PersonPeer::NUM_COLUMNS - PersonPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 3; // 3 = PersonPeer::NUM_COLUMNS - PersonPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Person object", $e);
@@ -185,6 +231,9 @@ abstract class BasePerson extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
+		if ($this->aSheet !== null && $this->sheetidfk !== $this->aSheet->getSheetid()) {
+			$this->aSheet = null;
+		}
 	} // ensureConsistency
 
 	/**
@@ -224,6 +273,7 @@ abstract class BasePerson extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
+			$this->aSheet = null;
 			$this->collOutgoings = null;
 
 			$this->collIncomings = null;
@@ -338,6 +388,18 @@ abstract class BasePerson extends BaseObject  implements Persistent
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aSheet !== null) {
+				if ($this->aSheet->isModified() || $this->aSheet->isNew()) {
+					$affectedRows += $this->aSheet->save($con);
+				}
+				$this->setSheet($this->aSheet);
+			}
+
 			if ($this->isNew() ) {
 				$this->modifiedColumns[] = PersonPeer::PERSONID;
 			}
@@ -351,11 +413,11 @@ abstract class BasePerson extends BaseObject  implements Persistent
 					}
 
 					$pk = BasePeer::doInsert($criteria, $con);
-					$affectedRows = 1;
+					$affectedRows += 1;
 					$this->setPersonid($pk);  //[IMV] update autoincrement primary key
 					$this->setNew(false);
 				} else {
-					$affectedRows = PersonPeer::doUpdate($this, $con);
+					$affectedRows += PersonPeer::doUpdate($this, $con);
 				}
 
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
@@ -443,6 +505,18 @@ abstract class BasePerson extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aSheet !== null) {
+				if (!$this->aSheet->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aSheet->getValidationFailures());
+				}
+			}
+
+
 			if (($retval = PersonPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
@@ -503,6 +577,9 @@ abstract class BasePerson extends BaseObject  implements Persistent
 			case 1:
 				return $this->getPersonname();
 				break;
+			case 2:
+				return $this->getSheetidfk();
+				break;
 			default:
 				return null;
 				break;
@@ -519,16 +596,23 @@ abstract class BasePerson extends BaseObject  implements Persistent
 	 *                    BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM. 
 	 *                    Defaults to BasePeer::TYPE_PHPNAME.
 	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
+	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
 	 *
 	 * @return    array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true)
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $includeForeignObjects = false)
 	{
 		$keys = PersonPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getPersonid(),
 			$keys[1] => $this->getPersonname(),
+			$keys[2] => $this->getSheetidfk(),
 		);
+		if ($includeForeignObjects) {
+			if (null !== $this->aSheet) {
+				$result['Sheet'] = $this->aSheet->toArray($keyType, $includeLazyLoadColumns, true);
+			}
+		}
 		return $result;
 	}
 
@@ -565,6 +649,9 @@ abstract class BasePerson extends BaseObject  implements Persistent
 			case 1:
 				$this->setPersonname($value);
 				break;
+			case 2:
+				$this->setSheetidfk($value);
+				break;
 		} // switch()
 	}
 
@@ -591,6 +678,7 @@ abstract class BasePerson extends BaseObject  implements Persistent
 
 		if (array_key_exists($keys[0], $arr)) $this->setPersonid($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setPersonname($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setSheetidfk($arr[$keys[2]]);
 	}
 
 	/**
@@ -604,6 +692,7 @@ abstract class BasePerson extends BaseObject  implements Persistent
 
 		if ($this->isColumnModified(PersonPeer::PERSONID)) $criteria->add(PersonPeer::PERSONID, $this->personid);
 		if ($this->isColumnModified(PersonPeer::PERSONNAME)) $criteria->add(PersonPeer::PERSONNAME, $this->personname);
+		if ($this->isColumnModified(PersonPeer::SHEETIDFK)) $criteria->add(PersonPeer::SHEETIDFK, $this->sheetidfk);
 
 		return $criteria;
 	}
@@ -666,6 +755,7 @@ abstract class BasePerson extends BaseObject  implements Persistent
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 		$copyObj->setPersonname($this->personname);
+		$copyObj->setSheetidfk($this->sheetidfk);
 
 		if ($deepCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -727,6 +817,55 @@ abstract class BasePerson extends BaseObject  implements Persistent
 			self::$peer = new PersonPeer();
 		}
 		return self::$peer;
+	}
+
+	/**
+	 * Declares an association between this object and a Sheet object.
+	 *
+	 * @param      Sheet $v
+	 * @return     Person The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setSheet(Sheet $v = null)
+	{
+		if ($v === null) {
+			$this->setSheetidfk(NULL);
+		} else {
+			$this->setSheetidfk($v->getSheetid());
+		}
+
+		$this->aSheet = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Sheet object, it will not be re-added.
+		if ($v !== null) {
+			$v->addPerson($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Sheet object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Sheet The associated Sheet object.
+	 * @throws     PropelException
+	 */
+	public function getSheet(PropelPDO $con = null)
+	{
+		if ($this->aSheet === null && ($this->sheetidfk !== null)) {
+			$this->aSheet = SheetQuery::create()->findPk($this->sheetidfk, $con);
+			/* The following can be used additionally to
+			   guarantee the related object contains a reference
+			   to this object.  This level of coupling may, however, be
+			   undesirable since it could result in an only partially populated collection
+			   in the referenced object.
+			   $this->aSheet->addPersons($this);
+			 */
+		}
+		return $this->aSheet;
 	}
 
 	/**
@@ -1004,6 +1143,7 @@ abstract class BasePerson extends BaseObject  implements Persistent
 	{
 		$this->personid = null;
 		$this->personname = null;
+		$this->sheetidfk = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();
@@ -1038,6 +1178,7 @@ abstract class BasePerson extends BaseObject  implements Persistent
 
 		$this->collOutgoings = null;
 		$this->collIncomings = null;
+		$this->aSheet = null;
 	}
 
 	/**
