@@ -15,17 +15,4 @@
  */
 class PersonQuery extends BasePersonQuery {
 
-	public static function formOptionsArray () {
-		
-		$peopleList = self::create()
-			->orderByPersonname()
-			->find();
-
-		$peopleOptions = array();
-		foreach($peopleList as $person)
-			$peopleOptions[$person->getPersonId()] = $person->getPersonName();
-		
-		return $peopleOptions;
-	}
-
 } // PersonQuery
