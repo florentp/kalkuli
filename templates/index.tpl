@@ -15,7 +15,7 @@
 			<tr class="alternate">
 		{/if}
         <td>
-          <a href="person-details.php?personId={$person->getPersonId()}">{$person->getPersonName()|escape}</a>
+          <a href="{$CONTEXT_PATH}/person/{$person->getPersonId()}">{$person->getPersonName()|escape}</a>
         </td>
         <td class="amount">
           {$person->getBalance()|formatMoney}

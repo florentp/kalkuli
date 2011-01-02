@@ -5,7 +5,7 @@
 	date_default_timezone_set('Europe/Paris');
 	
 	if (!file_exists(DATABASE_PATH)) {
-		header('Location: install.php');
+		header(sprintf('Location: %s/install', CONTEXT_PATH));
 		die();
 	}
 	require_once('propel/Propel.php');
@@ -24,7 +24,7 @@
 	$smarty->register_function('round', 'smarty_round');
 	
 	$smarty->assign('CURRENCY', CURRENCY);
-	$smarty->assign('PHP_SELF', $_SERVER['PHP_SELF']);
+	$smarty->assign('CONTEXT_PATH', CONTEXT_PATH);
 
 	function smarty_round($params, &$smarty) {
 		return round($params['value']);

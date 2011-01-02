@@ -6,7 +6,7 @@
 		->orderByPersonname()
 		->find();
 	if (count($peopleList) == 0)
-		header('Location: index.php');
+		header('Location: ' . CONTEXT_PATH);
 
 	if (isset($_REQUEST['addOperationButton'])) {
 
@@ -101,13 +101,12 @@
 			$dbConnection->rollback();
 		}
 		
-		header('Location: operation-details.php?operationId=' . $operation->getOperationId());
+		header(sprintf('Location: %s/operation/%s', CONTEXT_PATH, $operation->getOperationId()));
 	}
 	
 	$smarty->assign('templateName',	'operation-add');
 	$smarty->assign('peopleList', $peopleList);
 	$smarty->assign('nPeople', count($peopleList));
-	$smarty->assign('CURRENCY', CURRENCY);
 
 	if (Kalkuli::isMobileBrowser())
 		$smarty->display('mobile/layout.tpl');

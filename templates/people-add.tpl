@@ -2,7 +2,7 @@
 <div class="ui-main-widget">
 	<div class="ui-main-widget-header">Ajouter des participants</div>
 
-	<form action="{$PHP_SELF}" id="addPeopleForm" name="addPeopleForm" method="post">
+	<form action="{$CONTEXT_PATH}/person/add" id="addPeopleForm" name="addPeopleForm" method="post">
 		<table class="tableForm">
 			{section start=0 loop=5 name="peopleList"}
 				<tr>
@@ -23,13 +23,13 @@
 	</form>
 </div>
 
+<script src="{$CONTEXT_PATH}/js/people-add.js" type="text/javascript"></script>
 {literal}
-<script src="js/people-add.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
 
 		$('#cancelButton').click(function() {
-			window.location.href = 'index.php';
+			$.doGet(CONTEXT_PATH);
 		});
 
 		$('#addPeopleForm').validate({

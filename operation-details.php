@@ -46,7 +46,7 @@
 				$incoming->setOperationIdFk($operationId);
 				$incoming->setPersonIdFk($contributorId);
 				$incoming->save();
-				header("Location: $_SERVER[PHP_SELF]?operationId=" . $operationId);
+				header(sprintf("Location: %s/operation/%s", CONTEXT_PATH, $operationId));
 				break;
 
 			case 'addOutgoing':
@@ -72,7 +72,7 @@
 				$incoming->setOperationIdFk($operationId);
 				$incoming->setPersonIdFk($participantId);
 				$incoming->save();
-				header("Location: $_SERVER[PHP_SELF]?operationId=" . $operationId);
+				header(sprintf("Location: %s/operation/%s", CONTEXT_PATH, $operationId));
 				break;
 
 			case 'deleteIncoming':
@@ -87,7 +87,7 @@
 				}
 
 				$incoming->delete();
-				header("Location: $_SERVER[PHP_SELF]?operationId=" . $operationId);
+				header(sprintf("Location: %s/operation/%s", CONTEXT_PATH, $operationId));
 				break;
 
 			case 'deleteOutgoing':
@@ -102,7 +102,7 @@
 				}
 
 				$outgoing->delete();
-				header("Location: $_SERVER[PHP_SELF]?operationId=" . $operationId);
+				header(sprintf("Location: %s/operation/%s", CONTEXT_PATH, $operationId));
 				break;
 		}
 	}
@@ -125,7 +125,7 @@
 		->orderByPersonname()
 		->find();
 	
-	$smarty->assign('templateName',	'operation-details');
+	$smarty->assign('templateName', 'operation-details');
 	$smarty->assign_by_ref('operation',	$operation);
 	$smarty->assign_by_ref('incomingsList',	$incomingsList);
 	$smarty->assign_by_ref('outgoingsList',	$outgoingsList);

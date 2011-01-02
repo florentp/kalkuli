@@ -7,7 +7,7 @@
 					{$person->getBalance()|formatMoney}
 				</div>
 				<div class="ui-mobile-widget-item-label">
-					<a href="person-details.php?personId={$person->getPersonId()}">{$person->getPersonName()}</a>
+					<a href="{$CONTEXT_PATH}/person/{$person->getPersonId()}">{$person->getPersonName()}</a>
 				</div>
 			</div>
 		</div>
