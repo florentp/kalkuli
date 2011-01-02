@@ -14,8 +14,12 @@ h2 {
 	text-align: center;
 }
 
+select {
+	padding: 2px;
+}
+
 table {
-	border:				0;
+	border: 0;
 }
 
 table.dataGrid {
@@ -87,6 +91,22 @@ span.alternate {
 	text-align: center;
 }
 
+input.sheetName {
+	width: 15em;
+}
+
+input.creatorEmail {
+	width: 15em;
+}
+
+input.retrieveEmail {
+	width: 15em;
+}
+
+select.currencyCode {
+	width: 15em;
+}
+
 input.name {
 	width: 15em;
 }
@@ -126,12 +146,6 @@ input.weight {
 	padding: .2em .5em;
 }
 
-.ui-main-widget-header {
-	line-height: 1.8em;
-	margin-bottom: .2em;
-	padding: .2em .5em;
-}
-
 .ui-main-widget-separator {
 	background: url('../css/jquery-ui/blitzer-custom/images/ui-bg_highlight-soft_75_cccccc_1x100.png') repeat-x scroll 50% 50% #cccccc;
 	border: 1px solid #d8dcdf;
@@ -142,8 +156,18 @@ input.weight {
 	padding: .2em .5em;
 }
 
-.ui-main-widget-content {
+.ui-main-widget-section {
 	margin-bottom: 1em;
+}
+
+.ui-main-widget-content {
+	font-weight: bold;
+	margin: 1em;
+}
+
+.ui-main-widget-buttons {
+	margin: 1em;
+	text-align: center;
 }
 
 .formValidationMessage {

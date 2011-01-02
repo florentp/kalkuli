@@ -11,12 +11,12 @@
 					<div class="ui-mobile-widget-item-field">
 						{assign var="personTotalInAmount" value=$operation->getPersontotalinamount()}
 						{if isset($personTotalInAmount)}
-							<div>{$personTotalInAmount|formatMoney}</div>
+							<div>{$personTotalInAmount|formatAmount:$sheet->getCurrencyCode()}</div>
 						{/if}
 						
 						{assign var="personTotalOutAmount" value=$operation->getPersontotaloutamount()}
 						{if isset($personTotalOutAmount)}
-							<div>{$personTotalOutAmount|formatMoney}</div>
+							<div>{$personTotalOutAmount|formatAmount:$sheet->getCurrencyCode()}</div>
 						{/if}
 					</div>
 					<div class="ui-mobile-widget-item-label">

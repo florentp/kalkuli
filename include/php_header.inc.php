@@ -17,13 +17,13 @@
 	
 	$smarty = new Smarty();
 	
-	$smarty->register_modifier('formatMoney', array('Kalkuli', 'formatMoney'));
+	$smarty->register_modifier('formatAmount', array('Kalkuli', 'formatAmount'));
+	$smarty->register_modifier('formatSymbol', array('CurrencyType', 'getSymbol'));
 	$smarty->unregister_modifier('money');
 	$smarty->register_modifier('formatDate', array('Kalkuli', 'formatDate'));
 
 	$smarty->register_function('round', 'smarty_round');
 	
-	$smarty->assign('CURRENCY', CURRENCY);
 	$smarty->assign('CONTEXT_PATH', CONTEXT_PATH);
 
 	function smarty_round($params, &$smarty) {

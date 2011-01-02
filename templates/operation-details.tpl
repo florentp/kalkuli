@@ -1,8 +1,8 @@
-{include file="menu.tpl"}
+{include file="menu-sheet.tpl"}
 <div class="ui-main-widget">
 	<div class="ui-main-widget-header">Opération <span class="alternate">{$operation->getOperationDescription()|escape}</span></div>
 	<div class="ui-main-widget-separator">Contributions</div>
-	<div class="ui-main-widget-content">
+	<div class="ui-main-widget-section">
 		<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/{$operation->getOperationId()}" id="addIncomingForm" method="post">
 			<input name="action" type="hidden" value="addIncoming" />
 			<table cellpadding="0"cellspacing="0" class="dataGrid">
@@ -20,7 +20,7 @@
 							<td>
 								<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$incoming->getPersonId()}">{$incoming->getPersonName()|escape}</a>
 							</td>
-							<td class="amount">{$incoming->getInAmount()|formatMoney}</td>
+							<td class="amount">{$incoming->getInAmount()|formatAmount:$sheet->getCurrencyCode()}</td>
 							<td>
 								<button class="ui-button" onclick="confirmIncomingDelete('{$incoming->getPersonName()|escape:'javascript'|escape}', '{$incoming->getInId()}')" type="button"><span class="ui-icon ui-icon-close"></span></button>
 							</td>
@@ -38,7 +38,7 @@
 									<option value="{$person->getPersonId()}">{$person->getPersonName()|escape}</option>
 								{/foreach}
 							</select>
-							<input class="amount" id="amount" maxlength="10" name="amount" type="text" />&nbsp;{$CURRENCY}
+							<input class="amount" id="amount" maxlength="10" name="amount" type="text" />&nbsp;{$sheet->getCurrencyCode()|formatSymbol}
 						</div>
 						<div class="formValidationMessage" id="amountFormValidationMessage" style="float: right;"></div>
 					</td>
@@ -51,7 +51,7 @@
 	</div>
 
 	<div class="ui-main-widget-separator">Participations</div>
-	<div class="ui-main-widget-content">
+	<div class="ui-main-widget-section">
 		<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/{$operation->getOperationId()}" id="addOutgoingForm" method="post">
 			<input name="action" type="hidden" value="addOutgoing" />
 			<table cellpadding="0"cellspacing="0" class="dataGrid">
@@ -71,7 +71,7 @@
 							</td>
 							<td class="weight">
 								
-								<div>{$outgoing->computeWeightedPart()|formatMoney}</div>
+								<div>{$outgoing->computeWeightedPart()|formatAmount:$sheet->getCurrencyCode()}</div>
 								<div style="font-size: 0.8em;">{$outgoing->getOutWeight()} part(s) sur {$outgoing->getOperationTotalOutWeight()}</div>
 							</td>
 							<td>
@@ -134,6 +134,7 @@
 				label.appendTo($('#' + element[0].id + 'FormValidationMessage'));
 			}
 		});
+
 		$('#addOutgoingForm').validate({
 			errorPlacement : function (label, element) {
 				label.appendTo($('#' + element[0].id + 'FormValidationMessage'));

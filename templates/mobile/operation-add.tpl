@@ -19,7 +19,7 @@
 		<div class="ui-mobile-widget-item">
 			<div class="ui-helper-clearfix">
 				<div class="ui-mobile-widget-item-field">
-					<input class="amount" id="amount" maxlength="10" name="amount" type="text" />&nbsp;{$CURRENCY}
+					<input class="amount" id="amount" maxlength="10" name="amount" type="text" />&nbsp;{$sheet->getCurrencyCode()|formatSymbol}
 				</div>
 				<div class="ui-mobile-widget-item-label">Montant</div>
 			</div>

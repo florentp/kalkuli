@@ -4,7 +4,7 @@
 		<div class="ui-mobile-widget-item">
 			<div class="ui-helper-clearfix">
 				<div class="ui-mobile-widget-item-field">
-					{$person->getBalance()|formatMoney}
+					{$person->getBalance()|formatAmount:$sheet->getCurrencyCode()}
 				</div>
 				<div class="ui-mobile-widget-item-label">
 					<a href="person-details.php?personId={$person->getPersonId()}">{$person->getPersonName()}</a>

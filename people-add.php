@@ -39,6 +39,10 @@
 				$person->setSheet($sheet);
 				$person->save();
 			}
+
+			$sheet->setLastModificationTS(new DateTime());
+			$sheet->save();
+
 			$dbConnection->commit();
 		}
 		catch (Exception $e) {

@@ -11,7 +11,7 @@
 							<button class="ui-button" onclick="confirmIncomingDelete('{$incoming->getPersonName()|escape:'javascript'|escape}', '{$incoming->getInId()}')" type="button"><span class="ui-icon ui-icon-close"></span></button>
 						</div>
 						<div class="ui-mobile-widget-item-field">
-							<div>{$incoming->getInAmount()|formatMoney}</div>
+							<div>{$incoming->getInAmount()|formatAmount:$sheet->getCurrencyCode()}</div>
 						</div>
 						<div class="ui-mobile-widget-item-label">
 							<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$incoming->getPersonId()}">{$incoming->getPersonName()|escape}</a>
@@ -34,7 +34,7 @@
 								<option value="{$person->getPersonId()}">{$person->getPersonName()|escape}</option>
 							{/foreach}
 						</select>
-						<input class="amount" id="amount" maxlength="10" name="amount" type="text" />&nbsp;{$CURRENCY}
+						<input class="amount" id="amount" maxlength="10" name="amount" type="text" />&nbsp;{$sheet->getCurrencyCode()|formatSymbol}
 					</div>
 				</div>
 				<div class="ui-mobile-widget-item-description">
@@ -55,7 +55,7 @@
 							<button class="ui-button" onclick="confirmOutgoingDelete('{$outgoing->getPersonName()|escape:'javascript'|escape}', '{$outgoing->getOutId()}')" type="button"><span class="ui-icon ui-icon-close"></span></button>
 						</div>
 						<div class="ui-mobile-widget-item-field">
-							<div>{$outgoing->computeWeightedPart()|formatMoney}</div>
+							<div>{$outgoing->computeWeightedPart()|formatAmount:$sheet->getCurrencyCode()}</div>
 							<div style="font-size: 0.8em;">{$outgoing->getOutWeight()} part(s) sur {$outgoing->getOperationTotalOutWeight()}</div>
 						</div>
 						<div class="ui-mobile-widget-item-label">

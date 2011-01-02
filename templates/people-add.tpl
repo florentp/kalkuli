@@ -1,4 +1,4 @@
-{include file="menu.tpl"}
+{include file="menu-sheet.tpl"}
 <div class="ui-main-widget">
 	<div class="ui-main-widget-header">Ajouter des participants</div>
 

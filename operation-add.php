@@ -105,6 +105,10 @@
 				$outgoing->setPersonIdFk($consumerId);
 				$outgoing->save();
 			}
+
+			$sheet->setLastModificationTS(new DateTime());
+			$sheet->save();
+
 			$dbConnection->commit();
 
 		}

@@ -3,7 +3,7 @@
 	require_once('include/config.inc.php');
 
 	if (file_exists(DATABASE_PATH))
-		header('Location: ' . CONTEXT_PATH);
+		header(sprintf('Location: %s/', CONTEXT_PATH));
 		
 	$installationOk = true;
 	

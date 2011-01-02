@@ -1,22 +1,19 @@
 <?php
 
 	require_once('include/config.inc.php');
+	require_once('classes/CurrencyType.php');
 
 	class Kalkuli {
 		
-		public static function formatMoney($value) {
-			$formatedMoney = "";
-			
-			if (IS_CURRENCY_SYMBOLE_BEFORE_VALUE)
-				$formatedMoney .= CURRENCY . '&nbsp;';
+		public static function formatAmount($value, $currencyCode) {
 			if (is_numeric($value))
-				$formatedMoney .= ($value >= 0 ? '+' : '') . number_format(round($value, N_DECIMALS),N_DECIMALS);
+				$formatedAmount .= ($value >= 0 ? '+' : '') . number_format(round($value, N_DECIMALS),N_DECIMALS);
 			else
-				$formatedMoney .= $value;
-			if (!IS_CURRENCY_SYMBOLE_BEFORE_VALUE)
-				$formatedMoney .= '&nbsp;' . CURRENCY;
+				$formatedAmount .= $value;
 			
-			return $formatedMoney;
+			$formatedAmount .= '&nbsp;' . CurrencyType::getSymbol($currencyCode);
+			
+			return $formatedAmount;
 		}
 		
 		public static function formatDate($value) {

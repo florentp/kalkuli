@@ -1,4 +1,4 @@
-{include file="menu.tpl"}
+{include file="menu-sheet.tpl"}
 <div class="ui-main-widget">
 	<div class="ui-main-widget-header">Nouvelle opération</div>
 	<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/add" id="addOperationForm" name="addOperationForm" method="post">
@@ -21,7 +21,7 @@
 			<tr>
 				<th><label for="amount">Montant&nbsp;:</label></th>
 				<td colspan="2">
-					<input class="amount" id="amount" maxlength="10" name="amount" type="text" />&nbsp;{$CURRENCY}
+					<input class="amount" id="amount" maxlength="10" name="amount" type="text" />&nbsp;{$sheet->getCurrencyCode()|formatSymbol}
 					<div class="formValidationMessage" id="amountFormValidationMessage"></div>
 				</td>
 			</tr>

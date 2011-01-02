@@ -1,4 +1,4 @@
-{include file="menu.tpl"}
+{include file="menu-sheet.tpl"}
 <div class="ui-main-widget">
 	<div class="ui-main-widget-header">Participants à cette feuille de comptes</div>
 
@@ -18,7 +18,7 @@
 				<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$person->getPersonId()}">{$person->getPersonName()|escape}</a>
 			</td>
 			<td class="amount">
-				{$person->getBalance()|formatMoney}
+				{$person->getBalance()|formatAmount:$sheet->getCurrencyCode()}
 			</td>
 			<td>
 				<div class="bargraph">

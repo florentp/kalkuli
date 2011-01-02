@@ -1,6 +1,3 @@
-	Pb d'échapement des apostrophe dans les commentaires (et peut-être ailleurs aussi, à voir)
-	Script d'install : vérifier les droits d'accès en écriture aux dossiers sqlite et templates_c
-	Faire des header(location) après traitement des requêtes utilisateurs générant des requêtes en base
 	Bloquer les boutons pour éviter les doubles création (user, opération)
 	Dans mobile/operation-add, centrer verticalement la case à cocher par rapport aux 2 <div>
 	Ajouter Mail et Net_SMTP dans les vérifs du script d'install + activation module openssl

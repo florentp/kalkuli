@@ -48,12 +48,27 @@
 					trigger_error("Invalid contributorId value: " . $_REQUEST['contributorId'], E_USER_ERROR);
 				}
 
-				$incoming = new Incoming();
-				$incoming->setInAmount($amount);
-				$incoming->setOperationIdFk($operationId);
-				$incoming->setPersonIdFk($contributorId);
-				$incoming->save();
-				header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
+				$dbConnection = Propel::getConnection(OperationPeer::DATABASE_NAME);
+
+				$dbConnection->beginTransaction();
+				try {
+					$incoming = new Incoming();
+					$incoming->setInAmount($amount);
+					$incoming->setOperationIdFk($operationId);
+					$incoming->setPersonIdFk($contributorId);
+					$incoming->save();
+
+					$sheet->setLastModificationTS(new DateTime());
+					$sheet->save();
+
+					$dbConnection->commit();
+
+					header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
+				}
+				catch (Exception $e) {
+					$dbConnection->rollback();
+					throw $e;
+				}
 				break;
 
 			case 'addOutgoing':
@@ -74,12 +89,27 @@
 					trigger_error("Invalid contributorId value: " . $_REQUEST['contributorId'], E_USER_ERROR);
 				}
 
-				$outgoing = new Outgoing();
-				$outgoing->setOutWeight($weight);
-				$outgoing->setOperationIdFk($operationId);
-				$outgoing->setPersonIdFk($participantId);
-				$outgoing->save();
-				header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
+				$dbConnection = Propel::getConnection(OperationPeer::DATABASE_NAME);
+
+				$dbConnection->beginTransaction();
+				try {
+					$outgoing = new Outgoing();
+					$outgoing->setOutWeight($weight);
+					$outgoing->setOperationIdFk($operationId);
+					$outgoing->setPersonIdFk($participantId);
+					$outgoing->save();
+
+					$sheet->setLastModificationTS(new DateTime());
+					$sheet->save();
+					
+					$dbConnection->commit();
+
+					header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
+				}
+				catch (Exception $e) {
+					$dbConnection->rollback();
+					throw $e;
+				}
 				break;
 
 			case 'deleteIncoming':
@@ -93,8 +123,23 @@
 					trigger_error("Invalid incomingId value: " . $_REQUEST['incomingId'], E_USER_ERROR);
 				}
 
-				$incoming->delete();
-				header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
+				$dbConnection = Propel::getConnection(OperationPeer::DATABASE_NAME);
+
+				$dbConnection->beginTransaction();
+				try {
+					$incoming->delete();
+
+					$sheet->setLastModificationTS(new DateTime());
+					$sheet->save();
+					
+					$dbConnection->commit();
+
+					header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
+				}
+				catch (Exception $e) {
+					$dbConnection->rollback();
+					throw $e;
+				}
 				break;
 
 			case 'deleteOutgoing':
@@ -108,8 +153,23 @@
 					trigger_error("Invalid outgoingId value: " . $_REQUEST['outgoingId'], E_USER_ERROR);
 				}
 
-				$outgoing->delete();
-				header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
+				$dbConnection = Propel::getConnection(OperationPeer::DATABASE_NAME);
+
+				$dbConnection->beginTransaction();
+				try {
+					$outgoing->delete();
+
+					$sheet->setLastModificationTS(new DateTime());
+					$sheet->save();
+					
+					$dbConnection->commit();
+
+					header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
+				}
+				catch (Exception $e) {
+					$dbConnection->rollback();
+					throw $e;
+				}
 				break;
 		}
 	}

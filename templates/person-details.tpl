@@ -1,4 +1,4 @@
-{include file="menu.tpl"}
+{include file="menu-sheet.tpl"}
 <div class="ui-main-widget">
 	<div class="ui-main-widget-header">Participations de <span class="alternate">{$person->getPersonName()|escape}</span></div>
 
@@ -19,12 +19,12 @@
 						<td class="amount">
 							{assign var="personTotalInAmount" value=$operation->getPersontotalinamount()}
 							{if isset($personTotalInAmount)}
-								<div>{$personTotalInAmount|formatMoney}</div>
+								<div>{$personTotalInAmount|formatAmount:$sheet->getCurrencyCode()}</div>
 							{/if}
 							
 							{assign var="personTotalOutAmount" value=$operation->getPersontotaloutamount()}
 							{if isset($personTotalOutAmount)}
-								<div>{$personTotalOutAmount|formatMoney}</div>
+								<div>{$personTotalOutAmount|formatAmount:$sheet->getCurrencyCode()}</div>
 							{/if}
 						</td>
 				</tr>

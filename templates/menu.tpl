@@ -1,8 +1,6 @@
 <ul id="menu">
-	<li><a href="#" id="menuPeopleList">Pariticipants</a></li>
-	<!--<li><a href="#" id="menuOperationsList">Opérations</a></li>-->
-	<li><a href="#" id="menuNewOperation">Nouvelle opération</a></li>
-	<li><a href="#" id="menuNewPerson">Nouveau participant</a></li>
+	<li><a href="#" id="menuHome">/kal.'ku.li/ home</a></li>
+	<li><a href="#" id="menuAbout">A propos</a></li>
 </ul>
 
 {literal}
@@ -15,20 +13,12 @@
 			function() { $(this).removeClass('ui-state-hover'); }
 		);
 		
-		$('#menuPeopleList').click(function() {
-			$.doGet(CONTEXT_PATH);
+		$('#menuHome').click(function() {
+			$.doGet(CONTEXT_PATH + '/');
 			return false;
 		});
-		$('#menuOperationsList').click(function() {
-			$.doGet(CONTEXT_PATH + '/operation/list');
-			return false;
-		});
-		$('#menuNewOperation').click(function() {
-			$.doGet(CONTEXT_PATH + '/operation/add');
-			return false;
-		});
-		$('#menuNewPerson').click(function() {
-			$.doGet(CONTEXT_PATH + '/person/add');
+		$('#menuAbout').click(function() {
+			$.doGet(CONTEXT_PATH + '/about');
 			return false;
 		});
 	});
