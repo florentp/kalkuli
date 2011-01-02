@@ -1,48 +1,66 @@
 {include file="menu.tpl"}
 <div class="ui-main-widget">
-	<div class="ui-main-widget-header">Participants à cette feuille de comptes</div>
-
-	<table cellpadding="0" cellspacing="0" class="dataGrid">
-		<colgroup>
-			<col />
-			<col />
-			<col style="width: 60px;" />
-		</colgroup>
-    {foreach from=$peopleList item="person" name="peopleList"}
-	  {if $smarty.foreach.peopleList.index is even}
+	<div class="ui-main-widget-header">Créer une feuille de compte</div>
+	<div>Créez simplement et gratuitement une feuille de compte en remplissant les champs ci-dessous. Aucune autre information ne vous sera demandée. Un email vous sera envoyé pour vous communiquer l'adresse unique de votre feuille de compte.</div>
+	<form action="{$PHP_SELF}" id="createSheetForm" name="createSheetForm" method="post">
+		<table class="tableForm">
+			<colgroup>
+				<col />
+				<col style="width: 8em;" />
+			</colgroup>
 			<tr>
-		{else}
-			<tr class="alternate">
-		{/if}
-        <td>
-          <a href="person-details.php?personId={$person->getPersonId()}">{$person->getPersonName()|escape}</a>
-        </td>
-        <td class="amount">
-          {$person->getBalance()|formatMoney}
-        </td>
-		<td>
-			<div class="bargraph">
-				{if $person->getBalance() < 0 }
-					<div class="negativeBar" style="margin-left: {round value=$person->getBalance()/$maxAbsoluteBalance*25+25}px; width:{round value=$person->getBalance()/$maxAbsoluteBalance*-25}px;">&nbsp;</div>
-				{elseif $person->getBalance() > 0 }
-					<div class="positiveBar" style="margin-right: {round value=$person->getBalance()/$maxAbsoluteBalance*-25+25}px; width:{round value=$person->getBalance()/$maxAbsoluteBalance*25}px;">&nbsp;</div>
-				{else}
-					<div class="emptyBar">&nbsp;</div>
-				{/if}
-			</div>
-		</td>
-      </tr>
-    {foreachelse}
-      <tr><td>Vous devez commencer par saisir des personnes</td></tr>
-    {/foreach}
-  </table>
-
+				<th><label for="name">Nom de la feuille de compte&nbsp;:</label></th>
+				<td>
+					<input class="name" id="name" maxlength="255" name="name" type="text" />
+					<div class="formValidationMessage" id="nameFormValidationMessage"></div>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="currencyCode">Devise&nbsp;:</label></th>
+				<td>
+					<select id="currencyCode" name="currencyCode">
+						<option value="EUR">Euro - &euro;</option>
+						<option value="USD">US Dollard - $</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="creatorEmail">Email de rattachement&nbsp;:</label></th>
+				<td>
+					<input class="creatorEmail" id="creatorEmail" maxlength="255" name="creatorEmail" type="text" />
+					<div class="formValidationMessage" id="creatorEmailFormValidationMessage"></div>
+				</td>
+			</tr>
+			<tr class="buttonRow">
+				<td colspan="2">
+					<button class="ui-button" id="createSheetButton" name="createSheetButton" type="submit">Créer une feuille de compte</button>
+				</td>
+			</tr>
+		</table>
+	</form>
 </div>
 
-{literal}
-<script type="text/javascript">
-	$('.bargraph').addClass('ui-helper-clearfix ui-corner-all');
-	$('.bargraph > .negativeBar').addClass('ui-corner-left');
-	$('.bargraph > .positiveBar').addClass('ui-corner-right');
-</script>
-{/literal}
+<div class="ui-main-widget">
+	<div class="ui-main-widget-header">Retrouver ses feuilles de compte</div>
+	<div>Saisissez l'adresse email que vous avez utilisée pour créer vos feuilles de compte. Un email vous sera immédiatement envoyé avec la liste des feuilles de compte qui y sont rattachées.</div>
+	<form action="{$PHP_SELF}" id="retrieveSheetsForm" name="retrieveSheetsForm" method="post">
+		<table class="tableForm">
+			<colgroup>
+				<col />
+				<col style="width: 8em;" />
+			</colgroup>
+			<tr>
+				<th><label for="creatorEmail">Email de rattachement&nbsp;:</label></th>
+				<td>
+					<input class="creatorEmail" id="creatorEmail" maxlength="255" name="creatorEmail" type="text" />
+					<div class="formValidationMessage" id="creatorEmailFormValidationMessage"></div>
+				</td>
+			</tr>
+			<tr class="buttonRow">
+				<td colspan="2">
+					<button class="ui-button" id="retrieveSheetsButton" name="retrieveSheetsButton" type="submit">Retrouver ses feuilles de compte</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>

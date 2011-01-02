@@ -2,6 +2,13 @@
 	
 	require_once('include/php_header.inc.php');
 
+	// accessKey is valid
+	if (!isset($_REQUEST['accessKey'])
+			|| ($sheet = SheetQuery::create()->filterByAccessKey($_REQUEST['accessKey'])->findOne()) === null) {
+		// TODO: Handle error
+		trigger_error("Invalid accessKey value: " . $_REQUEST['accessKey'], E_USER_ERROR);
+	}
+
 	if (isset($_REQUEST['addPeopleButton'])) {
 		
 		// name is not empty
@@ -29,18 +36,21 @@
 			foreach($namesList as $name) {
 				$person = new Person();
 				$person->setPersonName($name);
+				$person->setSheet($sheet);
 				$person->save();
 			}
 			$dbConnection->commit();
 		}
 		catch (Exception $e) {
 			$dbConnection->rollback();
+			throw $e;
 		}
 		
 		header('Location: index.php');
 	}
 	
 	$smarty->assign('templateName',	'people-add');
+	$smarty->assign_by_ref('sheet', $sheet);
 
 	if (Kalkuli::isMobileBrowser())
 		$smarty->display('mobile/layout.tpl');

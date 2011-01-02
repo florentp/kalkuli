@@ -99,6 +99,7 @@
 		}
 		catch (Exception $e) {
 			$dbConnection->rollback();
+			throw $e;
 		}
 		
 		header('Location: operation-details.php?operationId=' . $operation->getOperationId());
