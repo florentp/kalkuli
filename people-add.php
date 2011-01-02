@@ -46,7 +46,7 @@
 			throw $e;
 		}
 		
-		header('Location: index.php');
+		header('Location: ' . CONTEXT_PATH);
 	}
 	
 	$smarty->assign('templateName',	'people-add');

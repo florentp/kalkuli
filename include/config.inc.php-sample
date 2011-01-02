@@ -1,5 +1,6 @@
 <?php
 
+	define('CONTEXT_PATH',                    '/kalkuli');
 	define('DATABASE_PATH',                   '/usr/local/sqlite/{user}/{name}.db');
 	define('PROPEL_USE_DEBUG',                false);
 	define('PROPEL_DEBUG_LEVEL',              '0');

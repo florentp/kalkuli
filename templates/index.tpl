@@ -2,7 +2,7 @@
 <div class="ui-main-widget">
 	<div class="ui-main-widget-header">Créer une feuille de compte</div>
 	<div>Créez simplement et gratuitement une feuille de compte en remplissant les champs ci-dessous. Aucune autre information ne vous sera demandée. Un email vous sera envoyé pour vous communiquer l'adresse unique de votre feuille de compte.</div>
-	<form action="{$PHP_SELF}" id="createSheetForm" name="createSheetForm" method="post">
+	<form action="{$CONTEXT_PATH}" id="createSheetForm" name="createSheetForm" method="post">
 		<table class="tableForm">
 			<colgroup>
 				<col />
@@ -43,7 +43,7 @@
 <div class="ui-main-widget">
 	<div class="ui-main-widget-header">Retrouver ses feuilles de compte</div>
 	<div>Saisissez l'adresse email que vous avez utilisée pour créer vos feuilles de compte. Un email vous sera immédiatement envoyé avec la liste des feuilles de compte qui y sont rattachées.</div>
-	<form action="{$PHP_SELF}" id="retrieveSheetsForm" name="retrieveSheetsForm" method="post">
+	<form action="{$CONTEXT_PATH}" id="retrieveSheetsForm" name="retrieveSheetsForm" method="post">
 		<table class="tableForm">
 			<colgroup>
 				<col />

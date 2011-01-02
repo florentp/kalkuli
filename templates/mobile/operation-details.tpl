@@ -2,8 +2,7 @@
 	<div class="ui-mobile-widget-header">Opération <span class="alternate">{$operation->getOperationDescription()|escape}</div>
 	<div class="ui-mobile-widget-separator">Contributions</div>
 	<div class="ui-mobile-widget-content">
-		<form action="{$PHP_SELF}" id="addIncomingForm" method="post">
-			<input name="operationId" type="hidden" value="{$operation->getOperationId()}" />
+		<form action="{$CONTEXT_PATH}/operation/{$operation->getOperationId()}" id="addIncomingForm" method="post">
 			<input name="action" type="hidden" value="addIncoming" />
 			{foreach from=$incomingsList item="incoming" name="incomingsList"}
 				<div class="ui-mobile-widget-item">
@@ -15,7 +14,7 @@
 							<div>{$incoming->getInAmount()|formatMoney}</div>
 						</div>
 						<div class="ui-mobile-widget-item-label">
-							<a href="person-details.php?personId={$incoming->getPersonId()}">{$incoming->getPersonName()|escape}</a>
+							<a href="{$CONTEXT_PATH}/person/{$incoming->getPersonId()}">{$incoming->getPersonName()|escape}</a>
 						</div>
 					</div>
 				</div>
@@ -47,8 +46,7 @@
 
 	<div class="ui-mobile-widget-separator">Participations</div>
 	<div class="ui-mobile-widget-content">
-		<form action="{$PHP_SELF}" id="addOutgoingForm" method="post">
-			<input name="operationId" type="hidden" value="{$operation->getOperationId()}" />
+		<form action="{$CONTEXT_PATH}/operation/{$operation->getOperationId()}" id="addOutgoingForm" method="post">
 			<input name="action" type="hidden" value="addOutgoing" />
 			{foreach from=$outgoingsList item="outgoing" name="outgoingsList"}
 				<div class="ui-mobile-widget-item">
@@ -61,7 +59,7 @@
 							<div style="font-size: 0.8em;">{$outgoing->getOutWeight()} part(s) sur {$outgoing->getOperationTotalOutWeight()}</div>
 						</div>
 						<div class="ui-mobile-widget-item-label">
-							<a href="person-details.php?personId={$outgoing->getPersonId()}">{$outgoing->getPersonName()|escape}</a>
+							<a href="{$CONTEXT_PATH}/person/{$outgoing->getPersonId()}">{$outgoing->getPersonName()|escape}</a>
 						</div>
 					</div>
 				</div>
@@ -116,8 +114,8 @@
 {include file="mobile/menu-people-add.tpl"}
 {include file="mobile/menu-operation-add.tpl"}
 
+<script src="{$CONTEXT_PATH}/js/operation-details.js" type="text/javascript"></script>
 {literal}
-<script src="js/operation-details.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
 
@@ -147,7 +145,13 @@
 		});
 
 		$('#confirmDeleteIncomingButton').click(function() {
-			window.location.href =  unescape(sprintf('operation-details.php?operationId=%s%%26action=deleteIncoming%%26incomingId=%s', $('#deleteIncomingOperationId').text(), $('#deleteIncomingId').text()));
+			$.doPost(
+				sprintf('%s/operation/%s', CONTEXT_PATH, $('#deleteIncomingOperationId').text()),
+				{
+					action: 'deleteIncoming',
+					incomingId: $('#deleteIncomingId').text()
+				}
+			);
 		});
 
 		$('#cancelDeleteIncomingButton').click(function() {
@@ -167,7 +171,13 @@
 		});
 
 		$('#confirmDeleteOutgoingButton').click(function() {
-			window.location.href =  unescape(sprintf('operation-details.php?operationId=%s%%26action=deleteOutgoing%%26outgoingId=%s', $('#deleteOutgoingOperationId').text(), $('#deleteOutgoingId').text()));
+			$.doPost(
+				sprintf('%s/operation/%s', CONTEXT_PATH, $('#deleteOutgoingOperationId').text()),
+				{
+					action: 'deleteOutgoing',
+					outgoingId: $('#deleteOutgoingId').text()
+				}
+			);
 		});
 
 		$('#cancelDeleteOutgoingButton').click(function() {

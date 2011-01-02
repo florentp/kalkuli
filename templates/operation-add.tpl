@@ -1,7 +1,7 @@
 {include file="menu.tpl"}
 <div class="ui-main-widget">
 	<div class="ui-main-widget-header">Nouvelle opération</div>
-	<form action="{$PHP_SELF}" id="addOperationForm" name="addOperationForm" method="post">
+	<form action="{$CONTEXT_PATH}/operation/add" id="addOperationForm" name="addOperationForm" method="post">
 		<table class="tableForm">
 			<colgroup>
 				<col />
@@ -35,7 +35,7 @@
 			<tr>
 				<th><label for="date">Date&nbsp;:</label></th>
 				<td colspan="2">
-					<img src="icons/calendar_day.png" align="absmiddle" alt="Modifier la date" />&nbsp;<a class="datepicker" id="dateLink" href="#"><span id="dateLinkSpan"></span></a>
+					<img src="{$CONTEXT_PATH}/icons/calendar_day.png" align="absmiddle" alt="Modifier la date" />&nbsp;<a class="datepicker" id="dateLink" href="#"><span id="dateLinkSpan"></span></a>
 					<input type="hidden" id="date" name="date" />
 				</td>
 			</tr>
@@ -73,8 +73,8 @@
 	</form>
 </div>
 
+<script src="{$CONTEXT_PATH}/js/operation-add.js" type="text/javascript"></script>
 {literal}
-<script src="js/operation-add.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
 
@@ -104,7 +104,7 @@
 		});
 
 		$('#cancelButton').click(function() {
-			window.location.href = 'index.php';
+			$.doGet(CONTEXT_PATH);
 		});
 
 		$('#addOperationForm').validate({

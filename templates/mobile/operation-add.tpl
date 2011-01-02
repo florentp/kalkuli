@@ -1,6 +1,6 @@
 <div class="ui-mobile-widget">
 	<div class="ui-mobile-widget-header">Nouvelle opération</div>
-	<form action="{$PHP_SELF}" id="addOperationForm" name="addOperationForm" method="post">
+	<form action="{$CONTEXT_PATH}/operation/add" id="addOperationForm" name="addOperationForm" method="post">
 		<div class="ui-mobile-widget-separator">Détails</div>
 
 		<div class="ui-mobile-widget-item">
@@ -74,8 +74,8 @@
 	</form>
 {include file="mobile/menu-people-list.tpl"}
 
+<script src="{$CONTEXT_PATH}/js/operation-add.js" type="text/javascript"></script>
 {literal}
-<script src="js/operation-add.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
 

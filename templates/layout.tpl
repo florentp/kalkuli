@@ -4,17 +4,22 @@
 	<head>
 		<title>/kal.'ku.li/</title>
 
-		<link href="css/jquery-ui/blitzer-custom/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css" />
-		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link href="{$CONTEXT_PATH}/css/jquery-ui/blitzer-custom/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css" />
+		<link href="{$CONTEXT_PATH}/css/style.css" rel="stylesheet" type="text/css" />
 
-		<script src="js/jquery-1.4.2.min.js" type="text/javascript"></script>
-		<script src="js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"></script>
+		<script src="{$CONTEXT_PATH}/js/jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="{$CONTEXT_PATH}/js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"></script>
 		
-		<script src="js/jquery-plugins/jquery.validate.min.js" type="text/javascript"></script>
-		<script src="js/jquery-plugins/localization/messages_fr.js" type="text/javascript"></script>
-		<script src="js/sprintf.js" type="text/javascript"></script>
+		<script src="{$CONTEXT_PATH}/js/jquery-plugins/jquery.validate.min.js" type="text/javascript"></script>
+		<script src="{$CONTEXT_PATH}/js/jquery-plugins/localization/messages_fr.js" type="text/javascript"></script>
+		<script src="{$CONTEXT_PATH}/js/jquery-plugins/jquery.do.js" type="text/javascript"></script>
+		<script src="{$CONTEXT_PATH}/js/sprintf.js" type="text/javascript"></script>
 		
-		<script src="js/kalkuli.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			const CONTEXT_PATH = '{$CONTEXT_PATH}';
+		</script>
+
+		<script src="{$CONTEXT_PATH}/js/kalkuli.js" type="text/javascript"></script>
 
 		<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-15" />
 	</head>

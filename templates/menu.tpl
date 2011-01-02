@@ -16,19 +16,19 @@
 		);
 		
 		$('#menuPeopleList').click(function() {
-			window.location.href = 'index.php';
+			$.doGet(CONTEXT_PATH);
 			return false;
 		});
 		$('#menuOperationsList').click(function() {
-			window.location.href = 'operations.php';
+			$.doGet(CONTEXT_PATH + '/operation/list');
 			return false;
 		});
 		$('#menuNewOperation').click(function() {
-			window.location.href = 'operation-add.php';
+			$.doGet(CONTEXT_PATH + '/operation/add');
 			return false;
 		});
 		$('#menuNewPerson').click(function() {
-			window.location.href = 'people-add.php';
+			$.doGet(CONTEXT_PATH + '/person/add');
 			return false;
 		});
 	});

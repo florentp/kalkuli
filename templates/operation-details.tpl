@@ -3,8 +3,7 @@
 	<div class="ui-main-widget-header">Opération <span class="alternate">{$operation->getOperationDescription()|escape}</span></div>
 	<div class="ui-main-widget-separator">Contributions</div>
 	<div class="ui-main-widget-content">
-		<form action="{$PHP_SELF}" id="addIncomingForm" method="post">
-			<input name="operationId" type="hidden" value="{$operation->getOperationId()}" />
+		<form action="{$CONTEXT_PATH}/operation/{$operation->getOperationId()}" id="addIncomingForm" method="post">
 			<input name="action" type="hidden" value="addIncoming" />
 			<table cellpadding="0"cellspacing="0" class="dataGrid">
 				<colgroup>
@@ -19,7 +18,7 @@
 						<tr class="alternate">
 					{/if}
 							<td>
-								<a href="person-details.php?personId={$incoming->getPersonId()}">{$incoming->getPersonName()|escape}</a>
+								<a href="{$CONTEXT_PATH}/person/{$incoming->getPersonId()}">{$incoming->getPersonName()|escape}</a>
 							</td>
 							<td class="amount">{$incoming->getInAmount()|formatMoney}</td>
 							<td>
@@ -53,8 +52,7 @@
 
 	<div class="ui-main-widget-separator">Participations</div>
 	<div class="ui-main-widget-content">
-		<form action="{$PHP_SELF}" id="addOutgoingForm" method="post">
-			<input name="operationId" type="hidden" value="{$operation->getOperationId()}" />
+		<form action="{$CONTEXT_PATH}/operation/{$operation->getOperationId()}" id="addOutgoingForm" method="post">
 			<input name="action" type="hidden" value="addOutgoing" />
 			<table cellpadding="0"cellspacing="0" class="dataGrid">
 				<colgroup>
@@ -69,7 +67,7 @@
 						<tr class="alternate">
 					{/if}
 							<td>
-								<a href="person-details.php?personId={$outgoing->getPersonId()}">{$outgoing->getPersonName()|escape}</a>
+								<a href="{$CONTEXT_PATH}/person/{$outgoing->getPersonId()}">{$outgoing->getPersonName()|escape}</a>
 							</td>
 							<td class="weight">
 								
@@ -126,8 +124,8 @@
 	<div id="deleteOutgoingId" style="display: none;"></div>
 </div>
 
+<script src="{$CONTEXT_PATH}/js/operation-details.js" type="text/javascript"></script>
 {literal}
-<script src="js/operation-details.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
 
@@ -156,7 +154,13 @@
 		});
 
 		$('#confirmDeleteIncomingButton').click(function() {
-			window.location.href =  unescape(sprintf('operation-details.php?operationId=%s%%26action=deleteIncoming%%26incomingId=%s', $('#deleteIncomingOperationId').text(), $('#deleteIncomingId').text()));
+			$.doPost(
+				sprintf('%s/operation/%s', CONTEXT_PATH, $('#deleteIncomingOperationId').text()),
+				{
+					action: 'deleteIncoming',
+					incomingId: $('#deleteIncomingId').text()
+				}
+			);
 		});
 
 		$('#cancelDeleteIncomingButton').click(function() {
@@ -175,7 +179,13 @@
 		});
 
 		$('#confirmDeleteOutgoingButton').click(function() {
-			window.location.href =  unescape(sprintf('operation-details.php?operationId=%s%%26action=deleteOutgoing%%26outgoingId=%s', $('#deleteOutgoingOperationId').text(), $('#deleteOutgoingId').text()));
+			$.doPost(
+				sprintf('%s/operation/%s', CONTEXT_PATH, $('#deleteOutgoingOperationId').text()),
+				{
+					action: 'deleteOutgoing',
+					outgoingId: $('#deleteOutgoingId').text()
+				}
+			);
 		});
 
 		$('#cancelDeleteOutgoingButton').click(function() {
