@@ -13,7 +13,7 @@
 					<tr class="alternate">
 				{/if}
 						<td>
-							<div><a href="{$CONTEXT_PATH}/operation/{$operation->getOperationId()}">{$operation->getOperationDescription()|escape}</a></div>
+							<div><a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/{$operation->getOperationId()}">{$operation->getOperationDescription()|escape}</a></div>
 							<div>{$operation->getOperationTS()|formatDate}</div>
 						</td>
 						<td class="amount">

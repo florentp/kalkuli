@@ -2,17 +2,27 @@
 	
 	require_once('include/php_header.inc.php');
 	
-	$personId = isset($_REQUEST['personId']) ? $_REQUEST['personId'] : null;
-	if (!isset($personId))
-		die("'personId' must be set");
+	// accessKey is valid
+	if (!isset($_REQUEST['accessKey'])
+			|| ($sheet = SheetQuery::create()->filterByAccessKey($_REQUEST['accessKey'])->findOne()) === null) {
+		// TODO: Handle error
+		trigger_error("Invalid accessKey value: " . $_REQUEST['accessKey'], E_USER_ERROR);
+	}
 
-	$person = PersonQuery::create()
-		->findPK($personId);
+	// person exists
+	if (!isset($_REQUEST['personId'])
+			|| !ctype_digit($_REQUEST['personId'])
+			|| ($personId = intval($_REQUEST['personId'])) === 0
+			|| ($person = PersonQuery::create()->filterBySheet($sheet)->findPK($personId)) === null) {
+		// TODO: Handle error
+		trigger_error("Invalid personId value: " . $_REQUEST['personId'], E_USER_ERROR);
+	}
 
 	$operationsList = OperationQuery::create()
 		->getPersonOperationList($person->getPersonId());
 	
 	$smarty->assign('templateName',	'person-details');
+	$smarty->assign_by_ref('sheet', $sheet);
 	$smarty->assign_by_ref('person',	$person);
 	$smarty->assign_by_ref('operationsList', $operationsList);
 

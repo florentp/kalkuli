@@ -1,6 +1,6 @@
 <div class="ui-mobile-widget">
 	<div class="ui-mobile-widget-header">Nouvelle opération</div>
-	<form action="{$CONTEXT_PATH}/operation/add" id="addOperationForm" name="addOperationForm" method="post">
+	<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/add" id="addOperationForm" name="addOperationForm" method="post">
 		<div class="ui-mobile-widget-separator">Détails</div>
 
 		<div class="ui-mobile-widget-item">

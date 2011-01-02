@@ -1,12 +1,20 @@
 <?php
 	
 	require_once('include/php_header.inc.php');
+
+	// accessKey is valid
+	if (!isset($_REQUEST['accessKey'])
+			|| ($sheet = SheetQuery::create()->filterByAccessKey($_REQUEST['accessKey'])->findOne()) === null) {
+		// TODO: Handle error
+		trigger_error("Invalid accessKey value: " . $_REQUEST['accessKey'], E_USER_ERROR);
+	}
 	
 	$peopleList = PersonQuery::create()
+		->filterBySheet($sheet)
 		->orderByPersonname()
 		->find();
 	if (count($peopleList) == 0)
-		header('Location: ' . CONTEXT_PATH);
+		header(sprintf('Location: %s/%s', CONTEXT_PATH, $sheet->getAccessKey()));
 
 	if (isset($_REQUEST['addOperationButton'])) {
 
@@ -14,7 +22,7 @@
 		if (!isset($_REQUEST['contributorId'])
 				|| !ctype_digit($_REQUEST['contributorId'])
 				|| ($contributorId = intval($_REQUEST['contributorId'])) === 0
-				|| ($contributor = PersonQuery::create()->findPk($contributorId)) === null) {
+				|| ($contributor = PersonQuery::create()->filterBySheet($sheet)->findPk($contributorId)) === null) {
 			// TODO: Handle error
 			trigger_error("Invalid contributorId value: " . $_REQUEST['contributorId'], E_USER_ERROR);
 		}
@@ -54,7 +62,7 @@
 			foreach($_REQUEST['consumersIdList'] as $consumerId => $value) {
 				if (!is_int($consumerId) && !ctype_digit($consumerId)
 						|| ($consumerId = intval($consumerId)) === 0
-						|| ($consumer = PersonQuery::create()->findPk($consumerId)) === null) {
+						|| ($consumer = PersonQuery::create()->filterBySheet($sheet)->findPk($consumerId)) === null) {
 					// TODO: Handle error
 					trigger_error("Invalid consumerId value: " . $consumerId, E_USER_ERROR);
 				}
@@ -79,6 +87,9 @@
 			$operation = new Operation();
 			$operation->setOperationTS($date->format('Y-m-d'));
 			$operation->setOperationDescription($description);
+			$operation->setTotalInAmount(0);
+			$operation->setTotalOutWeight(0);
+			$operation->setSheet($sheet);
 			$operation->save();
 			
 			$incoming = new Incoming();
@@ -102,10 +113,11 @@
 			throw $e;
 		}
 		
-		header(sprintf('Location: %s/operation/%s', CONTEXT_PATH, $operation->getOperationId()));
+		header(sprintf('Location: %s/%s/operation/%s', CONTEXT_PATH, $sheet->getAccessKey(), $operation->getOperationId()));
 	}
 	
 	$smarty->assign('templateName',	'operation-add');
+	$smarty->assign_by_ref('sheet', $sheet);
 	$smarty->assign('peopleList', $peopleList);
 	$smarty->assign('nPeople', count($peopleList));
 

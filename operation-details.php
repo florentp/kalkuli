@@ -2,11 +2,18 @@
 	
 	require_once('include/php_header.inc.php');
 	
+	// accessKey is valid
+	if (!isset($_REQUEST['accessKey'])
+			|| ($sheet = SheetQuery::create()->filterByAccessKey($_REQUEST['accessKey'])->findOne()) === null) {
+		// TODO: Handle error
+		trigger_error("Invalid accessKey value: " . $_REQUEST['accessKey'], E_USER_ERROR);
+	}
+
 	// operation exists
 	if (!isset($_REQUEST['operationId'])
 			|| !ctype_digit($_REQUEST['operationId'])
 			|| ($operationId = intval($_REQUEST['operationId'])) === 0
-			|| ($operation = OperationQuery::create()->findPk($operationId)) === null) {
+			|| ($operation = OperationQuery::create()->filterBySheet($sheet)->findPk($operationId)) === null) {
 		// TODO: Handle error
 		trigger_error("Invalid operationId value: " . $_REQUEST['operationId'], E_USER_ERROR);
 	}
@@ -36,7 +43,7 @@
 				if (!isset($_REQUEST['contributorId'])
 						|| !ctype_digit($_REQUEST['contributorId'])
 						|| ($contributorId = intval($_REQUEST['contributorId'])) === 0
-						|| ($contributor = PersonQuery::create()->findPk($contributorId)) === null) {
+						|| ($contributor = PersonQuery::create()->filterBySheet($sheet)->findPk($contributorId)) === null) {
 					// TODO: Handle error
 					trigger_error("Invalid contributorId value: " . $_REQUEST['contributorId'], E_USER_ERROR);
 				}
@@ -46,7 +53,7 @@
 				$incoming->setOperationIdFk($operationId);
 				$incoming->setPersonIdFk($contributorId);
 				$incoming->save();
-				header(sprintf("Location: %s/operation/%s", CONTEXT_PATH, $operationId));
+				header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
 				break;
 
 			case 'addOutgoing':
@@ -62,17 +69,17 @@
 				if (!isset($_REQUEST['participantId'])
 						|| !ctype_digit($_REQUEST['participantId'])
 						|| ($participantId = intval($_REQUEST['participantId'])) === 0
-						|| ($participant = PersonQuery::create()->findPk($participantId)) === null) {
+						|| ($participant = PersonQuery::create()->filterBySheet($sheet)->findPk($participantId)) === null) {
 					// TODO: Handle error
 					trigger_error("Invalid contributorId value: " . $_REQUEST['contributorId'], E_USER_ERROR);
 				}
 
-				$incoming = new Outgoing();
-				$incoming->setOutWeight($weight);
-				$incoming->setOperationIdFk($operationId);
-				$incoming->setPersonIdFk($participantId);
-				$incoming->save();
-				header(sprintf("Location: %s/operation/%s", CONTEXT_PATH, $operationId));
+				$outgoing = new Outgoing();
+				$outgoing->setOutWeight($weight);
+				$outgoing->setOperationIdFk($operationId);
+				$outgoing->setPersonIdFk($participantId);
+				$outgoing->save();
+				header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
 				break;
 
 			case 'deleteIncoming':
@@ -87,7 +94,7 @@
 				}
 
 				$incoming->delete();
-				header(sprintf("Location: %s/operation/%s", CONTEXT_PATH, $operationId));
+				header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
 				break;
 
 			case 'deleteOutgoing':
@@ -102,7 +109,7 @@
 				}
 
 				$outgoing->delete();
-				header(sprintf("Location: %s/operation/%s", CONTEXT_PATH, $operationId));
+				header(sprintf("Location: %s/%s/operation/%s", CONTEXT_PATH, $sheet->getAccessKey(), $operationId));
 				break;
 		}
 	}
@@ -122,10 +129,12 @@
 		->find();
 	
 	$peopleList = PersonQuery::create()
+		->filterBySheet($sheet)
 		->orderByPersonname()
 		->find();
 	
 	$smarty->assign('templateName', 'operation-details');
+	$smarty->assign_by_ref('sheet', $sheet);
 	$smarty->assign_by_ref('operation',	$operation);
 	$smarty->assign_by_ref('incomingsList',	$incomingsList);
 	$smarty->assign_by_ref('outgoingsList',	$outgoingsList);

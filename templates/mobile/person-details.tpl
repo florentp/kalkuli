@@ -20,7 +20,7 @@
 						{/if}
 					</div>
 					<div class="ui-mobile-widget-item-label">
-						<div><a href="{$CONTEXT_PATH}/operation/{$operation->getOperationId()}">{$operation->getOperationDescription()|escape}</a></div>
+						<div><a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/{$operation->getOperationId()}">{$operation->getOperationDescription()|escape}</a></div>
 						<div style="font-size: 80%; font-weight:normal;">{$operation->getOperationTS()|formatDate}</div>
 					</div>
 				</div>

@@ -46,7 +46,7 @@
 			throw $e;
 		}
 		
-		header('Location: ' . CONTEXT_PATH);
+		header(sprintf('Location: %s/%s', CONTEXT_PATH, $sheet->getAccessKey()));
 	}
 	
 	$smarty->assign('templateName',	'people-add');

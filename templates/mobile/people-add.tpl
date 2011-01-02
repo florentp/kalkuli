@@ -1,7 +1,7 @@
 <div class="ui-mobile-widget">
 	<div class="ui-mobile-widget-header">Ajouter des participants</div>
 
-	<form action="{$CONTEXT_PATH}/person/add" id="addPeopleForm" name="addPeopleForm" method="post">
+	<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/add" id="addPeopleForm" name="addPeopleForm" method="post">
 		{section start=0 loop=5 name="peopleList"}
 			<div class="ui-mobile-widget-item">
 				<div class="ui-helper-clearfix">

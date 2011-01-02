@@ -1,7 +1,7 @@
 {include file="menu.tpl"}
 <div class="ui-main-widget">
 	<div class="ui-main-widget-header">Nouvelle opération</div>
-	<form action="{$CONTEXT_PATH}/operation/add" id="addOperationForm" name="addOperationForm" method="post">
+	<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/add" id="addOperationForm" name="addOperationForm" method="post">
 		<table class="tableForm">
 			<colgroup>
 				<col />
@@ -104,7 +104,7 @@
 		});
 
 		$('#cancelButton').click(function() {
-			$.doGet(CONTEXT_PATH);
+			$.doGet(sprintf('%s/%s', CONTEXT_PATH, SHEET_ACCESS_KEY));
 		});
 
 		$('#addOperationForm').validate({

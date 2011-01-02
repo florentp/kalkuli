@@ -3,7 +3,7 @@
 	<div class="ui-main-widget-header">Opération <span class="alternate">{$operation->getOperationDescription()|escape}</span></div>
 	<div class="ui-main-widget-separator">Contributions</div>
 	<div class="ui-main-widget-content">
-		<form action="{$CONTEXT_PATH}/operation/{$operation->getOperationId()}" id="addIncomingForm" method="post">
+		<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/{$operation->getOperationId()}" id="addIncomingForm" method="post">
 			<input name="action" type="hidden" value="addIncoming" />
 			<table cellpadding="0"cellspacing="0" class="dataGrid">
 				<colgroup>
@@ -18,7 +18,7 @@
 						<tr class="alternate">
 					{/if}
 							<td>
-								<a href="{$CONTEXT_PATH}/person/{$incoming->getPersonId()}">{$incoming->getPersonName()|escape}</a>
+								<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$incoming->getPersonId()}">{$incoming->getPersonName()|escape}</a>
 							</td>
 							<td class="amount">{$incoming->getInAmount()|formatMoney}</td>
 							<td>
@@ -52,7 +52,7 @@
 
 	<div class="ui-main-widget-separator">Participations</div>
 	<div class="ui-main-widget-content">
-		<form action="{$CONTEXT_PATH}/operation/{$operation->getOperationId()}" id="addOutgoingForm" method="post">
+		<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/{$operation->getOperationId()}" id="addOutgoingForm" method="post">
 			<input name="action" type="hidden" value="addOutgoing" />
 			<table cellpadding="0"cellspacing="0" class="dataGrid">
 				<colgroup>
@@ -67,7 +67,7 @@
 						<tr class="alternate">
 					{/if}
 							<td>
-								<a href="{$CONTEXT_PATH}/person/{$outgoing->getPersonId()}">{$outgoing->getPersonName()|escape}</a>
+								<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$outgoing->getPersonId()}">{$outgoing->getPersonName()|escape}</a>
 							</td>
 							<td class="weight">
 								
@@ -155,7 +155,7 @@
 
 		$('#confirmDeleteIncomingButton').click(function() {
 			$.doPost(
-				sprintf('%s/operation/%s', CONTEXT_PATH, $('#deleteIncomingOperationId').text()),
+				sprintf('%s/%s/operation/%s', CONTEXT_PATH, SHEET_ACCESS_KEY, $('#deleteIncomingOperationId').text()),
 				{
 					action: 'deleteIncoming',
 					incomingId: $('#deleteIncomingId').text()
@@ -180,7 +180,7 @@
 
 		$('#confirmDeleteOutgoingButton').click(function() {
 			$.doPost(
-				sprintf('%s/operation/%s', CONTEXT_PATH, $('#deleteOutgoingOperationId').text()),
+				sprintf('%s/%s/operation/%s', CONTEXT_PATH, SHEET_ACCESS_KEY, $('#deleteOutgoingOperationId').text()),
 				{
 					action: 'deleteOutgoing',
 					outgoingId: $('#deleteOutgoingId').text()

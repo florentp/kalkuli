@@ -2,7 +2,7 @@
 <div class="ui-main-widget">
 	<div class="ui-main-widget-header">Ajouter des participants</div>
 
-	<form action="{$CONTEXT_PATH}/person/add" id="addPeopleForm" name="addPeopleForm" method="post">
+	<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/add" id="addPeopleForm" name="addPeopleForm" method="post">
 		<table class="tableForm">
 			{section start=0 loop=5 name="peopleList"}
 				<tr>
@@ -29,7 +29,7 @@
 	$(function() {
 
 		$('#cancelButton').click(function() {
-			$.doGet(CONTEXT_PATH);
+			$.doGet(sprintf('%s/%s', CONTEXT_PATH, SHEET_ACCESS_KEY));
 		});
 
 		$('#addPeopleForm').validate({

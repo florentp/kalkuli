@@ -17,6 +17,9 @@
 		
 		<script type="text/javascript">
 			const CONTEXT_PATH = '{$CONTEXT_PATH}';
+			{if isset($sheet)}
+				const SHEET_ACCESS_KEY = '{$sheet->getAccessKey()}';
+			{/if}
 		</script>
 
 		<script src="{$CONTEXT_PATH}/js/kalkuli.js" type="text/javascript"></script>
