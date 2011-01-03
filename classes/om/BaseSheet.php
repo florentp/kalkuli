@@ -146,7 +146,7 @@ abstract class BaseSheet extends BaseObject  implements Persistent
 	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the raw DateTime object will be returned.
-	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
 	 * @throws     PropelException - if unable to parse/validate the date/time value.
 	 */
 	public function getCreationts($format = 'Y-m-d H:i:s')
@@ -156,11 +156,16 @@ abstract class BaseSheet extends BaseObject  implements Persistent
 		}
 
 
-
-		try {
-			$dt = new DateTime($this->creationts);
-		} catch (Exception $x) {
-			throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->creationts, true), $x);
+		if ($this->creationts === '0000-00-00 00:00:00') {
+			// while technically this is not a default value of NULL,
+			// this seems to be closest in meaning.
+			return null;
+		} else {
+			try {
+				$dt = new DateTime($this->creationts);
+			} catch (Exception $x) {
+				throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->creationts, true), $x);
+			}
 		}
 
 		if ($format === null) {
@@ -179,7 +184,7 @@ abstract class BaseSheet extends BaseObject  implements Persistent
 	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the raw DateTime object will be returned.
-	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
 	 * @throws     PropelException - if unable to parse/validate the date/time value.
 	 */
 	public function getLastmodificationts($format = 'Y-m-d H:i:s')
@@ -189,11 +194,16 @@ abstract class BaseSheet extends BaseObject  implements Persistent
 		}
 
 
-
-		try {
-			$dt = new DateTime($this->lastmodificationts);
-		} catch (Exception $x) {
-			throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->lastmodificationts, true), $x);
+		if ($this->lastmodificationts === '0000-00-00 00:00:00') {
+			// while technically this is not a default value of NULL,
+			// this seems to be closest in meaning.
+			return null;
+		} else {
+			try {
+				$dt = new DateTime($this->lastmodificationts);
+			} catch (Exception $x) {
+				throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->lastmodificationts, true), $x);
+			}
 		}
 
 		if ($format === null) {
@@ -341,13 +351,13 @@ abstract class BaseSheet extends BaseObject  implements Persistent
 		if ( $this->creationts !== null || $dt !== null ) {
 			// (nested ifs are a little easier to read in this case)
 
-			$currNorm = ($this->creationts !== null && $tmpDt = new DateTime($this->creationts)) ? $tmpDt->format('Y-m-d\\TH:i:sO') : null;
-			$newNorm = ($dt !== null) ? $dt->format('Y-m-d\\TH:i:sO') : null;
+			$currNorm = ($this->creationts !== null && $tmpDt = new DateTime($this->creationts)) ? $tmpDt->format('Y-m-d H:i:s') : null;
+			$newNorm = ($dt !== null) ? $dt->format('Y-m-d H:i:s') : null;
 
 			if ( ($currNorm !== $newNorm) // normalized values don't match 
 					)
 			{
-				$this->creationts = ($dt ? $dt->format('Y-m-d\\TH:i:sO') : null);
+				$this->creationts = ($dt ? $dt->format('Y-m-d H:i:s') : null);
 				$this->modifiedColumns[] = SheetPeer::CREATIONTS;
 			}
 		} // if either are not null
@@ -390,13 +400,13 @@ abstract class BaseSheet extends BaseObject  implements Persistent
 		if ( $this->lastmodificationts !== null || $dt !== null ) {
 			// (nested ifs are a little easier to read in this case)
 
-			$currNorm = ($this->lastmodificationts !== null && $tmpDt = new DateTime($this->lastmodificationts)) ? $tmpDt->format('Y-m-d\\TH:i:sO') : null;
-			$newNorm = ($dt !== null) ? $dt->format('Y-m-d\\TH:i:sO') : null;
+			$currNorm = ($this->lastmodificationts !== null && $tmpDt = new DateTime($this->lastmodificationts)) ? $tmpDt->format('Y-m-d H:i:s') : null;
+			$newNorm = ($dt !== null) ? $dt->format('Y-m-d H:i:s') : null;
 
 			if ( ($currNorm !== $newNorm) // normalized values don't match 
 					)
 			{
-				$this->lastmodificationts = ($dt ? $dt->format('Y-m-d\\TH:i:sO') : null);
+				$this->lastmodificationts = ($dt ? $dt->format('Y-m-d H:i:s') : null);
 				$this->modifiedColumns[] = SheetPeer::LASTMODIFICATIONTS;
 			}
 		} // if either are not null

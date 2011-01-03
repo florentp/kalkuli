@@ -1,5 +1,9 @@
 <?php
 
+	// SERVER_URL contains the protocol (http / https), domain name and
+	// port of the server. SERVER_URL must not have a trailing slash.
+	define('SERVER_URL',                      'http://localhost');
+
 	// CONTEXT_PATH is the part of the URL between the serveur domain and
 	// the Kalkuli pages.
 	// Eg. if Kalkuli est located at http://some.server.org/myapps/kalkuli,
@@ -8,14 +12,20 @@
 	// Kalkuli is installed at the root of the server
 	// (http://some.server.org/), CONTEXT_PATH must be empty: ''.
 	define('CONTEXT_PATH',                    '/kalkuli');
-	define('DATABASE_PATH',                   '/usr/local/sqlite/{user}/{name}.db');
+	
+	// MySQL connection parameters
+	define('DATABASE_HOST',                   'localhost');
+	define('DATABASE_NAME',                   'kalkuli');
+	define('DATABASE_USERNAME',               'username');
+	define('DATABASE_PASSWORD',               'password');
+
+	// SQL debug level
 	define('PROPEL_USE_DEBUG',                false);
 	define('PROPEL_DEBUG_LEVEL',              '0');
-
-	define('N_DECIMALS',                       2);
 	
 	// Must match date() function format
 	// http://ca3.php.net/manual/en/function.date.php
 	define('DATE_FORMAT',                      'd/m/Y');
 	
-	define('SHEET_ACCESS_KEY_LENGTH',	10);
+	define('SHEET_ACCESS_KEY_LENGTH',          10);
+	define('N_DECIMALS',                       2);

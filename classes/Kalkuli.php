@@ -1,6 +1,5 @@
 <?php
 
-	require_once('include/config.inc.php');
 	require_once('classes/CurrencyType.php');
 
 	class Kalkuli {
