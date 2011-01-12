@@ -1,24 +1,21 @@
 <?php
 
-	require_once('include/config.inc.php');
-
-	if (file_exists(DATABASE_PATH))
-		header(sprintf('Location: %s/', CONTEXT_PATH));
-		
 	$installationOk = true;
+
+	if (file_exists('include/config.inc.php')) {
+		require_once('include/config.inc.php');
+		$configFile = true;
+	}
+	else {
+		$configFile = false;
+		$installationOk = false;
+	}
 	
 	list($phpMajor, $phpMinor, $phpEdit) = explode('.', phpversion());
 	if ($phpMajor > 5 || $phpMajor == 5 && ($phpMinor > 0 || $phpEdit >=3))
 		$phpVersion = true;
 	else {
 		$phpVersion = false;
-		$installationOk = false;
-	}
-		
-	if (extension_loaded('PDO') && in_array('sqlite', PDO::getAvailableDrivers()))
-		$sqliteLoaded = true;
-	else {
-		$sqliteLoaded = false;
 		$installationOk = false;
 	}
 	
@@ -43,14 +40,6 @@
 		$smartyInstalled = false;
 		$installationOk = false;
 	}
-
-	$templatesCacheDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'templates_c';
-	if (is_writable($templatesCacheDirectory))
-		$isTemplatesCacheWritable = true;
-	else {
-		$isTemplatesCacheWritable = false;
-		$installationOk = false;
-	}
 	
 	if (file_exists_incpath('propel/Propel.php'))
 		$propelInstalled = true;
@@ -59,18 +48,35 @@
 		$installationOk = false;
 	}
 
-	$databaseDirectory = dirname(DATABASE_PATH);
-	if (is_writable($databaseDirectory))
-		$isDatabaseDirectoryWritable = true;
+	$templatesCacheDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'templates_c';
+	if (is_writable($templatesCacheDirectory))
+		$isTemplatesCacheWritable = true;
 	else {
-		$isDatabaseDirectoryWritable = false;
+		$isTemplatesCacheWritable = false;
 		$installationOk = false;
 	}
+		
+	if (extension_loaded('PDO') && in_array('mysql', PDO::getAvailableDrivers()))
+		$mysqlLoaded = true;
+	else {
+		$mysqlLoaded = false;
+		$installationOk = false;
+	}
+
+	try {
+		$dbh = new PDO('mysql:host=' . DATABASE_HOST . ';dbname=' . DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
+		$dbConnection = true;
+	}
+	catch (PDOException $e) {
+		$dbConnection = false;
+		$installationOk = false;
+	}
+
 ?>
 
 <?php
 
-	$okConstant = '<font color="green">OK</font>';
+	$okConstant = '<span style="color: green;">OK</span>';
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml.dtd">
@@ -84,60 +90,93 @@
 	<body>
 		<h1>Installation de /kal.'ku.li/</h1>
 
-		<p>Vérification de l'installation de PHP</p>
-		<p>Version de la version de PHP ... <?php echo $phpVersion ? $okConstant : '<font color="red">You must get <a href="http://www.php.net/">PHP 5.0.3</a> or higher to run /kal.\'ku.li/</font>' ?></p>
-		<p>Vérification de SQLite ... <?php echo $sqliteLoaded ? $okConstant : '<font color="red">You must install <a href="http://www.sqlite.org/">SQLite</a></font>' ?></p>
-		<p>Vérification de PEAR ... <?php echo $pearInstalled ? $okConstant : '<font color="red">You must install <a href="http://pear.php.net/">PEAR</a> library</font>' ?></p><p>Vérification de Smarty ... <?php echo $smartyInstalled ? $okConstant : '<font color="red">You must install <a href="http://www.smarty.net/">Smarty</a></font>' ?></p>
-		<p>Vérification de templates_c ... <?php echo $isTemplatesCacheWritable ? $okConstant : '<font color="red">&quot;' . $templatesCacheDirectory . '&quot; directory must be writable</font>' ?></p>
-		<p>Vérification de Propel ... <?php echo $propelInstalled ? $okConstant : '<font color="red">You must install <a href="http://www.propelorm.org/">Propel</a></font>' ?></p>
-		<p>Vérification du dossier SQLite ... <?php echo $isDatabaseDirectoryWritable ? $okConstant : '<font color="red">&quot;' . $databaseDirectory . '&quot; directory must be writable</font>' ?></p>
+		<ul><li>Présence du fichier de configuration ... <?php echo $configFile ? $okConstant : '<span style="color: red;">You must copy or rename file include/config.inc.php-sample to include/config.inc.php and change the settings to match your configuration.</span>' ?></ul></li>
+		
+		<ul><li>Version de PHP (> 5.0.3) ... <?php echo $phpVersion ? $okConstant : '<span style="color: red;">You must get <a href="http://www.php.net/">PHP 5.0.3</a> or higher to run /kal.\'ku.li/</span>' ?></ul></li>
+		
+		<ul><li>Installation de PEAR ... <?php echo $pearInstalled ? $okConstant : '<span style="color: red;">You must install <a href="http://pear.php.net/">PEAR</a> library</span>' ?></ul></li>
+
+		<ul><li>Installation de Smarty ... <?php echo $smartyInstalled ? $okConstant : '<span style="color: red;">You must install <a href="http://www.smarty.net/">Smarty</a></span>' ?></ul></li>
+
+		<ul><li>Installation de Propel ... <?php echo $propelInstalled ? $okConstant : '<span style="color: red;">You must install <a href="http://www.propelorm.org/">Propel</a></span>' ?></ul></li>
+
+		<ul><li>Droits d'écriture sur le dossier templates_c ... <?php echo $isTemplatesCacheWritable ? $okConstant : '<span style="color: red;">&quot;' . $templatesCacheDirectory . '&quot; directory must be writable</span>' ?></ul></li>
+		
+		<ul><li>Présence du module PDO et du driver MySQL ... <?php echo $mysqlLoaded ? $okConstant : '<span style="color: red;">You must enable the PHP <a href="http://fr.php.net/manual/en/pdo.installation.php">PDO module and its MySQL driver</a></span>' ?></ul></li>
+		
+		<ul><li>Connexion à la base de données ... <?php echo $dbConnection ? $okConstant : '<span style="color: red;">Cannot connect to database. Check settings in include/config.inc.php</span>' ?></ul></li>
+
+		<?php if ($installationOk && !isset($_REQUEST['confirmDBInitialization'])) { ?>
+			<p><strong>Merci de vérifier les paramètres de configuration et de les modifier dans le fichier include/config.ing.php si nécessaire&nbsp;:</strong></p>
+			<table>
+				<tr>
+					<th>SERVER_URL</th>
+					<td><?php echo SERVER_URL ?></td>
+				</tr>
+				<tr>
+					<th>CONTEXT_PATH</th>
+					<td><?php echo CONTEXT_PATH ?></td>
+				</tr>
+				<tr>
+					<th>DATABASE_HOST</th>
+					<td><?php echo DATABASE_HOST ?></td>
+				</tr>
+				<tr>
+					<th>DATABASE_NAME</th>
+					<td><?php echo DATABASE_NAME ?></td>
+				</tr>
+				<tr>
+					<th>DATABASE_USERNAME</th>
+					<td><?php echo DATABASE_USERNAME ?></td>
+				</tr>
+				<tr>
+					<th>DATABASE_PASSWORD</th>
+					<td><?php echo str_repeat('*', strlen(DATABASE_PASSWORD)) ?></td>
+				</tr>
+			</table>
+
+			<p>Vous pouvez initialiser la base de données. <strong>Attention, cette opération peut supprimer des données en base de manière irréversible.</strong></p>
+			<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+				<input name="confirmDBInitialization" type="submit" value="Initialiser la base de données" />
+			</form>
+		<?php } ?>
 
 		<?php
-			if ($installationOk) {
-				$dbh = new PDO('sqlite:' . DATABASE_PATH);
-				if ($dbh) {
-					$dbh->query("DROP TABLE IF EXISTS [sheet];");
-					$dbh->query("CREATE TABLE [sheet]( [sheetId] INTEGER NOT NULL PRIMARY KEY, [accessKey] VARCHAR(255) NOT NULL, [name] VARCHAR(255) NOT NULL, [currencyCode] VARCHAR(255) NOT NULL, [creatorEmail] VARCHAR(255) NOT NULL, [creationTS] TIMESTAMP NOT NULL, [lastModificationTS] TIMESTAMP NOT NULL);");
-					$dbh->query("DROP TABLE IF EXISTS [person];");
-					$dbh->query("CREATE TABLE [person]( [personId] INTEGER NOT NULL PRIMARY KEY, [personName] VARCHAR(255) NOT NULL, [sheetIdFK] INTEGER NOT NULL);");
-					$dbh->query("DROP TABLE IF EXISTS [outgoing];");
-					$dbh->query("CREATE TABLE [outgoing]( [outId] INTEGER NOT NULL PRIMARY KEY, [outWeight] FLOAT, [operationIdFK] INTEGER NOT NULL, [personIdFK] INTEGER NOT NULL);");
-					$dbh->query("DROP TABLE IF EXISTS [incoming];");
-					$dbh->query("CREATE TABLE [incoming]( [inId] INTEGER NOT NULL PRIMARY KEY, [inAmount] FLOAT, [operationIdFK] INTEGER NOT NULL, [personIdFK] INTEGER NOT NULL);");
-					$dbh->query("DROP TABLE IF EXISTS [operation];");
-					$dbh->query("CREATE TABLE [operation]( [operationId] INTEGER NOT NULL PRIMARY KEY, [operationTS] TIMESTAMP NOT NULL, [operationDescription] MEDIUMTEXT NOT NULL, [sheetIdFK] INTEGER NOT NULL, [totalInAmount] FLOAT NOT NULL, [totalOutWeight] FLOAT NOT NULL);");
-					$dbh->query("CREATE TRIGGER 'incomingInsert' AFTER INSERT ON 'incoming' BEGIN UPDATE operation SET totalInAmount = ( SELECT COALESCE (SUM (inAmount), 0) FROM incoming WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK; END;");
-					$dbh->query("CREATE TRIGGER 'incomingUpdate' AFTER UPDATE OF inAmount ON 'incoming' BEGIN UPDATE operation SET totalInAmount = ( SELECT COALESCE (SUM (inAmount), 0) FROM incoming WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK; END;");
-					$dbh->query("CREATE TRIGGER 'incomingDelete' AFTER DELETE ON 'incoming' BEGIN UPDATE operation SET totalInAmount = ( SELECT COALESCE (SUM (inAmount), 0) FROM incoming WHERE operationIdFK = OLD.operationIdFK) WHERE operationId = OLD.operationIdFK; END;");
-					$dbh->query("CREATE TRIGGER 'outgoingInsert' AFTER INSERT ON 'outgoing' BEGIN UPDATE operation SET totalOutWeight = ( SELECT COALESCE (SUM (outWeight), 0) FROM outgoing WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK ; END;");
-					$dbh->query("CREATE TRIGGER 'outgoingUpdate' AFTER UPDATE OF outWeight ON 'outgoing' BEGIN UPDATE operation SET totalOutWeight = ( SELECT COALESCE (SUM (outWeight), 0) FROM outgoing WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK; END;");
-					$dbh->query("CREATE TRIGGER 'outgoingDelete' AFTER DELETE ON 'outgoing' BEGIN UPDATE operation SET totalOutWeight = ( SELECT COALESCE (SUM (outWeight), 0) FROM outgoing WHERE operationIdFK = OLD.operationIdFK) WHERE operationId = OLD.operationIdFK; END;");
-					$dbCreation = true;
+			if ($installationOk && isset($_REQUEST['confirmDBInitialization'])) {
+				$dbh->beginTransaction();
+				try {
+					if (!$dbh->query("SET FOREIGN_KEY_CHECKS = 0;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("DROP TABLE IF EXISTS `sheet`;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("CREATE TABLE `sheet` ( `sheetId` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Sheet ID', `accessKey` VARCHAR(255) NOT NULL COMMENT 'Access key', `name` VARCHAR(255) NOT NULL COMMENT 'Sheet name', `currencyCode` VARCHAR(255) NOT NULL COMMENT 'Currency code (EUR, USD...)', `creatorEmail` VARCHAR(255) NOT NULL COMMENT 'Email of the creator of this sheet', `creationTS` DATETIME NOT NULL COMMENT 'Sheet creation date', `lastModificationTS` DATETIME NOT NULL COMMENT 'Last modification date (adding/updating/deleting person, operation or any object in the sheet)', PRIMARY KEY (`sheetId`) ) ENGINE=InnoDB COMMENT='List of sheets';")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("DROP TABLE IF EXISTS `person`;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("CREATE TABLE `person` ( `personId` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Person ID', `personName` VARCHAR(255) NOT NULL COMMENT 'Person name', `sheetIdFK` INTEGER NOT NULL COMMENT 'Sheet foreign key', PRIMARY KEY (`personId`), INDEX `person_FI_1` (`sheetIdFK`), CONSTRAINT `person_FK_1` FOREIGN KEY (`sheetIdFK`) REFERENCES `sheet` (`sheetId`) ON DELETE CASCADE ) ENGINE=InnoDB COMMENT='List of person in the community';")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("DROP TABLE IF EXISTS `outgoing`;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("CREATE TABLE `outgoing` ( `outId` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Outgoing ID', `outWeight` FLOAT COMMENT 'Weight applied to the person', `operationIdFK` INTEGER NOT NULL COMMENT 'Operation foreign key', `personIdFK` INTEGER NOT NULL COMMENT 'Person foreign key', PRIMARY KEY (`outId`), INDEX `outgoing_FI_1` (`operationIdFK`), CONSTRAINT `outgoing_FK_1` FOREIGN KEY (`operationIdFK`) REFERENCES `operation` (`operationId`) ON DELETE CASCADE, INDEX `outgoing_FI_2` (`personIdFK`), CONSTRAINT `outgoing_FK_2` FOREIGN KEY (`personIdFK`) REFERENCES `person` (`personId`) ON DELETE CASCADE ) ENGINE=InnoDB COMMENT='What is consumed by the community';")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("DROP TABLE IF EXISTS `incoming`;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("CREATE TABLE `incoming` ( `inId` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Incoming ID', `inAmount` FLOAT COMMENT 'Amount of the incoming', `operationIdFK` INTEGER NOT NULL COMMENT 'Operation foreign key', `personIdFK` INTEGER NOT NULL COMMENT 'Person foreign key', PRIMARY KEY (`inId`), INDEX `incoming_FI_1` (`operationIdFK`), CONSTRAINT `incoming_FK_1` FOREIGN KEY (`operationIdFK`) REFERENCES `operation` (`operationId`) ON DELETE CASCADE, INDEX `incoming_FI_2` (`personIdFK`), CONSTRAINT `incoming_FK_2` FOREIGN KEY (`personIdFK`) REFERENCES `person` (`personId`) ON DELETE CASCADE ) ENGINE=InnoDB COMMENT='What is shared by the community';")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("DROP TABLE IF EXISTS `operation`;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("CREATE TABLE `operation` ( `operationId` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Operation ID', `operationTS` DATETIME NOT NULL COMMENT 'Operation date', `operationDescription` TEXT NOT NULL COMMENT 'Operation description', `sheetIdFK` INTEGER NOT NULL COMMENT 'Sheet foreign key', `totalInAmount` FLOAT NOT NULL COMMENT 'Total amount of all incomings for this operation', `totalOutWeight` FLOAT NOT NULL COMMENT 'Total weight of all outgoings for this operation', PRIMARY KEY (`operationId`), INDEX `operation_FI_1` (`sheetIdFK`), CONSTRAINT `operation_FK_1` FOREIGN KEY (`sheetIdFK`) REFERENCES `sheet` (`sheetId`) ON DELETE CASCADE ) ENGINE=InnoDB COMMENT='List of operations (made of incomings and outgoings)';")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("SET FOREIGN_KEY_CHECKS = 1;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("CREATE TRIGGER `incomingInsert` AFTER INSERT ON `incoming` FOR EACH ROW BEGIN UPDATE operation SET totalInAmount = ( SELECT COALESCE (SUM (inAmount), 0) FROM incoming WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK; END;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("CREATE TRIGGER `incomingUpdate` AFTER UPDATE ON `incoming` FOR EACH ROW BEGIN UPDATE operation SET totalInAmount = ( SELECT COALESCE (SUM (inAmount), 0) FROM incoming WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK; END;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("CREATE TRIGGER `incomingDelete` AFTER DELETE ON `incoming` FOR EACH ROW BEGIN UPDATE operation SET totalInAmount = ( SELECT COALESCE (SUM (inAmount), 0) FROM incoming WHERE operationIdFK = OLD.operationIdFK) WHERE operationId = OLD.operationIdFK; END;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("CREATE TRIGGER `outgoingInsert` AFTER INSERT ON `outgoing` FOR EACH ROW BEGIN UPDATE operation SET totalOutWeight = ( SELECT COALESCE (SUM (outWeight), 0) FROM outgoing WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK ; END;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("CREATE TRIGGER `outgoingUpdate` AFTER UPDATE ON `outgoing` FOR EACH ROW BEGIN UPDATE operation SET totalOutWeight = ( SELECT COALESCE (SUM (outWeight), 0) FROM outgoing WHERE operationIdFK = NEW.operationIdFK) WHERE operationId = NEW.operationIdFK; END;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					if (!$dbh->query("CREATE TRIGGER `outgoingDelete` AFTER DELETE ON `outgoing` FOR EACH ROW BEGIN UPDATE operation SET totalOutWeight = ( SELECT COALESCE (SUM (outWeight), 0) FROM outgoing WHERE operationIdFK = OLD.operationIdFK) WHERE operationId = OLD.operationIdFK; END;")) throw new Exception(dbhErrorMessage($dbh->errorInfo()));
+					$dbh->commit();
+					echo '<span style="color: green; font-weight: bold;">Base de données initialisée avec succès</span>';
 				}
-				else {
-					$dbCreation = false;
-					$installationOk = false;
+				catch (Exception $e) {
+					$dbh->rollback();
+					echo '<span style="color: red; font-weight: bold;">Impossible d\'initialiser la base de données: ' . $e->getMessage() . '</span>';
 				}
-			
-		?>
-
-		<p>Création de la base de données ... <?php echo $dbCreation ? $okConstant . ' (' . DATABASE_PATH . ')' : '<font color="red">Impossible de créer la base de données (' . DATABASE_PATH . ')</font>' ?></p>
-
-		<?php
-
 			}
 			
-			if ($installationOk) {
-			
 		?>
-
-		<p>Installation terminée avec succès. <a href="index.php">Aller à l'index</a>
 	</body>
 </html>
 
 <?php
-
-	}
 	
 	function file_exists_incpath ($file) {
 		$paths = explode(PATH_SEPARATOR, get_include_path());
@@ -149,6 +188,10 @@
 				return true;
 		}
 		return false;
+	}
+
+	function dbhErrorMessage($errorInfo) {
+		return $errorInfo[2];
 	}
 	
 ?>

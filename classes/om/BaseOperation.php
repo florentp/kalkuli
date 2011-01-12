@@ -105,7 +105,7 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 	 *
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
 	 *							If format is NULL, then the raw DateTime object will be returned.
-	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
 	 * @throws     PropelException - if unable to parse/validate the date/time value.
 	 */
 	public function getOperationts($format = 'Y-m-d H:i:s')
@@ -115,11 +115,16 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 		}
 
 
-
-		try {
-			$dt = new DateTime($this->operationts);
-		} catch (Exception $x) {
-			throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->operationts, true), $x);
+		if ($this->operationts === '0000-00-00 00:00:00') {
+			// while technically this is not a default value of NULL,
+			// this seems to be closest in meaning.
+			return null;
+		} else {
+			try {
+				$dt = new DateTime($this->operationts);
+			} catch (Exception $x) {
+				throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->operationts, true), $x);
+			}
 		}
 
 		if ($format === null) {
@@ -227,13 +232,13 @@ abstract class BaseOperation extends BaseObject  implements Persistent
 		if ( $this->operationts !== null || $dt !== null ) {
 			// (nested ifs are a little easier to read in this case)
 
-			$currNorm = ($this->operationts !== null && $tmpDt = new DateTime($this->operationts)) ? $tmpDt->format('Y-m-d\\TH:i:sO') : null;
-			$newNorm = ($dt !== null) ? $dt->format('Y-m-d\\TH:i:sO') : null;
+			$currNorm = ($this->operationts !== null && $tmpDt = new DateTime($this->operationts)) ? $tmpDt->format('Y-m-d H:i:s') : null;
+			$newNorm = ($dt !== null) ? $dt->format('Y-m-d H:i:s') : null;
 
 			if ( ($currNorm !== $newNorm) // normalized values don't match 
 					)
 			{
-				$this->operationts = ($dt ? $dt->format('Y-m-d\\TH:i:sO') : null);
+				$this->operationts = ($dt ? $dt->format('Y-m-d H:i:s') : null);
 				$this->modifiedColumns[] = OperationPeer::OPERATIONTS;
 			}
 		} // if either are not null

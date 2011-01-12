@@ -1,13 +1,14 @@
 <?php
 
-	require_once('include/config.inc.php');
-
 	date_default_timezone_set('Europe/Paris');
 	
-	if (!file_exists(DATABASE_PATH)) {
-		header(sprintf('Location: %s/install', CONTEXT_PATH));
+	if (file_exists('include/config.inc.php'))
+		require_once('include/config.inc.php');
+	else {
+		header(sprintf('Location: install'));
 		die();
 	}
+
 	require_once('propel/Propel.php');
 	require_once('classes/Kalkuli.php');
 	

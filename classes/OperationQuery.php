@@ -21,14 +21,14 @@ class OperationQuery extends BaseOperationQuery {
 			"SELECT operation.*, i.personTotalInAmount personTotalInAmount, -(o.personTotalOutWeight / operation.totalOutWeight * operation.totalInAmount) personTotalOutAmount
 			FROM operation
 			LEFT JOIN (
-					SELECT operationIdFK , SUM ( inAmount ) personTotalInAmount
+					SELECT operationIdFK , SUM(inAmount) personTotalInAmount
 					FROM incoming
 					WHERE personIdFK = :personIdFK
 					GROUP BY operationIdFK
 				) i
 				ON i.operationIdFK = operation.operationId
 			LEFT JOIN (
-					SELECT operationIdFK , SUM ( outWeight ) personTotalOutWeight
+					SELECT operationIdFK , SUM(outWeight) personTotalOutWeight
 					FROM outgoing
 					WHERE personIdFK = :personIdFK
 					GROUP BY operationIdFK

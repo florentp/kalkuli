@@ -10,9 +10,11 @@
 	<propel>
 		<datasources default="kalkuli">
 			<datasource id="kalkuli">
-				<adapter>sqlite</adapter>
+				<adapter>mysql</adapter>
 				<connection>
-					<dsn>sqlite:/kalkuli.db</dsn>
+					<dsn>mysql:host=localhost;dbname=kalkuli</dsn>
+					<user>user</user>
+					<password>password</password>
 					<classname>DebugPDO</classname>
 				</connection>
 			</datasource>
