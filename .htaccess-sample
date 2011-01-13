@@ -1,0 +1,23 @@
+# Enable rewrite engine
+RewriteEngine On
+
+# The base URL of your kalkuli installation (should has the same value as
+# CONTEXT_PATH in your include/config.inc.php)
+RewriteBase /kalkuli
+
+# Sheets alias must come here. If you want more friendly names than
+# 10-characters key, you can make a mappings here of the form:
+# RewriteRule ^<your_alias>$ <sheet_key_to_map>
+# ie:
+# RewriteRule ^mysheet$ z22wm03dna
+#
+# Your sheet will be accessible from URL http://yourdomain/kalkuli/mysheet
+# instead of http://yourdomain/kalkuli/z22wm03dna
+
+# Internal (required) rewriting rule for kalkuli
+RewriteRule ^([a-z0-9]+)$ sheet.php?accessKey=$1
+RewriteRule ^([a-z0-9]+)/operation/add$ operation-add.php?accessKey=$1
+RewriteRule ^([a-z0-9]+)/operation/list$ operations.php?accessKey=$1
+RewriteRule ^([a-z0-9]+)/operation/([0-9]+)$ operation-details.php?accessKey=$1&operationId=$2
+RewriteRule ^([a-z0-9]+)/person/add$ people-add.php?accessKey=$1
+RewriteRule ^([a-z0-9]+)/person/([0-9]+)$ person-details.php?accessKey=$1&personId=$2

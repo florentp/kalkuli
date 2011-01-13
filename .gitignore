@@ -1,4 +1,5 @@
 
 /propel-project/build
 /templates_c/*
+.htaccess
 /include/config.inc.php

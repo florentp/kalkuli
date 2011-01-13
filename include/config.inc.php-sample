@@ -2,6 +2,7 @@
 
 	// SERVER_URL contains the protocol (http / https), domain name and
 	// port of the server. SERVER_URL must not have a trailing slash.
+	
 	define('SERVER_URL',                      'http://localhost');
 
 	// CONTEXT_PATH is the part of the URL between the serveur domain and
@@ -11,20 +12,41 @@
 	// CONTEXT_PATH must have a leading and no trailing slashes. If
 	// Kalkuli is installed at the root of the server
 	// (http://some.server.org/), CONTEXT_PATH must be empty: ''.
+	
 	define('CONTEXT_PATH',                    '/kalkuli');
 	
 	// MySQL connection parameters
+	
 	define('DATABASE_HOST',                   'localhost');
 	define('DATABASE_NAME',                   'kalkuli');
 	define('DATABASE_USERNAME',               'username');
 	define('DATABASE_PASSWORD',               'password');
 
+	// SMTP connection parameters
+
+	define('SMTP_HOST',                        'localhost'); // Use ssl://host to activate SSL
+	define('SMTP_PORT',                        '25'); // Default port for SMTP is 25. With SSL it's 465
+	define('SMTP_USE_AUTH',                    false); // Enable or disable SMTP authentication
+	define('SMTP_USERNAME',                    ''); // Used only if SMTP_USE_AUTH is true
+	define('SMTP_PASSWORD',                    ''); // Used only if SMTP_USE_AUTH is true
+
+	// *_INCLUDE_PREFIX is the path of the PHP librairies from the global
+	// PHP include_path configuration parameter.
+	// *_INCLUDE_PREFIX must have a leading and no trailing slashes. If
+	// no prefix is required for a librairy, the parameter must be empty:
+	// define('PEAR_INCLUDE_PREFIX',             '');
+
+	define('PEAR_INCLUDE_PREFIX',             '');
+	define('SMARTY_INCLUDE_PREFIX',           '');
+
 	// SQL debug level
+	
 	define('PROPEL_USE_DEBUG',                false);
 	define('PROPEL_DEBUG_LEVEL',              '0');
 	
 	// Must match date() function format
 	// http://ca3.php.net/manual/en/function.date.php
+	
 	define('DATE_FORMAT',                      'd/m/Y');
 	
 	define('SHEET_ACCESS_KEY_LENGTH',          10);

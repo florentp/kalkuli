@@ -1,9 +1,0 @@
-RewriteEngine On
-RewriteBase /kalkuli
-RewriteRule ^install$ install.php
-RewriteRule ^([a-z0-9]+)$ sheet.php?accessKey=$1
-RewriteRule ^([a-z0-9]+)/operation/add$ operation-add.php?accessKey=$1
-RewriteRule ^([a-z0-9]+)/operation/list$ operations.php?accessKey=$1
-RewriteRule ^([a-z0-9]+)/operation/([0-9]+)$ operation-details.php?accessKey=$1&operationId=$2
-RewriteRule ^([a-z0-9]+)/person/add$ people-add.php?accessKey=$1
-RewriteRule ^([a-z0-9]+)/person/([0-9]+)$ person-details.php?accessKey=$1&personId=$2

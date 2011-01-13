@@ -3,7 +3,7 @@
 	require_once('include/php_header.inc.php');
 	require_once('classes/KeyGenerator.php');
 	require_once('classes/CurrencyType.php');
-	require_once('Mail.php');
+	require_once('classes/MailerFactory.php');
 
 	if (isset($_REQUEST['createSheetButton'])) {
 		// sheetName is not empty
@@ -59,25 +59,14 @@
 		$body .= sprintf("%s%s/%s\n\n", SERVER_URL, CONTEXT_PATH, $sheet->getAccessKey());
 		$body .= "Seules les personnes connaissant cette adresse peuvent y accéder, pensez à la partager avec les autres participants.\n\nA bientôt sur /kal.'ku.li/";
 
-		$host = "ssl://smtp.gmail.com";
-		$port = "465";
-		$username = "kalkuli@tooff.com";
-		$password = "kalkuli";
-
 		$headers = array (
 			'From' => $from,
 			'To' => $to,
 			'Subject' => $subject);
-		$smtp = Mail::factory(
-			'smtp',
-			array (
-				'host' => $host,
-				'port' => $port,
-				'auth' => true,
-				'username' => $username,
-				'password' => $password));
+		
+		$mailer = MailerFactory::createNewInstance();
 
-		$sendResult = $smtp->send($to, $headers, $body);
+		$sendResult = $mailer->send($to, $headers, $body);
 
 		if (PEAR::isError($sendResult)) {
 			// TODO
@@ -110,25 +99,15 @@
 		}
 		$body .= "\nA bientôt sur /kal.'ku.li/";
 
-		$host = "ssl://smtp.gmail.com";
-		$port = "465";
-		$username = "kalkuli@tooff.com";
-		$password = "kalkuli";
 
 		$headers = array (
 			'From' => $from,
 			'To' => $to,
 			'Subject' => $subject);
-		$smtp = Mail::factory(
-			'smtp',
-			array (
-				'host' => $host,
-				'port' => $port,
-				'auth' => true,
-				'username' => $username,
-				'password' => $password));
+		
+		$mailer = MailerFactory::createNewInstance();
 
-		$sendResult = $smtp->send($to, $headers, $body);
+		$sendResult = $mailer->send($to, $headers, $body);
 
 		if (PEAR::isError($sendResult)) {
 			// TODO

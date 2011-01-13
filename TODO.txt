@@ -1,10 +1,5 @@
 Bloquer les boutons pour éviter les doubles création (user, opération)
 Dans mobile/operation-add, centrer verticalement la case à cocher par rapport aux 2 <div>
-Ajouter Mail et Net_SMTP dans les vérifs du script d'install + activation module openssl
-MailerFactory
-PEAR and Smarty include paths
-
-Manuel d'install
-	COntext path à modifier aussi dans le .htaccess
 FAQ
 	Error FUNCTION <database_name>.SUM does not exist.
+Boutons qui ne se dé-highilight pas quand une popup s'ouvre

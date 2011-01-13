@@ -9,12 +9,12 @@
 		die();
 	}
 
-	require_once('propel/Propel.php');
+	require_once(PEAR_INCLUDE_PREFIX . 'propel/Propel.php');
 	require_once('classes/Kalkuli.php');
 	
 	Propel::init('include/propel-db-config.inc.php');
 	
-	require_once('smarty/Smarty.class.php');
+	require_once(SMARTY_INCLUDE_PREFIX . 'smarty/Smarty.class.php');
 	
 	$smarty = new Smarty();
 	
