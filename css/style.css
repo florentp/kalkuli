@@ -197,6 +197,11 @@ input.weight {
 	padding: 0 1em;
 }
 
+#testsStamp {
+	float: left;
+	margin-left: 1.5em;
+}
+
 .ui-dialog-button-row {
 	padding: 1.4em;
 	text-align: center;

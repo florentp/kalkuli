@@ -4,7 +4,7 @@ class CurrencyType {
 	private static $currencyList = array(
 		"EUR" => array(
 			'name' => 'Euro',
-			'symbol' => '&euro'
+			'symbol' => '&euro;'
 		),
 		'USD' => array(
 			'name' => 'US dollar',

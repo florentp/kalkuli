@@ -56,3 +56,7 @@
 	
 	define('SHEET_ACCESS_KEY_LENGTH',          10);
 	define('N_DECIMALS',                       2);
+
+	// Display a TESTS stamp in the menu bar if set to true (used for
+	// testing and demo environnements)
+	define('TESTS_SITE',                       false);

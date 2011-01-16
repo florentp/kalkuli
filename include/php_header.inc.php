@@ -26,6 +26,7 @@
 	$smarty->register_function('round', 'smarty_round');
 	
 	$smarty->assign('CONTEXT_PATH', CONTEXT_PATH);
+	$smarty->assign('TESTS_SITE', TESTS_SITE);
 
 	function smarty_round($params, &$smarty) {
 		return round($params['value']);
