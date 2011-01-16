@@ -22,6 +22,11 @@
 	define('DATABASE_USERNAME',               'username');
 	define('DATABASE_PASSWORD',               'password');
 
+	// Mailer parameters
+
+	define('MAILER_NAME',                     "/kal.'ku.li/ mailer");
+	define('MAILER_ADDRESS',                  'mailer@example.net');
+
 	// SMTP connection parameters
 
 	define('SMTP_HOST',                        'localhost'); // Use ssl://host to activate SSL

@@ -52,24 +52,22 @@
 			throw $e;
 		}
 
-		$from = "kalkuli@tooff.com";
-		$to = "$creatorEmail";
 		$subject = "/kal.'ku.li/ Création de votre feuille de compte $sheetName";
 		$body = "Bonjour,\n\nVotre feuille de compte $sheetName a été créée à l'adresse unique suivante:\n";
 		$body .= sprintf("%s%s/%s\n\n", SERVER_URL, CONTEXT_PATH, $sheet->getAccessKey());
 		$body .= "Seules les personnes connaissant cette adresse peuvent y accéder, pensez à la partager avec les autres participants.\n\nA bientôt sur /kal.'ku.li/";
 
 		$headers = array (
-			'From' => $from,
-			'To' => $to,
+			'From' => sprintf('"%s" <%s>', MAILER_NAME, MAILER_ADDRESS),
+			'To' => $creatorEmail,
 			'Subject' => $subject);
 		
 		$mailer = MailerFactory::createNewInstance();
 
-		$sendResult = $mailer->send($to, $headers, $body);
+		$sendResult = $mailer->send($creatorEmail, $headers, $body);
 
 		if (PEAR::isError($sendResult)) {
-			// TODO
+			error_log($sendResult->toString());
 		}
 
 		header(sprintf('Location: %s/%s', CONTEXT_PATH, $sheet->getAccessKey()));
@@ -90,8 +88,6 @@
 			->filterByCreatoremail($retrieveEmail)
 			->find();
 
-		$from = "kalkuli@tooff.com";
-		$to = "$retrieveEmail";
 		$subject = "/kal.'ku.li/ Liste de vos feuilles de compte";
 		$body = "Bonjour,\n\nVoici la liste des feuilles de compte rattachées à l'adresse $retrieveEmail:\n";
 		foreach ($sheetList as $sheet) {
@@ -99,18 +95,17 @@
 		}
 		$body .= "\nA bientôt sur /kal.'ku.li/";
 
-
 		$headers = array (
-			'From' => $from,
-			'To' => $to,
+			'From' => sprintf('"%s" <%s>', MAILER_NAME, MAILER_ADDRESS),
+			'To' => $retrieveEmail,
 			'Subject' => $subject);
 		
 		$mailer = MailerFactory::createNewInstance();
 
-		$sendResult = $mailer->send($to, $headers, $body);
+		$sendResult = $mailer->send($retrieveEmail, $headers, $body);
 
 		if (PEAR::isError($sendResult)) {
-			// TODO
+			error_log($sendResult->toString());
 		}
 
 	}
