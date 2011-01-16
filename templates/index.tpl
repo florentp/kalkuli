@@ -3,7 +3,7 @@
 	<div class="ui-main-widget-header">/kal.'ku.li/ Simplicité et transparence des comptes entre amis</div>
 	<div class="ui-main-widget-content">
 		<p>Vacances, collocations, soirées... Tenez les comptes en toute simplicité et en toute transparence entre les participants.</p>
-		<p>Saisissez simplement les dépenses effectuée au titre du groupe et visualisez immédiatement le solde de chaque participant.</p>
+		<p>Saisissez simplement les dépenses effectuées au titre du groupe et visualisez immédiatement le solde de chaque participant.</p>
 		<p>Vous pouvez créer dès maintenant, simplement et gratuitement une feuille de compte sans vous enregistrer sur le site. Un email vous sera envoyé pour vous communiquer l'adresse unique et privée de votre feuille de compte.</p>
 	</div>
 	<div class="ui-main-widget-buttons">

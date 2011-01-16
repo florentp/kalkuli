@@ -1,6 +1,7 @@
 <ul id="menu">
-	<li><a href="#" id="menuHome">/kal.'ku.li/ home</a></li>
-	<li><a href="#" id="menuAbout">A propos</a></li>
+	<li><a href="#" id="menuHome">Accueil</a></li>
+	<li><a href="#" id="howItWorks">Comment ça marche&nbsp;?</a></li>
+	<li><a href="#" id="menuFaq">FAQ</a></li>
 </ul>
 
 {literal}
@@ -17,8 +18,12 @@
 			$.doGet(CONTEXT_PATH + '/');
 			return false;
 		});
-		$('#menuAbout').click(function() {
-			$.doGet(CONTEXT_PATH + '/about');
+		$('#howItWorks').click(function() {
+			$.doGet(CONTEXT_PATH + '/howItWorks');
+			return false;
+		});
+		$('#menuFaq').click(function() {
+			$.doGet(CONTEXT_PATH + '/faq');
 			return false;
 		});
 	});
