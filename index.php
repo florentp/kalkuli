@@ -108,6 +108,8 @@
 			error_log($sendResult->toString());
 		}
 
+		header(sprintf('Location: %s', CONTEXT_PATH));
+
 	}
 
 	$currencyOptionList = array();

@@ -3,4 +3,3 @@ Dans mobile/operation-add, centrer verticalement la case à cocher par rapport au
 FAQ technique
 	Error FUNCTION <database_name>.SUM does not exist.
 Boutons qui ne se dé-highilight pas quand une popup s'ouvre
-Faire un redirect après la demande d'envoi des URL de feuilles de compte pour éviter le resend sur un F5
