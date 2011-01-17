@@ -1,5 +1,3 @@
 Bloquer les boutons pour éviter les doubles création (user, opération)
 Dans mobile/operation-add, centrer verticalement la case à cocher par rapport aux 2 <div>
-FAQ technique
-	Error FUNCTION <database_name>.SUM does not exist.
 Boutons qui ne se dé-highilight pas quand une popup s'ouvre

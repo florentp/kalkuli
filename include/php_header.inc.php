@@ -27,6 +27,7 @@
 	
 	$smarty->assign('CONTEXT_PATH', CONTEXT_PATH);
 	$smarty->assign('TESTS_SITE', TESTS_SITE);
+	$smarty->assign('GOOGLE_ANALYTICS_ID', GOOGLE_ANALYTICS_ID);
 
 	function smarty_round($params, &$smarty) {
 		return round($params['value']);

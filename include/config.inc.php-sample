@@ -44,6 +44,11 @@
 	define('PEAR_INCLUDE_PREFIX',             '');
 	define('SMARTY_INCLUDE_PREFIX',           '');
 
+	// Google Analytics
+	// To disable Google Analytics, set the value to null.
+
+	define('GOOGLE_ANALYTICS_ID',             null);
+
 	// SQL debug level
 	
 	define('PROPEL_USE_DEBUG',                false);
