@@ -3,7 +3,7 @@
 	<li><a href="#" id="howItWorks">Comment ça marche&nbsp;?</a></li>
 	<li><a href="#" id="menuFaq">FAQ</a></li>
 	{if $TESTS_SITE}
-		<img id="testsStamp" alt="Tests" height="38" src="images/tests-stamp.png" title="Site de tests. Les données peuvent être effacées à n'importe quel moment." width="74" />
+		<img id="testsStamp" alt="Tests" height="38" src="{$CONTEXT_PATH}/images/tests-stamp.png" title="Site de tests. Les données peuvent être effacées à n'importe quel moment." width="74" />
 	{/if}
 </ul>
 {literal}

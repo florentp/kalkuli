@@ -1,11 +1,10 @@
-{include file="menu.tpl"}
+<h1>Principes de base du fonctionnement de /kal.'ku.li/</h1>
 <div class="ui-main-widget">
-	<div class="ui-main-widget-header">Principes de base du fonctionnement de /kal.'ku.li/</div>
 	<div class="ui-main-widget-content">
 		<h2>Création d'une feuille de compte</h2>
 		<p>Que se soit pour faire les comptes d'une soirée, de vacances, d'une colocation ou autre, vous créez une <span class="alternate">feuille de compte</span> depuis la page d'accueil. Une feuille de compte est un espace privé dans lequel vous enregistrez le nom des <span class="alternate">participants</span> et saisissez l'ensemble des dépenses, appelées <span class="alternate">opérations</span>, effectuées par et pour les participants.</p>
 		<h2>Enregistrement des opérations et calcul du solde</h2>
-		<p>Au fur et à mesure que vous saisissez des opérations (généralement des dépenses), le <span class="alternate">solde</span> de chaque participant est mis à jour. Lorsqu'un participant a un solde positif, ceci signifie qu'il a dépensé plus que les autres participants et inversement.</p>
+		<p>Au fur et à mesure que vous saisissez des opérations (généralement des dépenses), le <span class="alternate">solde</span> de chaque participant est mis à jour. Lorsqu'un participant a un solde positif, ceci signifie qu'il a dépensé plus que les autres participants. Et inversement.</p>
 		<p>Par exemple, lorsqu'une opération de 30&nbsp;&euro; est enregistrée et réparties entre 3 participants, le solde de celui qui a réglé la dépense augmente de 20&nbsp;&euro; (+30&nbsp;&euro; réglés, -10&nbsp;&euro; représentant sa propre part) et le solde des deux autres participants diminue de 10&nbsp;&euro;.</p>
 		<p>Remarque: la somme des soldes des participants d'une feuille de compte est toujours égale à zéro.</p>
 		<h2>Répartition et pondération des opérations</h2>

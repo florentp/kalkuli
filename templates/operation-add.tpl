@@ -1,6 +1,5 @@
-{include file="menu-sheet.tpl"}
+<h1><a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}">{$sheet->getName()|escape}</a> > Nouvelle opération</h1>
 <div class="ui-main-widget">
-	<div class="ui-main-widget-header">Nouvelle opération</div>
 	<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/add" id="addOperationForm" name="addOperationForm" method="post">
 		<table class="tableForm">
 			<colgroup>
@@ -65,7 +64,7 @@
 			<tr class="buttonRow">
 				<td colspan="3">
 					<button class="ui-button" id="addOperationButton" name="addOperationButton" type="submit">Enregistrer</button>
-					<button class="ui-button" id="cancelButton">Annuler</button>
+					<button class="ui-button" id="cancelButton" type="button">Annuler</button>
 				</td>
 			</tr>
 		</table>

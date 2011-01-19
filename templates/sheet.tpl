@@ -1,6 +1,5 @@
-{include file="menu-sheet.tpl"}
+<h1>{$sheet->getName()|escape}</h1>
 <div class="ui-main-widget">
-	<div class="ui-main-widget-header">Participants à cette feuille de comptes</div>
 
 	<table cellpadding="0" cellspacing="0" class="dataGrid">
 		<colgroup>
@@ -33,16 +32,34 @@
 			</td>
 			</tr>
 		{foreachelse}
-			<tr><td>Vous devez commencer par saisir des personnes</td></tr>
+			<tr><td>Vous devez commencer par ajouter des participants</td></tr>
 		{/foreach}
 	</table>
 
 </div>
+<div class="buttons">
+	{if $nPeople > 0}
+		<button class="ui-button" id="addOperationButton" type="button">Saisir une opération</button>
+	{/if}
+	<button class="ui-button" id="addPersonButton" type="button">Ajouter des participants</button>
+</div>
 
 {literal}
 <script type="text/javascript">
-	$('.bargraph').addClass('ui-helper-clearfix ui-corner-all');
-	$('.bargraph > .negativeBar').addClass('ui-corner-left');
-	$('.bargraph > .positiveBar').addClass('ui-corner-right');
+	$(function() {
+		$('.bargraph').addClass('ui-helper-clearfix ui-corner-all');
+		$('.bargraph > .negativeBar').addClass('ui-corner-left');
+		$('.bargraph > .positiveBar').addClass('ui-corner-right');
+
+		$('#addOperationButton').click(function() {
+				$.doGet(sprintf('%s/%s/operation/add', CONTEXT_PATH, SHEET_ACCESS_KEY));
+				return false;
+		});
+
+		$('#addPersonButton').click(function() {
+				$.doGet(sprintf('%s/%s/person/add', CONTEXT_PATH, SHEET_ACCESS_KEY));
+				return false;
+		});
+	});
 </script>
 {/literal}

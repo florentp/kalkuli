@@ -1,15 +1,14 @@
-{include file="menu.tpl"}
+<h1>/kal.'ku.li/</h1>
 <div class="ui-main-widget">
-	<div class="ui-main-widget-header">/kal.'ku.li/ Simplicité et transparence des comptes entre amis</div>
 	<div class="ui-main-widget-content">
 		<p>Vacances, collocations, soirées... Tenez les comptes en toute simplicité et en toute transparence entre les participants.</p>
 		<p>Saisissez simplement les dépenses effectuées au titre du groupe et visualisez immédiatement le solde de chaque participant.</p>
 		<p>Vous pouvez créer dès maintenant, simplement et gratuitement une feuille de compte sans vous enregistrer sur le site. Un email vous sera envoyé pour vous communiquer l'adresse unique et privée de votre feuille de compte.</p>
 	</div>
-	<div class="ui-main-widget-buttons">
-		<button class="ui-button" id="openCreateSheetDialogButton" type="button">Créer une feuille de compte</button>
-		<button class="ui-button" id="openRetrieveSheetsDialogButton" type="button">Retrouver ses feuilles de compte</button>
-	</div>
+</div>
+<div class="buttons">
+	<button class="ui-button" id="openCreateSheetDialogButton" type="button">Créer une feuille de compte</button>
+	<button class="ui-button" id="openRetrieveSheetsDialogButton" type="button">Retrouver ses feuilles de compte</button>
 </div>
 
 <div id="createSheetDialog">

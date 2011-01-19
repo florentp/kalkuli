@@ -7,10 +7,13 @@ body {
 }
 
 h1 {
-	text-align: center;
+	color: #333333;
+	font-size: 1.5em;
+	margin-top: 1.5em;
 }
 
 h2 {
+	font-size: 1.3em;
 	text-align: center;
 }
 
@@ -31,7 +34,7 @@ table.dataGrid {
 }
 
 table.dataGrid tr.alternate {
-	background-color:	#eeeeee;
+	background-color: #e0e0e0;
 }
 
 table.dataGrid td {
@@ -69,12 +72,18 @@ table.tableForm td {
 	padding: .3em 0.6em;
 }
 
-a, a:visited {
-	font-weight:		bold;
+a, .ui-widget-content a, a:visited {
+	color: #004276;
+	font-weight: bold;
 }
 
 a:hover, a:active {
-	text-decoration:	none;
+	text-decoration: none;
+}
+
+div.actions a {
+	display: block;
+	margin: .5em 0;
 }
 
 img {
@@ -82,7 +91,7 @@ img {
 }
 
 span.alternate {
-	color: #004276;
+	color: #333333;
 	font-weight: bold;
 }
 
@@ -139,9 +148,9 @@ input.weight {
 }
 
 .ui-main-widget {
-	margin: 3em auto;
+	margin: 1.5em 0;
 	padding: 0.2em;
-	width: 45em;
+	width: 100%;
 }
 
 .ui-main-widget-header {
@@ -168,7 +177,7 @@ input.weight {
 	margin: 1em;
 }
 
-.ui-main-widget-buttons {
+.buttons {
 	margin: 1em;
 	text-align: center;
 }
@@ -200,6 +209,12 @@ input.weight {
 #testsStamp {
 	float: left;
 	margin-left: 1.5em;
+}
+
+#content {
+	margin-left: auto;
+	margin-right: auto;
+	width: 45em;
 }
 
 .ui-dialog-button-row {

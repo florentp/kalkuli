@@ -1,10 +1,10 @@
 <ul id="menu">
-	<li><a href="#" id="menuPeopleList">Pariticipants</a></li>
+	<li><a href="#" id="menuPeopleList">Participants</a></li>
 	<!--<li><a href="#" id="menuOperationsList">Opérations</a></li>-->
 	<li><a href="#" id="menuNewOperation">Nouvelle opération</a></li>
 	<li><a href="#" id="menuNewPerson">Nouveau participant</a></li>
 	{if $TESTS_SITE}
-		<img id="testsStamp" alt="Tests" height="38" src="images/tests-stamp.png" title="Site de tests. Les données peuvent être effacées à n'importe quel moment." width="74" />
+		<img id="testsStamp" alt="Tests" height="38" src="{$CONTEXT_PATH}/images/tests-stamp.png" title="Site de tests. Les données peuvent être effacées à n'importe quel moment." width="74" />
 	{/if}
 </ul>
 

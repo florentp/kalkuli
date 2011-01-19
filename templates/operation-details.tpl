@@ -1,6 +1,5 @@
-{include file="menu-sheet.tpl"}
+<h1><a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}">{$sheet->getName()|escape}</a> > <span class="alternate">{$operation->getOperationDescription()|escape}</span></h1>
 <div class="ui-main-widget">
-	<div class="ui-main-widget-header">Opération <span class="alternate">{$operation->getOperationDescription()|escape}</span></div>
 	<div class="ui-main-widget-separator">Contributions</div>
 	<div class="ui-main-widget-section">
 		<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/{$operation->getOperationId()}" id="addIncomingForm" method="post">
@@ -103,6 +102,10 @@
 		</form>
 	</div>
 </div>
+<div class="buttons">
+	<button class="ui-button" id="addOperationButton" type="button">Saisir une opération</button>
+	<button class="ui-button" id="addPersonButton" type="button">Ajouter des participants</button>
+</div>
 
 <div id="deleteIncomingConfirmationDialog">
 	<div>Etes-vous sûr de vouloir effacer <span class="alternate" id="deleteIncomingPersonName"></span> de la liste?</div>
@@ -128,6 +131,15 @@
 {literal}
 <script type="text/javascript">
 	$(function() {
+		$('#addOperationButton').click(function() {
+				$.doGet(sprintf('%s/%s/operation/add', CONTEXT_PATH, SHEET_ACCESS_KEY));
+				return false;
+		});
+
+		$('#addPersonButton').click(function() {
+				$.doGet(sprintf('%s/%s/person/add', CONTEXT_PATH, SHEET_ACCESS_KEY));
+				return false;
+		});
 
 		$('#addIncomingForm').validate({
 			errorPlacement : function (label, element) {
