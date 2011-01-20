@@ -2,16 +2,12 @@
 <div class="ui-main-widget">
 
 	<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/add" id="addPeopleForm" name="addPeopleForm" method="post">
-		<table class="tableForm">
-			{section start=0 loop=5 name="peopleList"}
-				<tr>
-					<th>Participant {$smarty.section.peopleList.iteration}&nbsp;:</th>
-					<td>
-						<input class="name" id="namesList{$smarty.section.peopleList.iteration}" name="namesList[{$smarty.section.peopleList.iteration}]" maxlength="255" type="text" />
-						<div id="namesList{$smarty.section.peopleList.iteration}FormValidationMessage" class="formValidationMessage"></div>
-					</td>
-				</tr>
-			{/section}
+		<table id="addPeopleTable" class="tableForm">
+			<tr id="moreParticipantsRow">
+				<td colspan="2">
+					<a href="#">Plus de participants</a>
+				</td>
+			</tr>
 			<tr class="buttonRow">
 				<td colspan="2">
 					<button class="ui-button" name="addPeopleButton" type="submit">Enregistrer</button>
@@ -25,6 +21,7 @@
 <script src="{$CONTEXT_PATH}/js/people-add.js" type="text/javascript"></script>
 {literal}
 <script type="text/javascript">
+	var nParticipant = 0;
 	$(function() {
 
 		$('#cancelButton').click(function() {
@@ -36,6 +33,17 @@
 				label.appendTo($('#' + element[0].id + 'FormValidationMessage'));
 			}
 		});
+
+		$('#moreParticipantsRow').click(function () {
+			for (var i = 1; i <= 3; i++) {
+				addParticipantRow();
+			}
+			return false;
+		});
+
+		for (var i = 1; i <= 3; i++) {
+			addParticipantRow();
+		}
 		
 		loadValidationRules();
 	});
