@@ -2,17 +2,28 @@
 
 	date_default_timezone_set('Europe/Paris');
 	
-	if (file_exists('include/config.inc.php'))
-		require_once('include/config.inc.php');
-	else {
-		header(sprintf('Location: install'));
-		die();
-	}
+	require_once('include/config.inc.php');
+
+	session_start();
 
 	require_once(PEAR_INCLUDE_PREFIX . 'propel/Propel.php');
 	require_once('classes/Kalkuli.php');
 	
 	Propel::init('include/propel-db-config.inc.php');
+
+	if (!isset($_SESSION['browserType'])) {
+		if (Kalkuli::isMobileBrowser())
+			$_SESSION['browserType'] = 'MOBILE';
+		else
+			$_SESSION['browserType'] = 'STANDARD';
+	}
+
+	if (isset($_REQUEST['forceBrowserType'])) {
+		if ($_REQUEST['forceBrowserType'] == 'STANDARD')
+			$_SESSION['browserType'] = 'STANDARD';
+		else if ($_REQUEST['forceBrowserType'] == 'MOBILE')
+			$_SESSION['browserType'] = 'MOBILE';
+	}
 	
 	require_once(SMARTY_INCLUDE_PREFIX . 'smarty/Smarty.class.php');
 	

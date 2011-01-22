@@ -200,7 +200,7 @@
 	$smarty->assign_by_ref('outgoingsList',	$outgoingsList);
 	$smarty->assign_by_ref('peopleList',	$peopleList);
 	
-	if (Kalkuli::isMobileBrowser())
-		$smarty->display('mobile/layout.tpl');
-	else
+	if ($_SESSION['browserType'] == 'STANDARD')
 		$smarty->display('layout.tpl');
+	else
+		$smarty->display('mobile/layout.tpl');

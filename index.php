@@ -119,8 +119,7 @@
 	$smarty->assign('templateName',	'index');
 	$smarty->assign('currencyOptionList', $currencyOptionList);
 	
-	if (Kalkuli::isMobileBrowser())
-		$smarty->display('mobile/layout.tpl');
-	else
+	if ($_SESSION['browserType'] == 'STANDARD')
 		$smarty->display('layout.tpl');
-	
+	else
+		$smarty->display('mobile/layout.tpl');
