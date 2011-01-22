@@ -1,3 +1,2 @@
 Bloquer les boutons pour éviter les doubles création (user, opération)
 Dans mobile/operation-add, centrer verticalement la case à cocher par rapport aux 2 <div>
-Boutons qui ne se dé-highilight pas quand une popup s'ouvre

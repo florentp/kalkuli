@@ -4,11 +4,11 @@
 	<head>
 		<title>/kal.'ku.li/</title>
 
-		<link href="{$CONTEXT_PATH}/css/jquery-ui/blitzer-custom/jquery-ui-1.8.8.custom.css" rel="stylesheet" type="text/css" />
+		<link href="{$CONTEXT_PATH}/css/jquery-ui/smoothness-custom/jquery-ui-1.8.9.custom.css" rel="stylesheet" type="text/css" />
 		<link href="{$CONTEXT_PATH}/css/style.css" rel="stylesheet" type="text/css" />
 
 		<script src="{$CONTEXT_PATH}/js/jquery-1.4.4.min.js" type="text/javascript"></script>
-		<script src="{$CONTEXT_PATH}/js/jquery-ui-1.8.8.custom.min.js" type="text/javascript"></script>
+		<script src="{$CONTEXT_PATH}/js/jquery-ui-1.8.9.custom.min.js" type="text/javascript"></script>
 		
 		<script src="{$CONTEXT_PATH}/js/jquery-plugins/jquery.validate.min.js" type="text/javascript"></script>
 		<script src="{$CONTEXT_PATH}/js/jquery-plugins/localization/messages_fr.js" type="text/javascript"></script>
