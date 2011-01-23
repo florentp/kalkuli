@@ -1,2 +1,3 @@
 Bloquer les boutons pour éviter les doubles création (user, opération)
 Dans mobile/operation-add, centrer verticalement la case à cocher par rapport aux 2 <div>
+Régler le problème des forms mobile qui nécessitent un champ hidden. Soit faire la même chose pour la version desktop, soit faire un contrôleur central avec un truc genre "action"
