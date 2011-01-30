@@ -1,30 +1,31 @@
-<div class="ui-mobile-widget">
-	<div class="ui-mobile-widget-header">Ajouter des participants</div>
-
-	<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/add" id="addPeopleForm" name="addPeopleForm" method="post">
-		{section start=0 loop=5 name="peopleList"}
-			<div class="ui-mobile-widget-item">
-				<div class="ui-helper-clearfix">
-					<div class="ui-mobile-widget-item-field">
-						<input class="name" id="namesList{$smarty.section.peopleList.iteration}" maxlength="255" name="namesList[{$smarty.section.peopleList.iteration}]" type="text" />
-					</div>
-					<div class="ui-mobile-widget-item-label">Participant {$smarty.section.peopleList.iteration}</div>
-				</div>
-				<div class="ui-mobile-widget-item-description">
-					<div id="namesList{$smarty.section.peopleList.iteration}FormValidationMessage" class="formValidationMessage"></div>
-				</div>
+<div data-role="page" data-theme="b" id="peopleAdd">
+	<div data-role="header">
+		<h1>/kal.'ku.li/</h1>
+	</div>
+	<div data-role="content">
+		<h2><a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}" rel="external">{$sheet->getName()|escape}</a> > Nouveaux participants</h2>
+		<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/add" id="addPeopleForm" name="addPeopleForm" method="post">
+			<input type="hidden" id="addPeopleButton" name="addPeopleButton" value="addPeopleButton" />
+			
+			<div data-role="fieldcontain">
+				<a href="#" data-role="button" data-theme="c" id="moreParticipantsButton">Plus de participants</a>
+				<button type="submit" data-theme="b">Enregistrer</button>
 			</div>
-		{/section}
-		<div class="ui-mobile-widget-buttons">
-			<button class="ui-button" name="addPeopleButton" type="submit">Enregistrer</button>
+		</form>
+		<div id="participantTemplate" style="display: none;">
+			<div data-role="fieldcontain">
+				<label></label>
+				<input maxlength="255" type="text" />
+				<div class="formValidationMessage"></div>
+			</div>
 		</div>
-	</form>
+	</div>
 </div>
-{include file="mobile/menu-people-list.tpl"}
 
 <script src="{$CONTEXT_PATH}/js/people-add.js" type="text/javascript"></script>
 {literal}
 <script type="text/javascript">
+	var nParticipant = 0;
 	$(function() {
 
 		$('#addPeopleForm').validate({
@@ -32,8 +33,29 @@
 				label.appendTo($('#' + element[0].id + 'FormValidationMessage'));
 			}
 		});
+
+		$('#moreParticipantsButton').click(function () {
+			for (var i = 1; i <= 3; i++) {
+				addParticipantRow();
+			}
+			return false;
+		});
+
+		for (var i = 1; i <= 3; i++) {
+			addParticipantRow();
+		}
 		
 		loadValidationRules();
 	});
+
+	function addParticipantRow() {
+		nParticipant++;
+		var newItem = $('#participantTemplate > div').clone();
+		newItem.attr('id', null);
+		newItem.find('label').attr('for', sprintf('namesList%s', nParticipant)).html(sprintf('Participant %s&nbsp;:', nParticipant));
+		newItem.find('input').attr('id', sprintf('namesList%s', nParticipant)).attr('name', sprintf('namesList[%s]', nParticipant));
+		newItem.find('div.formValidationMessage').attr('id', sprintf('namesList%sFormValidationMessage', nParticipant));
+		newItem.insertBefore('#addPeopleButton');
+	}
 </script>
 {/literal}

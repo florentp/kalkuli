@@ -1,4 +1,4 @@
-<div data-role="page" id="sheet">
+<div data-role="page" data-theme="b" id="sheet">
 	<div data-role="header">
 		<h1>/kal.'ku.li/</h1>
 	</div>
@@ -7,8 +7,8 @@
 		<ul data-role="listview" data-inset="true">
 			{foreach from=$peopleList item="person" name="peopleList"}
 				<li>
-					<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$person->getPersonId()}">{$person->getPersonName()|escape}</a>
-					<span class="ui-li-count">{$person->getBalance()|formatAmount:$sheet->getCurrencyCode()}</span>
+					<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$person->getPersonId()}" rel="external">{$person->getPersonName()|escape}</a>
+					<span class="ui-li-aside">{$person->getBalance()|formatAmount:$sheet->getCurrencyCode()}</span>
 				</li>
 			{foreachelse}
 				<li>Vous devez commencer par ajouter des participants</li>

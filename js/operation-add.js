@@ -15,13 +15,6 @@ function loadValidationRules() {
 		}
 	);
 
-	$('#date').rules(
-		'add',
-		{
-			required : true
-		}
-	);
-
 	$('.weight').each(function() {
 		$(this).rules(
 			'add',

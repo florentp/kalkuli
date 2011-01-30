@@ -27,7 +27,7 @@
 			<tr>
 				<th><label for="description">Description&nbsp;:</label></th>
 				<td colspan="2">
-					<input class="description" id="description" maxlength="255" name="description" style="" type="text" />
+					<input class="description" id="description" maxlength="255" name="description" type="text" />
 					<div class="formValidationMessage" id="descriptionFormValidationMessage"></div>
 				</td>
 			</tr>
@@ -92,10 +92,6 @@
 				function(dateText, datepicker) {
 					$('#date').val(dateText);
 					$('#dateLinkSpan').text('Le ' + dateText);
-				},
-				{
-					dateFormat: 'dd/mm/yy',
-					duration: 0
 				}
 			);
 			$('#ui-datepicker-div').css('z-index', '1000');

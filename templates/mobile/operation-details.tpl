@@ -1,118 +1,132 @@
-<div class="ui-mobile-widget">
-	<div class="ui-mobile-widget-header">Opération <span class="alternate">{$operation->getOperationDescription()|escape}</div>
-	<div class="ui-mobile-widget-separator">Contributions</div>
-	<div class="ui-mobile-widget-content">
+<div data-role="page" data-theme="b" id="operationDetails">
+	<div data-role="header">
+		<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}" data-icon="back" rel="external">Back</a>
+		<h1>/kal.'ku.li/</h1>
+	</div>
+	<div data-role="content">
+		<h2><a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}" rel="external">{$sheet->getName()|escape}</a> > <span class="alternate">{$operation->getOperationDescription()|escape}</span></h2>
+		<ul data-role="listview" data-inset="true">
+			<li data-role="list-divider">Contributions</li>
+			{foreach from=$incomingsList item="incoming" name="incomingsList"}
+				<li>
+					<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$incoming->getPersonId()}" rel="external">{$incoming->getPersonName()|escape}</a>
+					<a href="#" onclick="confirmIncomingDelete('{$incoming->getPersonName()|escape:'javascript'|escape}', '{$incoming->getInId()}'); return false;" data-role="button" data-icon="delete" data-iconpos="notext">Supprimer ce contributeur</a>
+					<span class="ui-li-aside">
+						{$incoming->getInAmount()|formatAmount:$sheet->getCurrencyCode()}
+					</span>
+				</li>
+			{foreachelse}
+				<li>Aucune contribution enregistrée.</li>
+			{/foreach}
+			<li>
+				<a href="#addIncoming">Ajouter un contributeur</a>
+			</li>
+		</ul>
+		
+		<ul data-role="listview" data-inset="true">
+			<li data-role="list-divider">Participations</li>
+			{foreach from=$outgoingsList item="outgoing" name="outgoingsList"}
+				<li>
+					<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$outgoing->getPersonId()}" rel="external">{$outgoing->getPersonName()|escape}</a>
+					<a href="#" onclick="confirmOutgoingDelete('{$outgoing->getPersonName()|escape:'javascript'|escape}', '{$outgoing->getOutId()}'); return false;" data-role="button" data-icon="delete" data-iconpos="notext">Supprimer ce participant</a>
+					<div class="ui-li-aside">
+						<div>{$outgoing->computeWeightedPart()|formatAmount:$sheet->getCurrencyCode()}</div>
+						<div style="font-size: 0.8em;">{$outgoing->getOutWeight()} part(s) sur {$outgoing->getOperationTotalOutWeight()}</div>
+					</div>
+				</li>
+			{foreachelse}
+				<li>Aucune participation enregistrée.</li>
+			{/foreach}
+			<li>
+				<a href="#addOutgoing">Ajouter un participant</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div data-role="page" data-theme="b" id="addIncoming">
+	<div data-role="header">
+		<h1>Ajouter un contributeur</h1>
+	</div>
+	<div data-role="content">
 		<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/{$operation->getOperationId()}" id="addIncomingForm" method="post">
 			<input name="action" type="hidden" value="addIncoming" />
-			{foreach from=$incomingsList item="incoming" name="incomingsList"}
-				<div class="ui-mobile-widget-item">
-					<div class="ui-helper-clearfix">
-						<div class="ui-mobile-widget-item-field">
-							<button class="ui-button" onclick="confirmIncomingDelete('{$incoming->getPersonName()|escape:'javascript'|escape}', '{$incoming->getInId()}')" type="button"><span class="ui-icon ui-icon-close"></span></button>
-						</div>
-						<div class="ui-mobile-widget-item-field">
-							<div>{$incoming->getInAmount()|formatAmount:$sheet->getCurrencyCode()}</div>
-						</div>
-						<div class="ui-mobile-widget-item-label">
-							<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$incoming->getPersonId()}">{$incoming->getPersonName()|escape}</a>
-						</div>
-					</div>
-				</div>
-			{foreachelse}
-				<div class="ui-mobile-widget-item">
-					<div style="font-style: italic; text-align: center;">Aucune contribution enregistrée.</div>
-				</div>
-			{/foreach}
-			<div class="ui-mobile-widget-item ui-helper-clearfix">
-				<div class="ui-helper-clearfix">
-					<div class="ui-mobile-widget-item-field">
-						<button class="ui-button" id="addIncomingButton" name="addIncomingButton" type="submit"><span class="ui-icon ui-icon-plus"></span></button>
-					</div>
-					<div class="ui-mobile-widget-item-field">
-						<select id="contributorId" name="contributorId">
-							{foreach from=$peopleList item="person"}
-								<option value="{$person->getPersonId()}">{$person->getPersonName()|escape}</option>
-							{/foreach}
-						</select>
-						<input class="amount" id="amount" maxlength="10" name="amount" type="text" />&nbsp;{$sheet->getCurrencyCode()|formatSymbol}
-					</div>
-				</div>
-				<div class="ui-mobile-widget-item-description">
-					<div class="formValidationMessage" id="amountFormValidationMessage" style="float: right;"></div>
-				</div>
+			<div data-role="fieldcontain">
+				<label for="contributorId">Contributeur&nbsp;:</label>
+				<select id="contributorId" name="contributorId">
+					{foreach from=$peopleList item="person"}
+						<option value="{$person->getPersonId()}">{$person->getPersonName()|escape}</option>
+					{/foreach}
+				</select>
+			</div>
+			<div data-role="fieldcontain">
+				<label for="amount">Montant ({$sheet->getCurrencyCode()|formatSymbol})&nbsp;:</label>
+				<input class="amount" id="amount" maxlength="10" name="amount" type="text" />
+				<div class="formValidationMessage" id="amountFormValidationMessage"></div>
+			</div>
+			<div data-role="fieldcontain">
+				<button data-theme="b">Ajouter</button>
 			</div>
 		</form>
 	</div>
+</div>
 
-	<div class="ui-mobile-widget-separator">Participations</div>
-	<div class="ui-mobile-widget-content">
+<div data-role="page" data-theme="b" id="addOutgoing">
+	<div data-role="header">
+		<h1>Ajouter un participant</h1>
+	</div>
+	<div data-role="content">
 		<form action="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/{$operation->getOperationId()}" id="addOutgoingForm" method="post">
 			<input name="action" type="hidden" value="addOutgoing" />
-			{foreach from=$outgoingsList item="outgoing" name="outgoingsList"}
-				<div class="ui-mobile-widget-item">
-					<div class="ui-helper-clearfix">
-						<div class="ui-mobile-widget-item-field">
-							<button class="ui-button" onclick="confirmOutgoingDelete('{$outgoing->getPersonName()|escape:'javascript'|escape}', '{$outgoing->getOutId()}')" type="button"><span class="ui-icon ui-icon-close"></span></button>
-						</div>
-						<div class="ui-mobile-widget-item-field">
-							<div>{$outgoing->computeWeightedPart()|formatAmount:$sheet->getCurrencyCode()}</div>
-							<div style="font-size: 0.8em;">{$outgoing->getOutWeight()} part(s) sur {$outgoing->getOperationTotalOutWeight()}</div>
-						</div>
-						<div class="ui-mobile-widget-item-label">
-							<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$outgoing->getPersonId()}">{$outgoing->getPersonName()|escape}</a>
-						</div>
-					</div>
-				</div>
-			{foreachelse}
-				<div class="ui-mobile-widget-item">
-					<div style="font-style: italic; text-align: center;">Aucune participation enregistrée.</div>
-				</div>
-			{/foreach}
-			<div class="ui-mobile-widget-item ui-helper-clearfix">
-				<div class="ui-helper-clearfix">
-					<div class="ui-mobile-widget-item-field">
-						<button class="ui-button" id="addOutgoingButton" name="addOutgoingButton" type="submit"><span class="ui-icon ui-icon-plus"></span></button>
-					</div>
-					<div class="ui-mobile-widget-item-field">
-						<select id="participantId" name="participantId">
-							{foreach from=$peopleList item="person"}
-								<option value="{$person->getPersonId()}">{$person->getPersonName()|escape}</option>
-							{/foreach}
-						</select>
-						<input class="weight" id="weight" maxlength="10" name="weight" type="text" value="1" />
-					</div>
-				</div>
-				<div class="ui-mobile-widget-item-description">
-					<div class="formValidationMessage" id="weightFormValidationMessage" style="float: right;"></div>
-				</div>
+			<div data-role="fieldcontain">
+				<label for="participantId">Participant&nbsp;:</label>
+				<select id="participantId" name="participantId">
+					{foreach from=$peopleList item="person"}
+						<option value="{$person->getPersonId()}">{$person->getPersonName()|escape}</option>
+					{/foreach}
+				</select>
+			</div>
+			<div data-role="fieldcontain">
+				<label for="weight">Part&nbsp;:</label>
+				<input class="weight" id="weight" maxlength="10" name="weight" type="text" value="1" />
+				<div class="formValidationMessage" id="weightFormValidationMessage"></div>
+			</div>
+			<div data-role="fieldcontain">
+				<button data-theme="b">Ajouter</button>
 			</div>
 		</form>
 	</div>
 </div>
 
-<div id="deleteIncomingConfirmationDialog">
-	<div>Etes-vous sûr de vouloir effacer <span class="alternate" id="deleteIncomingPersonName"></span> de la liste?</div>
-	<div class="ui-dialog-button-row">
-		<button class="ui-button" id="confirmDeleteIncomingButton">Oui</button>
-		<button class="ui-button" id="cancelDeleteIncomingButton">Non</button>
+<div data-role="dialog" data-theme="b" id="confirmIncomingDelete">
+	<div data-role="header">
+		<h1>Confirmation de la suppression</h1>
 	</div>
-	<div id="deleteIncomingOperationId" style="display: none;">{$operation->getOperationId()}</div>
-	<div id="deleteIncomingId" style="display: none;"></div>
+	<div data-role="content">
+		<div>Etes-vous sûr de vouloir effacer <span class="alternate" id="deleteIncomingPersonName"></span> de la liste&nbsp;?</div>
+		<div class="buttonsPanel">
+			<a href="#" id="confirmDeleteIncomingButton" data-theme="b" data-role="button" data-inline="true">Oui</a>
+			<a href="#" data-role="button" data-inline="true">Non</a>
+		</div>
+		<div id="deleteIncomingOperationId" style="display: none;">{$operation->getOperationId()}</div>
+		<div id="deleteIncomingId" style="display: none;"></div>
+	</div>
 </div>
 
-<div id="deleteOutgoingConfirmationDialog">
-	<div>Etes-vous sûr de vouloir effacer <span class="alternate" id="deleteOutgoingPersonName"></span> de la liste?</div>
-	<div class="ui-dialog-button-row">
-		<button class="ui-button" id="confirmDeleteOutgoingButton">Oui</button>
-		<button class="ui-button" id="cancelDeleteOutgoingButton">Non</button>
+<div data-role="dialog" data-theme="b" id="confirmOutgoingDelete">
+	<div data-role="header">
+		<h1>Confirmation de la suppression</h1>
 	</div>
-	<div id="deleteOutgoingOperationId" style="display: none;">{$operation->getOperationId()}</div>
-	<div id="deleteOutgoingId" style="display: none;"></div>
+	<div data-role="content">
+		<div>Etes-vous sûr de vouloir effacer <span class="alternate" id="deleteOutgoingPersonName"></span> de la liste&nbsp;?</div>
+		<div class="buttonsPanel">
+			<a href="#" id="confirmDeleteOutgoingButton" data-theme="b" data-role="button" data-inline="true">Oui</a>
+			<a href="#" data-role="button" data-inline="true">Non</a>
+		</div>
+		<div id="deleteOutgoingOperationId" style="display: none;">{$operation->getOperationId()}</div>
+		<div id="deleteOutgoingId" style="display: none;"></div>
+	</div>
 </div>
-
-{include file="mobile/menu-people-list.tpl"}
-{include file="mobile/menu-people-add.tpl"}
-{include file="mobile/menu-operation-add.tpl"}
 
 <script src="{$CONTEXT_PATH}/js/operation-details.js" type="text/javascript"></script>
 {literal}
@@ -124,6 +138,7 @@
 				label.appendTo($('#' + element[0].id + 'FormValidationMessage'));
 			}
 		});
+
 		$('#addOutgoingForm').validate({
 			errorPlacement : function (label, element) {
 				label.appendTo($('#' + element[0].id + 'FormValidationMessage'));
@@ -131,18 +146,6 @@
 		});
 
 		loadValidationRules();
-
-		$('#deleteIncomingConfirmationDialog').dialog({
-			autoOpen: false,
-			bgiframe: true,
-			modal : true,
-			open:function() {
-			  $(this).parent().find(".ui-dialog-titlebar-close").remove();
-			},
-			resizable : false,
-			title : 'Confirmation',
-			width : Math.min(300, $(window).width() * 0.8)
-		});
 
 		$('#confirmDeleteIncomingButton').click(function() {
 			$.doPost(
@@ -152,22 +155,7 @@
 					incomingId: $('#deleteIncomingId').text()
 				}
 			);
-		});
-
-		$('#cancelDeleteIncomingButton').click(function() {
-			$('#deleteIncomingConfirmationDialog').dialog('close');
-		});
-
-		$('#deleteOutgoingConfirmationDialog').dialog({
-			autoOpen: false,
-			bgiframe: true,
-			modal : true,
-			open:function() {
-			  $(this).parent().find(".ui-dialog-titlebar-close").remove();
-			},
-			resizable : false,
-			title : 'Confirmation',
-			width : Math.min(300, $(window).width() * 0.8)
+			return false;
 		});
 
 		$('#confirmDeleteOutgoingButton').click(function() {
@@ -178,26 +166,32 @@
 					outgoingId: $('#deleteOutgoingId').text()
 				}
 			);
+			return false;
+		});
+
+		$('#cancelDeleteIncomingButton').click(function() {
+			$.mobile.changePage('#');
+			return false;
 		});
 
 		$('#cancelDeleteOutgoingButton').click(function() {
-			$('#deleteOutgoingConfirmationDialog').dialog('close');
+			$.mobile.changePage('#');
+			return false;
 		});
 	});
 
 	function confirmIncomingDelete(contributorName, incomingId) {
 		$('#deleteIncomingPersonName').text(contributorName);
 		$('#deleteIncomingId').text(incomingId);
-		$('#deleteIncomingConfirmationDialog').dialog('open');
+		$.mobile.changePage('#confirmIncomingDelete');
 		return false;
 	}
 
 	function confirmOutgoingDelete(participantName, outgoingId) {
 		$('#deleteOutgoingPersonName').text(participantName);
 		$('#deleteOutgoingId').text(outgoingId);
-		$('#deleteOutgoingConfirmationDialog').dialog('open');
+		$.mobile.changePage('#confirmOutgoingDelete');
 		return false;
 	}
-
 </script>
 {/literal}

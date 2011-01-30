@@ -108,7 +108,7 @@
 </div>
 
 <div id="deleteIncomingConfirmationDialog">
-	<div>Etes-vous sûr de vouloir effacer <span class="alternate" id="deleteIncomingPersonName"></span> de la liste?</div>
+	<div>Etes-vous sûr de vouloir effacer <span class="alternate" id="deleteIncomingPersonName"></span> de la liste&nbsp;?</div>
 	<div class="ui-dialog-button-row">
 		<button class="ui-button" id="confirmDeleteIncomingButton">Oui</button>
 		<button class="ui-button" id="cancelDeleteIncomingButton">Non</button>
@@ -118,7 +118,7 @@
 </div>
 
 <div id="deleteOutgoingConfirmationDialog">
-	<div>Etes-vous sûr de vouloir effacer <span class="alternate" id="deleteOutgoingPersonName"></span> de la liste?</div>
+	<div>Etes-vous sûr de vouloir effacer <span class="alternate" id="deleteOutgoingPersonName"></span> de la liste&nbsp;?</div>
 	<div class="ui-dialog-button-row">
 		<button class="ui-button" id="confirmDeleteOutgoingButton">Oui</button>
 		<button class="ui-button" id="cancelDeleteOutgoingButton">Non</button>

@@ -1,4 +1,4 @@
-<div data-role="page" id="index">
+<div data-role="page" data-theme="b" id="index">
 	<div data-role="header">
 		<h1>/kal.'ku.li/</h1>
 	</div>
@@ -11,7 +11,7 @@
 	</div>
 </div>
 
-<div data-role="page" id="createSheetPage">
+<div data-role="page" data-theme="b" id="createSheetPage">
 	<div data-role="header">
 		<h1>Création d'une feuille de compte</h1>
 	</div>
@@ -36,12 +36,14 @@
 				<input id="creatorEmail" maxlength="255" name="creatorEmail" type="email" />
 				<div class="formValidationMessage" id="creatorEmailFormValidationMessage"></div>
 			</div>
-			<button type="submit" data-theme="a">Créer</button>
+			<div data-role="fieldcontain">
+				<button data-theme="b" type="submit">Créer</button>
+			</div>
 		</form>
 	</div>
 </div>
 
-<div data-role="page" id="retrieveSheetPage">
+<div data-role="page" data-theme="b" id="retrieveSheetPage">
 	<div data-role="header">
 		<h1>Retrouver ses feuilles de compte</h1>
 	</div>
@@ -54,7 +56,9 @@
 				<input id="retrieveEmail" maxlength="255" name="retrieveEmail" type="email" />
 				<div class="formValidationMessage" id="retrieveEmailFormValidationMessage"></div>
 			</div>
-			<button type="submit" data-theme="a">Envoyer</button>
+			<div data-role="fieldcontain">
+				<button data-theme="b" type="submit">Envoyer</button>
+			</div>
 		</form>
 	</div>
 </div>
