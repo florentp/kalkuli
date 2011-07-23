@@ -3,7 +3,7 @@ Requirements
 	PHP >= 5.3 with extension pdo_mysql
 	PHP librairies
 		PEAR: Log, Mail, Net_SMTP
-		Smarty
+		Smarty (2.6.26, doesn't work with Smarty 3.x)
 		Propel
 	MySQL >= 5.0
 
@@ -14,6 +14,7 @@ Installation
 Configuration
 	Copy or rename .htaccess-sample to .htaccess
 	Copy or rename include/config.inc.php-sample to include/config.inc.php
+	Create a templates_c directory (at the project root level, near the existing templates directory) and give Web server write access to it.
 	
 	Then you should at least change the following parameters in config.inc.php:
 		* SERVER_URL: it is only use when sending mails to sheet creators, to build the URL of the sheets.
