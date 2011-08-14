@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"> 
 	<head>
 		<title>/kal.'ku.li/</title> 
-		<link href="{$CONTEXT_PATH}/css/jquery-ui/mobile/jquery.mobile-1.0a2.min.css" rel="stylesheet" type="text/css" />
+		<link href="{$CONTEXT_PATH}/css/jquery-ui/mobile/jquery.mobile-1.0b1.min.css" rel="stylesheet" type="text/css" />
 		<link href="{$CONTEXT_PATH}/css/m-style.css" rel="stylesheet" type="text/css" />
 		
-		<script src="{$CONTEXT_PATH}/js/jquery-1.4.4.min.js" type="text/javascript"></script>
+		<script src="{$CONTEXT_PATH}/js/jquery-1.6.1.min.js" type="text/javascript"></script>
 		{literal}
 		<script type="text/javascript">
 			$(document).bind('mobileinit', function(){
@@ -13,7 +13,7 @@
 			});
 		</script>
 		{/literal}
-		<script src="{$CONTEXT_PATH}/js/jquery.mobile-1.0a2.js" type="text/javascript"></script>
+		<script src="{$CONTEXT_PATH}/js/jquery.mobile-1.0b1.min.js" type="text/javascript"></script>
 		
 		<link href="{$CONTEXT_PATH}/css/jquery-ui/mobile/jquery.ui.datepicker.mobile.css" rel="stylesheet" type="text/css" />
 		<script src="{$CONTEXT_PATH}/js/jquery-plugins/jquery.ui.datepicker.js" type="text/javascript"></script>
