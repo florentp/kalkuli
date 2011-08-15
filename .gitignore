@@ -1,0 +1,5 @@
+/kalkuli/propel-project/build
+/kalkuli/templates_c/*
+/kalkuli/.htaccess
+/kalkuli/include/config.inc.php
+/target
