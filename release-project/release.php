@@ -52,6 +52,7 @@ $excludeFileset = array(
 	);
 $zip->addDir('kalkuli', $excludeFileset);
 $zip->addEmptyDir('kalkuli/templates_c');
+$zip->addFromString('kalkuli/include/VERSION', $version);
 
 $zip->close();
 
