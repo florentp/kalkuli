@@ -22,6 +22,7 @@
 	<head>
 		<title>/kal.'ku.li/</title> 
 		<link href="{$CONTEXT_PATH}/css/jquery-ui/mobile/jquery.mobile-1.0b2.min.css" rel="stylesheet" type="text/css" />
+		<link href="{$CONTEXT_PATH}/css/jquery.mobile.custom.css" rel="stylesheet" type="text/css" />
 		<link href="{$CONTEXT_PATH}/css/m-style.css" rel="stylesheet" type="text/css" />
 		
 		<script src="{$CONTEXT_PATH}/js/jquery-1.6.1.min.js" type="text/javascript"></script>

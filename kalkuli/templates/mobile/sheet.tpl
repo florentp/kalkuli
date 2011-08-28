@@ -26,8 +26,10 @@
 		<ul data-role="listview" data-inset="true">
 			{foreach from=$peopleList item="person" name="peopleList"}
 				<li>
-					<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$person->getPersonId()}" rel="external">{$person->getPersonName()|escape}</a>
-					<span class="ui-li-aside">{$person->getBalance()|formatAmount:$sheet->getCurrencyCode()}</span>
+					<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/person/{$person->getPersonId()}" rel="external">
+						{$person->getPersonName()|escape}
+						<span class="ui-li-aside">{$person->getBalance()|formatAmount:$sheet->getCurrencyCode()}</span>
+					</a>
 				</li>
 			{foreachelse}
 				<li>Vous devez commencer par ajouter des participants</li>

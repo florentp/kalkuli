@@ -23,6 +23,11 @@ body {
 	font-family: Verdana, "Lucida Sans", Arial, Geneva, Helvetica, Helv, "Myriad Web", Syntax, sans-serif;
 }
 
+h2 {
+	font-size: 1.3em;
+	margin-top: 0;
+}
+
 span.alternate {
 	color: #004276;
 	font-weight: bold;
@@ -34,12 +39,6 @@ input.amount {
 
 input.weight {
 	text-align: right;
-	width: 4em;
-}
-
-.min-width-480px input.weight {
-	text-align: right;
-	width: 4em;
 }
 
 .formValidationMessage {
@@ -72,4 +71,7 @@ input.ui-input-text-inline, textarea.ui-input-text-inline, .ui-input-search-inli
 }
 .ui-li-has-alt .ui-btn-inner {
     padding-right: 60px;
+}
+.ui-li .ui-btn-inner a.ui-link-inherit .description {
+	font-size: 80%;
 }

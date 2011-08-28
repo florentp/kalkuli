@@ -17,8 +17,9 @@
  * along with /kal.'ku.li/.  If not, see <http://www.gnu.org/licenses/>.
  * 
  *}
-<div data-role="page" data-theme="b" id="operationDetails">
+<div data-role="page" data-theme="c" id="operationDetails">
 	<div data-role="header">
+		<a href="#" data-icon="back" data-rel="back">Back</a>
 		<h1>/kal.'ku.li/</h1>
 	</div>
 	<div data-role="content">

@@ -63,8 +63,9 @@
 	</div>
 </div>
 
-<div data-role="page" data-theme="b" id="addIncoming">
+<div data-role="page" data-theme="c" id="addIncoming">
 	<div data-role="header">
+		<a href="#" data-icon="back" data-rel="back">Back</a>
 		<h1>Ajouter un contributeur</h1>
 	</div>
 	<div data-role="content">
@@ -90,8 +91,9 @@
 	</div>
 </div>
 
-<div data-role="page" data-theme="b" id="addOutgoing">
+<div data-role="page" data-theme="c" id="addOutgoing">
 	<div data-role="header">
+		<a href="#" data-icon="back" data-rel="back">Back</a>
 		<h1>Ajouter un participant</h1>
 	</div>
 	<div data-role="content">
@@ -125,7 +127,7 @@
 		<div>Etes-vous sûr de vouloir effacer <span class="alternate" id="deleteIncomingPersonName"></span> de la liste&nbsp;?</div>
 		<div class="buttonsPanel">
 			<a href="#" id="confirmDeleteIncomingButton" data-theme="b" data-role="button" data-inline="true">Oui</a>
-			<a href="#" data-role="button" data-inline="true">Non</a>
+			<a href="#" data-role="button" data-rel="back" data-inline="true">Non</a>
 		</div>
 		<div id="deleteIncomingOperationId" style="display: none;">{$operation->getOperationId()}</div>
 		<div id="deleteIncomingId" style="display: none;"></div>
@@ -140,7 +142,7 @@
 		<div>Etes-vous sûr de vouloir effacer <span class="alternate" id="deleteOutgoingPersonName"></span> de la liste&nbsp;?</div>
 		<div class="buttonsPanel">
 			<a href="#" id="confirmDeleteOutgoingButton" data-theme="b" data-role="button" data-inline="true">Oui</a>
-			<a href="#" data-role="button" data-inline="true">Non</a>
+			<a href="#" data-role="button" data-rel="back" data-inline="true">Non</a>
 		</div>
 		<div id="deleteOutgoingOperationId" style="display: none;">{$operation->getOperationId()}</div>
 		<div id="deleteOutgoingId" style="display: none;"></div>

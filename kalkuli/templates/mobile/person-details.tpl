@@ -27,19 +27,21 @@
 		<ul data-role="listview" data-inset="true">
 			{foreach from=$operationsList item="operation" name="operation"}
 				<li>
-					<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/{$operation->getOperationId()}" rel="external">{$operation->getOperationDescription()|escape}</a>
-					<div>{$operation->getOperationTS()|formatDate}</div>
-					<span class="ui-li-aside">
-						{assign var="personTotalInAmount" value=$operation->getPersontotalinamount()}
-						{if isset($personTotalInAmount)}
-							<div>{$personTotalInAmount|formatAmount:$sheet->getCurrencyCode()}</div>
-						{/if}
-						
-						{assign var="personTotalOutAmount" value=$operation->getPersontotaloutamount()}
-						{if isset($personTotalOutAmount)}
-							<div>{$personTotalOutAmount|formatAmount:$sheet->getCurrencyCode()}</div>
-						{/if}
-					</span>
+					<a href="{$CONTEXT_PATH}/{$sheet->getAccessKey()}/operation/{$operation->getOperationId()}" rel="external">
+						{$operation->getOperationDescription()|escape}<br />
+						<span class="description">{$operation->getOperationTS()|formatDate}</span>
+						<span class="ui-li-aside">
+							{assign var="personTotalInAmount" value=$operation->getPersontotalinamount()}
+							{if isset($personTotalInAmount)}
+								<div>{$personTotalInAmount|formatAmount:$sheet->getCurrencyCode()}</div>
+							{/if}
+							
+							{assign var="personTotalOutAmount" value=$operation->getPersontotaloutamount()}
+							{if isset($personTotalOutAmount)}
+								<div>{$personTotalOutAmount|formatAmount:$sheet->getCurrencyCode()}</div>
+							{/if}
+						</span>
+					</a>
 				</li>
 			{foreachelse}
 				<li>Aucune participation enregistrée pour le moment. Vous devez ajouter ce participant à une opération.</li>
