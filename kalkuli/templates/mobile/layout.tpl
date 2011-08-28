@@ -21,7 +21,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"> 
 	<head>
 		<title>/kal.'ku.li/</title> 
-		<link href="{$CONTEXT_PATH}/css/jquery-ui/mobile/jquery.mobile-1.0b1.min.css" rel="stylesheet" type="text/css" />
+		<link href="{$CONTEXT_PATH}/css/jquery-ui/mobile/jquery.mobile-1.0b2.min.css" rel="stylesheet" type="text/css" />
 		<link href="{$CONTEXT_PATH}/css/m-style.css" rel="stylesheet" type="text/css" />
 		
 		<script src="{$CONTEXT_PATH}/js/jquery-1.6.1.min.js" type="text/javascript"></script>
@@ -32,7 +32,7 @@
 			});
 		</script>
 		{/literal}
-		<script src="{$CONTEXT_PATH}/js/jquery.mobile-1.0b1.min.js" type="text/javascript"></script>
+		<script src="{$CONTEXT_PATH}/js/jquery.mobile-1.0b2.min.js" type="text/javascript"></script>
 		
 		<link href="{$CONTEXT_PATH}/css/jquery-ui/mobile/jquery.ui.datepicker.mobile.css" rel="stylesheet" type="text/css" />
 		<script src="{$CONTEXT_PATH}/js/jquery-plugins/jquery.ui.datepicker.js" type="text/javascript"></script>
@@ -52,7 +52,8 @@
 		</script>
 
 		<script src="{$CONTEXT_PATH}/js/kalkuli.js" type="text/javascript"></script>
-
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
 		{include file="mobile/$templateName.tpl"}
