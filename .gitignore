@@ -2,4 +2,5 @@
 /kalkuli/templates_c/*
 /kalkuli/.htaccess
 /kalkuli/include/config.inc.php
+/migration-project/config.inc.php
 /target
