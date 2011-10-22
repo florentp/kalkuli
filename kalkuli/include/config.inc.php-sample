@@ -55,10 +55,10 @@
 	define('SMTP_USERNAME',                    ''); // Used only if SMTP_USE_AUTH is true
 	define('SMTP_PASSWORD',                    ''); // Used only if SMTP_USE_AUTH is true
 
-	// *_INCLUDE_PREFIX is the path of the PHP librairies from the global
+	// *_INCLUDE_PREFIX is the path of the PHP libraries from the global
 	// PHP include_path configuration parameter.
 	// *_INCLUDE_PREFIX must have a leading and no trailing slashes. If
-	// no prefix is required for a librairy, the parameter must be empty:
+	// no prefix is required for a library, the parameter must be empty:
 	// define('PEAR_INCLUDE_PREFIX',             '');
 
 	define('PEAR_INCLUDE_PREFIX',             '');
@@ -83,5 +83,5 @@
 	define('N_DECIMALS',                       2);
 
 	// Display a TESTS stamp in the menu bar if set to true (used for
-	// testing and demo environnements)
+	// testing and demo environments)
 	define('TESTS_SITE',                       false);
