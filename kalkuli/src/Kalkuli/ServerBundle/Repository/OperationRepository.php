@@ -2,6 +2,12 @@
 
 namespace Kalkuli\ServerBundle\Repository;
 
+use Kalkuli\ServerBundle\Entity\Sheet;
+use Kalkuli\ServerBundle\Entity\Operation;
+use Kalkuli\ServerBundle\Entity\Person;
+use Kalkuli\ServerBundle\Entity\Incoming;
+use Kalkuli\ServerBundle\Entity\Outgoing;
+
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,4 +18,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class OperationRepository extends EntityRepository
 {
+	public function findAllByAccessKeyPaginated($sheet, $pageNo, $pageSize) {
+		$em = $this->getEntityManager();
+		$paginatedListQuery = $em->createQuery("select o from Kalkuli\ServerBundle\Entity\Operation o where o.sheet=:sheetId order by o.date desc");
+		$paginatedListQuery->setParameter('sheetId', $sheet->getId());
+		$paginatedListQuery->setFirstResult(($pageNo - 1) * $pageSize);
+		$paginatedListQuery->setMaxResults($pageSize);
+
+		$countQuery = $em->createQuery("select count(o.id) from Kalkuli\ServerBundle\Entity\Operation o where o.sheet=:sheetId ");
+		$countQuery->setParameter('sheetId', $sheet->getId());
+
+		$paginatedList = array();
+		$paginatedList['list'] = $paginatedListQuery->getResult();
+		$paginatedList['totalRows'] = $countQuery->getSingleScalarResult();
+
+		return $paginatedList;
+	}
 }

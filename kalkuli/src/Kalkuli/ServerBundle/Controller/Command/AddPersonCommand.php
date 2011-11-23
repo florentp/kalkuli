@@ -13,6 +13,7 @@ class AddPersonCommand {
 	protected $color;
 
 	/**
+	 * @Assert\NotBlank(message="Missing or empty value for property 'accessKey'.")
 	 * @Assert\MinLength(limit=10, message="Invalid value for input property 'accessKey'. Waiting a {{ limit }} characters long value, received '{{ value }}'.")
 	 * @Assert\MaxLength(limit=10, message="Invalid value for input property 'accessKey'. Waiting a {{ limit }} characters long value, received '{{ value }}'.")
 	 */
@@ -25,7 +26,7 @@ class AddPersonCommand {
 	}
 
 	/**
-	 * @Assert\NotBlank(message="Invalid value for input property 'name'. Waiting a not empty value, received '{{ value }}'.")
+	 * @Assert\NotBlank(message="Missing or empty value for property 'name'.")
 	 */
 	public function getName() {
 		return $this->name;
@@ -36,6 +37,7 @@ class AddPersonCommand {
 	}
 
 	/**
+	 * @Assert\NotBlank(message="Missing or empty value for property 'color'.")
 	 * @KalkuliAssert\HtmlColor(message="Invalid value for input property 'color'. Waiting an HTML color code, received '{{ value }}'.")
 	 */
 	public function getColor() {

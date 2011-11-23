@@ -8,7 +8,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 class HtmlColorValidator extends ConstraintValidator {
 
 	public function isValid($object, Constraint $constraint) {
-		if (empty($objet) && $constraint->validateEmpty)
+		if (empty($objet))
 			return true;
 
 		if (preg_match('/^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/', $object))

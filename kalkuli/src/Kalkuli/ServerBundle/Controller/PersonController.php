@@ -20,12 +20,12 @@ class PersonController extends Controller {
 	/**
 	 * Request example:
 	 * POST /5De21s4Z5/person/add.json
-	 * {"accessKey":"4dRsq854C","name":"Bob","color":"#B6E"}
+	 * {"person":{"accessKey":"4dRsq854C","name":"Bob","color":"#B6E"}}
 	 *
 	 * @Route("/{sheetAccessKey}/person/add.json")
 	 */
 	public function addPersonAction($sheetAccessKey) {
-		$addPersonCommand = HttpUtils::deserializeRequest($this->getRequest(), 'Kalkuli\ServerBundle\Controller\Command\AddPersonCommand', 'json');
+		$addPersonCommand = HttpUtils::jsonDeserializeRequest($this->getRequest(), 'Kalkuli\ServerBundle\Controller\Command\AddPersonCommand','person');
 
 		$errors = $this->get('validator')->validate($addPersonCommand);
 		if (count($errors) > 0) {
@@ -103,12 +103,12 @@ class PersonController extends Controller {
 	 *
 	 * Request example:
 	 * POST /5De21s4Z5/person/update.json
-	 * {"accessKey":"4dRsq854C","name":"Bob"}
+	 * {"person":{"accessKey":"4dRsq854C","name":"Bob"}}
 	 *
 	 * @Route("/{sheetAccessKey}/person/update.json")
 	 */
 	public function updatePersonAction($sheetAccessKey) {
-		$updatePersonCommand = HttpUtils::deserializeRequest($this->getRequest(), 'Kalkuli\ServerBundle\Controller\Command\UpdatePersonCommand', 'json');
+		$updatePersonCommand = HttpUtils::jsonDenormalizeRequest($this->getRequest(), 'Kalkuli\ServerBundle\Controller\Command\UpdatePersonCommand');
 
 		$errors = $this->get('validator')->validate($updatePersonCommand);
 		if (count($errors) > 0) {

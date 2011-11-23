@@ -13,7 +13,7 @@ class UpdatePersonCommand {
 	protected $color;
 
 	/**
-	 * @Assert\NotBlank(message="Missing mandatory input property 'accessKey'.")
+	 * @Assert\NotBlank(message="Missing or empty value for property 'accessKey'.")
 	 */
 	public function getAccessKey() {
 		return $this->accessKey;
@@ -35,7 +35,7 @@ class UpdatePersonCommand {
 	}
 
 	/**
-	 * @KalkuliAssert\HtmlColor(validateEmpty=true, message="Invalid value for input property 'color'. Waiting an HTML color code, received '{{ value }}'.")
+	 * @KalkuliAssert\HtmlColor(message="Invalid value for input property 'color'. Waiting an HTML color code, received '{{ value }}'.")
 	 */
 	public function getColor() {
 		return $this->color;
